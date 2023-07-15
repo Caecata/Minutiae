@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Settings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Keywords" content="settings">
+    <meta name="Description" content="settings">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+
+    <link rel="stylesheet" href="minutiae.css">
+
+    <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .dark-mode #save-settings {
+            border: 0.2em solid white;
+        }
+
+        .light-mode #save-settings {
+            border: 0.2em solid black;
+        }
+
+        select#font option {
+            font-family: var(--font-family);
+        }
+
+        /* SETTINGS SPECIFIC */
+        #title {
+            font-family: var(--font-family);
+            font-size: 3em;
+            letter-spacing: 2px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        #save-settings {
+            font-family: var(--font-family), sans-serif;
+            font-size: var(--font-size);
+
+            position: absolute;
+            right: 3%;
+            bottom: 3%;
+
+            padding: 0.3em;
+            margin: 0;
+        }
+
+        #settings {
+            font-family: var(--font-family), sans-serif;
+
+            width: 20%;
+            height: 60%;
+
+            position: fixed;
+            top: 15%;
+            /* Adjust the top value as needed */
+            left: 50%;
+            transform: translateX(-50%);
+
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            /*align-items: center;*/
+
+            margin: auto;
+        }
+
+        .dark-mode #settings {
+            border: 2px solid white;
+        }
+
+        .light-mode #settings {
+            border: 2px solid black;
+        }
+
+        label {
+            flex: 1;
+            text-align: left;
+        }
+
+        #choose-form-container,
+        #opt-for-tags-container,
+        #opt-for-description-container,
+        #choose-analog-style-container,
+        #choose-font,
+        #choose-mode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0.4em;
+        }
+
+        /* MEDIA QUERIES*/
+
+        /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+                320px: This is the width of many mobile devices in portrait mode. */
+
+        @media (max-width: 480px) {
+
+            #settings {
+                width: 60%;
+            }
+
+            #title {
+                display: none;
+            }
+            /* #view-log,
+            #add-slice-button {
+                z-index: 11;
+            }
+
+            #log {
+                width: 70%;
+            } */
+
+        }
+
+        /*480px: This is the width of many mobile devices in landscape mode.*/
+        @media (min-width: 480px) and (max-width: 768px) {}
+
+        /*768px: This is the width of most tablets in portrait mode.*/
+        @media (min-width: 768px) and (max-width:992px) {}
+
+        /*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+        @media (min-width: 992px) and (max-width: 1200px) {}
+
+        /*1200px: This is the width of many larger desktop screens.*/
+        @media (min-width: 1200px) {}
+    </style>
+</head>
+
+<body class="dark-mode">
+
+    <!-- loading screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p>Loading...</p>
+    </div>
+
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+
+    <h2 id="title">Settings</h2>
+
+    <!-- <button id="mode-switcher" class="dark-mode">
+        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+        <span class="mode-text">Dark Mode</span>
+    </button> -->
+
+    <div class="menu">
+        <!-- MENU -->
+        <button id="menu" class="dark-mode">
+            <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
+        </button>
+
+        <!-- NAV BAR -->
+        <ul id="navigationbar" class="dark-mode nav-link-colors">
+            <li><a href="index.html">Home</a></li>
+            <li"><a href="app.html">Current Day</a></li>
+                <li><a href="data.html">Data</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="customize.html">Customize Legend</a></li>
+
+                <li><a href="#" id="mode-switcher" class="button-link">
+                    <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                    <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                    <span class="mode-text">Dark Mode</span>
+                </a></li>
+            <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
+        </ul>
+    </div>
+
+    <!-- let user choose between multi-step form or one-step form -->
+    <div id="settings">
+        <form>
+
+            <div id="choose-mode">
+                <label for="dark-light-mode">Display:</label>
+                <select id="dark-light-mode">
+                    <option value="dark-mode">Dark</option>
+                    <option value="light-mode">Light</option>
+                </select>
+            </div>
+
+            <div id="choose-font">
+                <label for="font">Font:</label>
+                <select id="font">
+                    <option value="default">Default</option>
+                    <option value="roboto">Roboto</option>
+                    <option value="concert one">Concert One</option>
+                    <option value="oleo script">Oleo Script</option>
+                    <option value="lekton">Lekton</option>
+                    <option value="raleway">Raleway</option>
+                    <option value="amarante">Amarante</option>
+                    <option value="oregano">Oregano</option>
+                    <option value="combo">Combo</option>
+                    <option value="rancho">Rancho</option>
+                    <option value="lacquer">Lacquer</option>
+                </select>
+            </div>
+
+            <div id="choose-analog-style-container">
+                <label for="analog-style">Type of analog clock:</label>
+                <select id="analog-style">
+                    <option value="traditional">Traditional</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="modern">Modern</option>
+                </select>
+            </div>
+
+            <div id="choose-form-container">
+                <label for="form-type">Form type:</label>
+                <select id="form-type">
+                    <option value="multi-step">Multi-step</option>
+                    <option value="one-step">One-step</option>
+                </select>
+            </div>
+
+            <br>
+
+            <div id="opt-for-tags-container">
+                <label for="tags">Tags</label>
+                <input type="checkbox" id="tags">
+            </div>
+
+            <br>
+
+            <div id="opt-for-description-container">
+                <label for="description">Description</label>
+                <input type="checkbox" id="description">
+            </div>
+
+        </form>
+
+        <button id="save-settings" class="dark-mode">Save</button>
+
+    </div>
+
+
+    <script src='settings.js' type="module"></script>
+
+</body>
+
+</html>

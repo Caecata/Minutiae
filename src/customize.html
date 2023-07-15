@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Settings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Keywords" content="customization">
+    <meta name="Description" content="personalized legend">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+
+    <link rel="stylesheet" href="minutiae.css">
+
+    <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* CSS for buttons and their locations */
+        #addCategoryButton,
+        #deleteButton,
+        #renameButton,
+        #changeColorButton,
+        #addTag,
+        #deleteTag,
+        #renameTag {
+            font-family: var(--font-family), sans-serif;
+            font-size: 0.7em;
+
+            position: relative;
+
+            padding: 0.3em;
+            margin: 1em;
+
+            z-index: 9;
+        }
+
+        #addCategoryButton {
+            position: absolute;
+            left: 24%;
+            top: 75%;
+        }
+
+        #deleteButton {
+            position: absolute;
+            left: 24%;
+            top: 80%;
+        }
+
+        #renameButton {
+            position: absolute;
+            left: 24%;
+            top: 85%;
+        }
+
+        #changeColorButton {
+            position: absolute;
+            left: 24%;
+            top: 90%;
+        }
+
+        #addTag {
+            position: absolute;
+            left: 30%;
+            top: 75%;
+        }
+
+        #deleteTag {
+            position: absolute;
+            left: 30%;
+            top: 80%;
+        }
+
+        #renameTag {
+            position: absolute;
+            left: 30%;
+            top: 85%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        /* CSS for deactivated links */
+        .deactivated-link {
+            cursor: not-allowed;
+            color: #999999;
+            text-decoration: line-through;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .dark-mode #addCategoryButton,
+        .dark-mode #deleteButton,
+        .dark-mode #renameButton,
+        .dark-mode #changeColorButton,
+        .dark-mode #addTag,
+        .dark-mode #deleteTag,
+        .dark-mode #renameTag,
+        .dark-mode #viewTree {
+            border: 0.2em solid white;
+        }
+
+        .light-mode #addCategoryButton,
+        .light-mode #deleteButton,
+        .light-mode #renameButton,
+        .light-mode #changeColorButton,
+        .light-mode #addTag,
+        .light-mode #deleteTag,
+        .light-mode #renameTag,
+        .light-mode #viewTree {
+            border: 0.2em solid black;
+        }
+
+        /*Legend Specific Styles*/
+        /* CSS for folders */
+        #folder-container {
+            height: 60%;
+            width: 50%;
+
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+
+            overflow: auto;
+
+            z-index: 1;
+        }
+
+        .dark-mode #folder-container {
+            border: 2px solid white;
+        }
+
+        .light-mode #folder-container {
+            border: 2px solid black;
+        }
+
+        /* #remake-dropdown-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        } */
+        .fa-solid.fa-chevron-right {
+            margin: 0.3em;
+        }
+
+        .fa-solid.fa-angle-down {
+            margin: 0.3em;
+        }
+
+        .fa-solid.fa-folder {
+            margin: 0.3em;
+        }
+
+        /* CSS for tree related things */
+        /* button */
+        #viewTree {
+            font-family: var(--font-family), sans-serif;
+            font-size: var(--font-size);
+
+            position: absolute;
+            right: 0;
+            bottom: 0;
+
+            padding: 0.3em;
+            margin: 1em;
+
+            z-index: 1;
+        }
+
+        /* backdrop */
+        #tree-backdrop {
+            font-family: var(--font-family);
+            letter-spacing: 1px;
+            word-spacing: 2px;
+
+            width: 40%;
+            height: 60%;
+
+            position: absolute;
+            right: 1%;
+            top: 26%;
+
+            display: none;
+
+            overflow: auto;
+
+            z-index: 10;
+        }
+
+        .dark-mode #tree-backdrop {
+            background-color: black;
+            border: 2px solid white;
+        }
+
+        .light-mode #tree-backdrop {
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        #categoryForm,
+        #deleteForm,
+        #renameForm,
+        #changeColorForm,
+        #addTagForm,
+        #deleteTagForm,
+        #renameTagForm {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid black;
+            z-index: 12;
+        }
+
+        #title {
+            font-family: var(--font-family);
+            font-size: 3em;
+            letter-spacing: 2px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        #submit-initialization {
+            font-family: var(--font-family);
+            font-size: 1.3em;
+
+            position: absolute;
+            bottom: 0%;
+            right: 0%;
+
+            display: none;
+            z-index: 30;
+
+            cursor: pointer;
+        }
+
+        #choice-one-button,
+        #choice-two-button {
+            font-family: var(--font-family);
+            font-size: 3em;
+            display: none;
+            z-index: 30;
+
+            cursor: pointer;
+        }
+
+        #choice-one-button {
+            position: absolute;
+            right: 15%;
+            top: 0%;
+        }
+
+        #choice-two-button {
+            position: absolute;
+            right: 0%;
+            top: 0%;
+        }
+
+        #choose {
+            font-family: var(--font-family);
+            font-size: 2em;
+            display: none;
+
+            position: absolute;
+            right: 35%;
+            top: 0%;
+        }
+
+        #or {
+            font-family: var(--font-family);
+            font-size: 2em;
+            display: none;
+
+            position: absolute;
+            right: 7%;
+            top: 0%;
+        }
+
+        #then {
+            font-family: var(--font-family);
+            font-size: 2em;
+            display: none;
+
+            position: absolute;
+            right: 14%;
+            bottom: 0%;
+        }
+
+        #tags-section {
+            font-family: var(--font-family);
+            font-size: var(--font-size);
+
+            width: 35%;
+            height: 25%;
+
+            position: absolute;
+            top: 75%;
+            left: 40%;
+
+            overflow: auto;
+        }
+
+        #tag-container {
+            margin: 0.3em;
+        }
+
+        /* MEDIA QUERIES*/
+
+        /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+                320px: This is the width of many mobile devices in portrait mode. */
+
+        @media (max-width: 480px) {
+            #title {
+                display: none;
+            }
+            #folder-container {
+                width: 100%;
+                height: 40%;
+            }
+            /* .dark-mode #folder-container, .light-mode #folder-container {
+                border: none;
+            } */
+
+            #addCategoryButton, #deleteButton, #renameButton, #changeColorButton {
+                left: 2%;
+            }
+            #addTag, #deleteTag, #renameTag {
+                left: 25%;
+            }
+            #tags-section {
+                width: 100%; 
+                height: 15%;
+
+                top: 55%;
+                left: 0%;
+                border: 2px solid black;
+                /* transform: none; */
+
+                align-items: flex-start;
+
+                /*overflow: auto;*/
+            }
+            .tag {
+                font-size: 0.7em;
+            }
+            #tree-backdrop {
+                width: 70%;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            /* #view-log,
+            #add-slice-button {
+                z-index: 11;
+            }
+
+            #log {
+                width: 70%;
+            } */
+
+        }
+
+        /*480px: This is the width of many mobile devices in landscape mode.*/
+        @media (min-width: 480px) and (max-width: 768px) {}
+
+        /*768px: This is the width of most tablets in portrait mode.*/
+        @media (min-width: 768px) and (max-width:992px) {}
+
+        /*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+        @media (min-width: 992px) and (max-width: 1200px) {}
+
+        /*1200px: This is the width of many larger desktop screens.*/
+        @media (min-width: 1200px) {}
+    </style>
+</head>
+
+<body class="dark-mode">
+
+    <!-- loading screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p>Loading...</p>
+    </div>
+
+    <h2 id="title">Legend Customization</h2>
+
+    <!-- <button id="mode-switcher" class="dark-mode">
+        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+        <span class="mode-text">Dark Mode</span>
+    </button> -->
+
+    <div class="menu">
+        <!-- MENU -->
+        <button id="menu" class="dark-mode">
+            <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
+        </button>
+
+        <!-- NAV BAR -->
+        <ul id="navigationbar" class="dark-mode nav-link-colors">
+            <li><a href="index.html">Home</a></li>
+            <li"><a href="app.html" id="app-url">Current Day</a></li>
+                <li><a href="data.html" id="data-url">Data</a></li>
+                <li><a href="calendar.html" id="calendar-url">Calendar</a></li>
+                <li><a href="settings.html" id="settings-url">Settings</a></li>
+
+                <li><a href="#" id="mode-switcher" class="button-link">
+                        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                        <span class="mode-text">Dark Mode</span>
+                    </a></li>
+                <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
+        </ul>
+    </div>
+
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+
+    <!--<svg id="choice-one" width="800" height="700"></svg>-->
+    <!-- <svg id="choice-three" width="800" height="700"></svg>
+        <button id="choice-three-button">#3</button>
+        <svg id="choice-two" width="800" height="700"></svg> -->
+
+
+    <!--<div id="dropdown-container"></div> -->
+
+    <div id="tree-backdrop">
+        <svg id="tree-container" width="800" height="700"></svg>
+    </div>
+
+    <div id="folder-container">
+        <div id="remake-dropdown-container"></div>
+        <h3 id="choose">Choose</h3>
+        <h3 id="or">or</h3>
+        <h3 id="then">then</h3>
+        <button id="choice-one-button">A</button>
+        <button id="choice-two-button">B</button>
+        <button id="submit-initialization">Submit</button>
+    </div>
+
+    <form id="categoryForm">
+        <label for="options">Select a parent for new category:</label>
+        <select id="options"></select>
+
+        <br>
+        <label for="textInput">Name:</label>
+        <input type="text" id="textInput" required>
+        <br>
+
+        <label for="colorInputForNewCategory">Select a color:</label>
+        <input type="color" id="colorInputForNewCategory" name="colorInputForNewCategory">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <form id="deleteForm">
+        <label for="options">Delete:</label>
+        <select id="optionsForDelete"></select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <form id="renameForm">
+        <label for="optionsForRename">Rename:</label>
+        <select id="optionsForRename"></select>
+
+        <br>
+        <label for="renameValue">Name:</label>
+        <input type="text" id="renameValue" required>
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <form id="changeColorForm">
+        <label for="optionsForChangeColor">Change color of:</label>
+        <select id="optionsForChangeColor"></select>
+
+        <br>
+
+        <label for="colorInputForChangeColor">Select a color:</label>
+        <input type="color" id="colorInputForChangeColor" name="colorInputForChangeColor">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <form id="addTagForm">
+        <label for="tagName">Name:</label>
+        <input type="text" id="tagName" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <form id="deleteTagForm">
+        <label for="deleteTagOptions">Delete:</label>
+        <select id="tagOptionsToDelete"></select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <form id="renameTagForm">
+        <label for="tagOptionsForRename">Rename:</label>
+        <select id="tagOptionsForRename"></select>
+
+        <br>
+        <label for="tagRenameValue">Name:</label>
+        <input type="text" id="tagRenameValue" required>
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!--<button id="addCategoryButton" class="dark-mode">Add Category</button> -->
+    <button id="addCategoryButton" class="dark-mode">Add Category</button>
+    <div id="dropdownContainer"></div>
+
+    <button id="deleteButton" class="dark-mode">Delete</button>
+    <button id="renameButton" class="dark-mode">Rename</button>
+    <button id="changeColorButton" class="dark-mode">Change Color</button>
+
+    <button id="addTag" class="dark-mode">Add Tag</button>
+    <button id="deleteTag" class="dark-mode">Delete Tag</button>
+    <button id="renameTag" class="dark-mode">Rename Tag</button>
+
+    <button id="viewTree" class="dark-mode">View Tree</button>
+
+    <div id="tags-section">Tags:
+        <div id="tag-container"></div>
+    </div>
+
+    <script src='customize.js' type="module"></script>
+
+</body>
+
+</html>

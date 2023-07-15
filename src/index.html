@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Minutiae</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Keywords" content="time">
+    <meta name="Description" content="productivity app">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+    <link rel="stylesheet" href="minutiae.css">
+    <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
+    <style>
+        /* Display the time at the top left */
+        /* .clock {
+            font-family: var(--font-family), sans-serif;
+            font-size: 1em;
+            line-height: 1.5em;
+            padding: 0.3em;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+
+            z-index: 1;
+        } */
+
+        .hidden {
+            display: none;
+        }
+
+        /* Title of Website: Minutiae */
+        .title {
+            font-family: var(--font-family), serif;
+            font-size: 2.25em;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+
+            padding-bottom: 1em;
+            padding-top: 2em;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1;
+        }
+
+        /* Clock Icon */
+        .icon {
+            font-size: 20em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Description of Website */
+        .description {
+            font-family: var(--font-family), sans-serif;
+            width: 100%;
+
+            position: relative;
+
+            padding: 1em;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1;
+        }
+
+        /* CSS for deactivated links */
+        .deactivated-link {
+            cursor: not-allowed;
+            color: #999999;
+            text-decoration: line-through;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /*blinking animation*/
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .blinking {
+            animation: blink 1s infinite;
+        }
+
+        /* MEDIA QUERIES*/
+
+        /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+                320px: This is the width of many mobile devices in portrait mode. */
+
+        @media (max-width: 480px) {
+            .title {
+                position: relative;
+                top: 10vh;
+            } 
+            .icon {
+                position: relative;
+                top: 10vh;
+                font-size: 15em;
+            }
+            .description {
+                top: 10vh;
+            }
+            #firebaseui-auth-container {
+                position: absolute;
+                top: 70%;
+                z-index: 20;
+            }
+        }
+
+        /*480px: This is the width of many mobile devices in landscape mode.*/
+        @media (min-width: 480px) and (max-width: 768px) {
+        }
+
+        /*768px: This is the width of most tablets in portrait mode.*/
+        @media (min-width: 768px) and (max-width:992px) {}
+
+        /*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+        @media (min-width: 992px) and (max-width: 1200px) {}
+
+        /*1200px: This is the width of many larger desktop screens.*/
+        @media (min-width: 1200px) {}
+    </style>
+</head>
+
+<body class="dark-mode">
+
+    <!-- loading screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p>Loading...</p>
+      </div> 
+
+    <!-- CLOCK -->
+    <!-- <div class="clock" id="clock"></div> -->
+
+    <!-- DARK/LIGHT MODE -->
+    <!-- <button id="mode-switcher" class="dark-mode">
+        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+        <span class="mode-text">Dark Mode</span>
+    </button> -->
+
+    <!-- TITLE -->
+    <h1 class="title">Minutiae</h1>
+
+    <!-- ICON -->
+    <div class="icon"><i class="fa-solid fa-clock"></i></div>
+
+    <!-- DESCRIPTION -->
+    <p class="description">Record your time. Study your time.</p>
+
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+    <div id="sign-in-status"></div>
+    <pre id="account-details"></pre>
+
+    <!-- where menu WAS-->
+    <div class="menu">
+        <!-- MENU -->
+        <button id="menu" class="dark-mode">
+            <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
+        </button>
+
+        <!-- NAV BAR -->
+        <ul id="navigationbar" class="dark-mode nav-link-colors">
+            <li><a href="app.html" id="app-url">Current Day</a></li>
+            <li><a href="data.html" id="data-url">Data</a></li>
+            <li><a href="calendar.html" id="calendar-url">Calendar</a></li>
+            <li><a href="customize.html" id="customize-url">Customize Legend</a></li>
+            <li><a href="settings.html" id="settings-url">Settings</a></li>
+
+            <li><a href="#" id="mode-switcher" class="button-link">
+                <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                <span class="mode-text">Dark Mode</span>
+            </a></li>
+            <li><a href="#" id="sign-in" class="button-link">Sign In</a></li>
+        </ul>      
+    </div>
+
+    <script src='index.js' type="module"></script>
+    <script>
+        //Script for Dark Mode and Light Mode
+        const modeSwitcherBtn = document.getElementById('mode-switcher');
+        const menuBtn = document.getElementById('menu');
+        const modeText = modeSwitcherBtn.querySelector('.mode-text');
+        const navBar = document.getElementById('navigationbar');
+
+        modeSwitcherBtn.addEventListener("click", function () {
+            document.body.classList.toggle("light-mode"); //This toggles the body between light mode and dark mode
+            document.body.classList.toggle("dark-mode");
+
+            //modeSwitcherBtn.classList.toggle('dark-mode'); //This toggles the dark and light mode icons 
+            //modeSwitcherBtn.classList.toggle('light-mode');
+
+            const darkIcon = modeSwitcherBtn.querySelector('.dark-icon'); //This defines the dark and light mode icons
+            const lightIcon = modeSwitcherBtn.querySelector('.light-icon');
+
+            //Moved menuBtn and navBar code up since the dark light mode button will become a part of this element
+            //This applies dark mode and light mode to the menu button
+            menuBtn.classList.toggle("dark-mode");
+            menuBtn.classList.toggle("light-mode");
+
+            //This applies dark mode and light mode to the navigation bar and its links
+            navBar.classList.toggle("dark-mode");
+            navBar.classList.toggle("light-mode");
+            navBar.classList.toggle("nav-link-colors");
+
+            //This alternates between the dark and light mode icons and text as the button is pressed
+            if (navBar.classList.contains('dark-mode')) {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+                modeText.textContent = 'Dark Mode';
+
+            } else {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+                modeText.textContent = 'Light Mode';
+            }
+        });
+
+        //When the menu button is clicked, the navigation bar is animated into view
+        menuBtn.addEventListener('click', function () {
+            navBar.classList.toggle('active');
+
+        });
+
+               //Script for Clock
+               //function updateClock() {
+               // const now = new Date();
+
+                //Arrays for months and days of the weeks since JavaScript starts on 0
+                //const months = ["January", "February", "March", "April", "May", "June",
+                //"July", "August", "September", "October", "November", "December"];
+                //const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                //Adjustments to hour variable to change 24-hour clock to 12-hour clock with AM/PM
+                //var hours = now.getHours();
+                //var afternoon = false;
+                //var ampm = "AM";
+//
+                //if (hours >= 12) {
+                //    hours = hours - 12;
+                //    afternoon = true;
+                //    var ampm = "PM";
+                //}
+                //if (hours == 0) {
+                //    hours = 12;
+                ////}
+                //
+                ////Getting time values
+                ////Learned that you should declare var/let for variables that are expected to be updated
+                //var minutes = now.getMinutes();
+                //const seconds = String(now.getSeconds());
+                //const month = months[(now.getMonth())];
+                //const day = String(now.getDate());
+                //const year = String(now.getFullYear());
+                //const dayofweek = days[(now.getDay())];
+//
+                //if (hours < 10) {
+                //    hours = "0" + hours;
+                //}
+//
+                //if (minutes < 10) {
+                //    minutes = "0" + minutes;
+                //}
+
+                //Outputting time
+                //document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds + " " + ampm + "<br>" +
+                //month + " " + day + ", " + year + "<br>" +
+                //dayofweek;
+
+               //}
+               //This updates the clock each second or 1000 milliseconds
+               //updateClock();
+               //setInterval(updateClock, 1000);
+    </script>
+
+
+</body>
+
+</html>

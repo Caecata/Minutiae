@@ -1,0 +1,264 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+:root {
+    --font-family: "Chewy", sans-serif;
+    --font-size: 1.3em;
+}
+
+/* CSS for loading screen */
+#loading-screen {
+    width: 100%;
+    height: 100%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background-color: rgba(0, 0, 0, 1);
+    /*rgba(0, 0, 0, 0.5)*/
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* .loader { 
+            //for animation styles
+        } */
+
+.dark-mode #loading-screen p {
+    font-family: var(--font-family);
+    font-size: 1em;
+    letter-spacing: 2px;
+
+    color: white;
+    font-weight: bold;
+}
+
+.light-mode #loading-screen p {
+    font-family: var(--font-family);
+    font-size: 1em;
+    letter-spacing: 2px;
+
+    color: black;
+    font-weight: bold;
+}
+
+/* CSS for dark/light mode */
+.dark-mode {
+    color: white;
+    background-color: black;
+}
+
+.light-mode {
+    color: black;
+    background-color: white;
+}
+
+.dark-icon,
+.light-icon {
+    font-size: 1em;
+}
+
+/* CSS for menu container */
+.menu {
+    width: 15%;
+    height: 35vh;
+
+    position: absolute;
+    top: 0%;
+
+    /* border: 2px solid white; */
+    /*Keep this to troubleshoot responsiveness*/
+}
+
+/* CSS for menu button */
+#menu {
+    font-family: var(--font-family), sans-serif;
+    font-size: var(--font-size);
+
+    position: absolute;
+    top: 1em;
+    /* top 0 */
+    left: 8%;
+
+    padding: 0.3em;
+    margin: 0;
+
+    z-index: 2;
+}
+
+.dark-mode #menu {
+    border: 0.2em solid white;
+}
+
+.light-mode #menu {
+    border: 0.2em solid black;
+}
+
+.menu-icon {
+    font-size: 1em;
+    padding-right: 0.4em;
+}
+
+/* CSS for navigation bar */
+#navigationbar {
+    font-size: 0.8em;
+    list-style-type: none;
+
+    position: absolute;
+    top: 45%;
+    left: 8%;
+
+    margin: 0;
+    border: 0.2em solid white;
+    padding: 0;
+
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+    transition: clip-path 0.5s ease-in-out;
+
+    z-index: 10;
+}
+
+#navigationbar.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+#navigationbar a {
+    font-family: var(--font-family), sans-serif;
+    padding: 0.5em;
+    display: block;
+}
+
+.nav-link-colors li a {
+    color: white;
+}
+
+.light-mode .nav-link-colors li a {
+    color: black;
+}
+
+#navigationbar a:visited {
+    color: white;
+}
+
+.light-mode #navigationbar a:visited {
+    color: black;
+}
+
+#navigationbar a:link {
+    color: white;
+}
+
+.light-mode #navigationbar a:link {
+    color: black;
+}
+
+.light-mode #navigationbar {
+    border: 0.2em solid black;
+}
+
+/* CSS for button links */
+.button-link {
+    font-family: var(--font-family), sans-serif;
+    padding: 0.5em;
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+.light-mode .button-link {
+    color: black;
+}
+
+/* CSS for <select> elements and tags */
+select {
+    font-family: var(--font-family);
+
+    background-color: white;
+    color: black;
+
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+select option {
+    font-family: var(--font-family);
+
+    background-color: white;
+    color: black;
+}
+
+.tag {
+    font-family: var(--font-family);
+    font-size: 1em;
+
+    display: inline-block;
+
+    background-color: #e0e0e0;
+    color: #333;
+
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+/* MEDIA QUERIES*/
+
+/* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+320px: This is the width of many mobile devices in portrait mode. */
+
+@media (max-width: 480px) {
+    .menu {
+        width: 100%;
+        height: 100%;
+    }
+
+    #menu {
+        width: 100%;
+        height: 10%;
+        left: 0%;
+        top: 0%;
+    }
+
+    #navigationbar {
+        animation: expandNav 0.5s ease-in-out;
+        transform-origin: top;
+        width: 100%;
+        top: 10%;
+        left: 0%;
+    }
+
+    #navigationbar a {
+        font-size: 2em;
+        text-align: center;
+    }
+
+    @keyframes expandNav {
+        from {
+            transform: scaleX(0);
+        }
+
+        to {
+            transform: scaleX(1);
+        }
+    }
+}
+
+/*480px: This is the width of many mobile devices in landscape mode.*/
+@media (min-width: 480px) and (max-width: 768px) {}
+
+/*768px: This is the width of most tablets in portrait mode.*/
+@media (min-width: 768px) and (max-width:992px) {}
+
+/*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+@media (min-width: 992px) and (max-width: 1200px) {}
+
+/*1200px: This is the width of many larger desktop screens.*/
+@media (min-width: 1200px) {}

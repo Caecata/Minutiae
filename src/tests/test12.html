@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>chart.js</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Fjalla One|Chewy">
+    <!-- FONT -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Concert One']
+            }
+        });
+    </script>
+    <style>
+        /* CHARTS */
+        #chartId {
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            z-index: 5;
+
+            pointer-events: auto;
+
+        }
+
+        /* ANALOG CLOCK */
+        #canvas {
+            position: absolute;
+            left: 25%;
+            top: 10%;
+        }
+
+        body {
+            margin: 0;
+            /*display: flex;
+            min-height: 100vh;
+            align-items: center;
+            /*NOT SURE HOW NEEDED*/
+        }
+
+        /* HANDS OF THE CLOCK */
+        .inner-clock-face {
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            width: 500px;
+            height: 500px;
+            background: transparent;
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+            z-index: 11;
+
+            pointer-events: none;
+
+        }
+
+        .inner-clock-face::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border-radius: 18px;
+            margin-left: -9px;
+            margin-top: -6px;
+            background: darkslategray;
+            /*#4d4b63*/
+            z-index: 11;
+            border: 2px solid darkslategray;
+        }
+
+        .hand {
+            width: 50%;
+            right: 50%;
+            height: 6px;
+            background: black;
+            position: absolute;
+            top: 50%;
+            border-radius: 6px;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+            transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+            z-index: 10;
+        }
+
+        .hand.hour-hand {
+            width: 20%;
+            z-index: 10;
+        }
+
+        .hand.min-hand {
+            height: 3px;
+            z-index: 10;
+            width: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- CHART -->
+    <canvas id="chartId" aria-label="chart" height="500px" width="500px"></canvas>
+
+    <!-- ANALOG CLOCK -->
+    <canvas id="canvas" width="500" height="500"></canvas> <!-- 400 400--> <!-- 300 300-->
+
+    <!-- HANDS -->
+
+    <div class="inner-clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+    </div>
+
+    <form>
+        <!--<label for="category-input">Category:</label>
+        <input type="text" id="category-input" name="category"><br>-->
+
+        <input type="radio" id="sleep" name="category" value="Sleep">
+          <label for="sleep">Sleep</label><br>
+
+        <input type="radio" id="work" name="category" value="Work">
+          <label for="work">Work</label><br>
+
+        <input type="radio" id="transition" name="category" value="Transition">
+          <label for="transition">Transition</label><br>
+
+        <input type="radio" id="meal" name="category" value="Meal">
+          <label for="meal">Meal</label><br>
+
+        <input type="radio" id="tv" name="category" value="TV">
+          <label for="tv">TV</label><br>
+
+        <label for="start-time-input">Start Time:</label>
+        <input type="time" id="start-time-input" name="start-time"><br>
+
+        <label for="end-time-input">End Time:</label>
+        <input type="time" id="end-time-input" name="end-time"><br>
+    </form>
+    <button id="add-slice-button">Add</button>
+
+    <!-- CHARTS SCRIPT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+    <script>
+
+        /* Changes to this version: updated 316 to ensure that startTimeArray doesn't populate 0 by default (for pie slices not starting at midnight) */
+        //need to think about remaining (no more default)
+        //and then next day (add 1440 if endTimeMin < startTimeMin)
+
+        const palette1 = ['#5F05B3', '#09BC8A', '#3587A4', '#F21B3F', '#FF9914', 'white']; //#F6511D orange
+        const categoryLegend = ["Sleep", "Work", "Transition", "Meal", "TV", "Remaining"];
+
+        let startTimeMin = 0;
+        let endTimeMin = 1440;
+        let duration = 1440;
+
+        let categoryLegendIndex = 5;
+
+        var sum;
+
+        let startTimeArray = [];
+        let beforeTimeArray = [0, 1440]; //most recent change: 7:55PM, 5/9/23
+        let uniqueStartTimeArray = [];
+
+        let beforeColorArray = [];
+        let beforeCategoryArray = [];
+        let beforeIndexArray = [];
+
+        var data = [1440];
+        var chartData = [];
+        var labelName = [];
+        var category = [];
+        var categoryColors = [];
+        var backgroundColor = [];
+        var indexArray = [];
+        var angles = [];
+        var startAngle = [];
+
+
+        var pieOptions = {
+            rotation: angles,
+            responsive: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        };
+
+        var chrt = document.getElementById("chartId").getContext("2d");
+        var chartId = new Chart(chrt, {
+            type: 'doughnut',
+            data: {
+                labels: category,
+                datasets: [{
+                    type: 'doughnut',
+                    label: "online tutorial subjects",
+                    data: chartData,
+                    backgroundColor: backgroundColor,
+                    hoverOffset: 5,
+
+                    cutout: '60%' //sets the size of the doughnut 
+                },
+                {
+                    type: 'pie',
+                    label: "online tutorial subjects",
+                    data: chartData,
+                    backgroundColor: backgroundColor,
+                    hoverOffset: 5,
+
+                    radius: '100%'//sets the size of the pie chart
+                }
+                ],
+            },
+            options: pieOptions,
+        });
+
+        /* ADD BUTTON */
+        const addButton = document.getElementById("add-slice-button");
+        addButton.addEventListener("click", function () {
+
+            const selectedCategory = document.querySelector('input[name="category"]:checked').value;
+            categoryLegendIndex = categoryLegend.indexOf(selectedCategory);
+            //sliceColor = palette1[categoryLegendIndex];
+
+            const startTimeInput = document.getElementById("start-time-input");
+            const startTimeValue = startTimeInput.value;
+            const startTime = new Date(`1970-01-01T${startTimeValue}:00`); //for some reason this line is important; called a template literal
+            startTimeMin = startTime.getHours() * 60 + startTime.getMinutes();
+
+            const endTimeInput = document.getElementById("end-time-input");
+            const endTimeValue = endTimeInput.value;
+            const endTime = new Date(`1970-01-01T${endTimeValue}:00`);
+            endTimeMin = endTime.getHours() * 60 + endTime.getMinutes();
+
+            if (endTimeMin < startTimeMin) {
+                endTimeMin = endTimeMin + 1440;
+            }
+            //duration = Math.abs(endTimeMin - startTimeMin); //doesn't really solve the issue of negative durations when crossing midnight
+            duration = endTimeMin - startTimeMin;
+
+            beforeTimeArray = startTimeArray.slice();
+            beforeColorArray = categoryColors.slice();
+            beforeCategoryArray = labelName.slice();
+            beforeIndexArray = indexArray.slice();
+
+            /*if (angles.length === 0) {
+                angles.push((startTimeMin / 1440) * 360);
+            } */
+            angles = 0;
+
+            updateChartData(startTimeMin, endTimeMin, duration, categoryLegendIndex);
+        });
+
+        function updateChartData(startTimeMin, endTimeMin, duration, categoryLegendIndex) {
+
+            startTimeMin ??= 0;
+            if (endTimeMin == undefined) {
+                endTimeMin = 1440;
+            }
+            if (duration == undefined) {
+                duration = 1440;
+            }
+            if (categoryLegendIndex == undefined) {
+                categoryLegendIndex = 5;
+            }
+
+            console.log("startTimeMin:", startTimeMin);
+            console.log("endTimeMin:", endTimeMin);
+            console.log("duration:", duration);
+            console.log("categoryLegendIndex:", categoryLegendIndex);
+
+            console.log("startTimeArray before reset:", startTimeArray);
+            uniqueStartTimeArray = beforeTimeArray.concat(startTimeMin, endTimeMin);
+            uniqueStartTimeArray = [... new Set(uniqueStartTimeArray)];
+            uniqueStartTimeArray.sort((a, b) => a - b);
+            console.log("uniqueStartTimeArray:", uniqueStartTimeArray);
+            startTimeArray = [];
+
+            var switchCase;
+            var remove = [];
+            var count = 0;
+
+            for (const num of uniqueStartTimeArray) {
+                console.log("num:", num);
+
+                if (num === startTimeMin) {
+                    for (let i = 0; i < beforeTimeArray.length; i++) {
+                        let before = beforeTimeArray[i];
+                        let next = beforeTimeArray[i + 1];
+                        let nextNext = beforeTimeArray[i + 2];
+                        //put the category stuff here??
+
+                        if (next !== undefined) {
+                            if (startTimeMin > before && startTimeMin < next && endTimeMin > before && endTimeMin < next) {
+                                switchCase = "inside";
+                                console.log("switchCase:", switchCase);
+                            }
+                            if ((startTimeMin > before && startTimeMin < next && endTimeMin >= Math.max(...beforeTimeArray)) || (startTimeMin == Math.min(...beforeTimeArray) && endTimeMin !== Math.max(...beforeTimeArray)))  {
+                                switchCase = "partialOne";
+                                console.log("switchCase:", switchCase);
+                            }
+                            if (before > startTimeMin && before < endTimeMin) {
+                                count++;
+                                remove.push(before);
+                                console.log("value removed:", before);
+                                console.log("# of points in between:", count);
+                            }
+                            if (next !== undefined && nextNext !== undefined) {
+                                if (startTimeMin > before && startTimeMin < next && endTimeMin > next && endTimeMin < nextNext) {
+                                    switchCase = "partialBoth";
+                                    console.log("switchCase:", switchCase);
+                                }
+                            }
+                            if (before > startTimeMin && before < endTimeMin && next > startTimeMin && next < endTimeMin) {
+                                switchCase = "complete";
+                                console.log("switchCase:", switchCase);
+                            }
+                        }
+                    }
+                }
+                if (remove.includes(num) || (startTimeMin == 0 && endTimeMin == 0)) { //is 2nd conditional outdated?
+                } else {
+                    startTimeArray.push(num);
+                }
+                console.log("startTimeArray in progress:", startTimeArray);
+            }
+
+            createData(startTimeArray);
+
+            let k = startTimeArray.indexOf(startTimeMin);
+            let present = false; //true if data altered in below if statement
+
+            //if remaining slice is first slice and inputting a new slice that is not [0, 1440]
+            /*if (angles !== 0 && (startTimeMin !== 0 && endTimeMin !== 1440) && beforeIndexArray[k - 1] == 5) { //last conditional ensures that the slice pertaining to the new slice was a remaining slice
+                data[data.length - 1] += data[0]; 
+                data.splice(0, 1); 
+                present = true;
+                console.log("inside if statement checking if first slice is remaining");
+            } */
+
+            switch (switchCase) {
+                case "inside":
+                    console.log("inside switchCase");
+                    /*if (beforeIndexArray[k - 1] == 5) { //startTimeMin is not midnight 
+                        indexArray.splice(k - 1, 1, categoryLegendIndex, beforeIndexArray[k - 1]);
+                        console.log("1st if in inside switchCase; indexArray:", indexArray);
+                    } else { //bisecting colored areas
+                     */   indexArray.splice(k - 1, 1, beforeIndexArray[k - 1], categoryLegendIndex, beforeIndexArray[k - 1]);
+                        console.log("3rd else in inside switchCase; indexArray:", indexArray); //gets weird trying to bisect remaining because I'm trying to combine automatically
+                    //}
+                    break;
+                case "partialOne":
+                    console.log("partialOne switchCase:", k);
+                    if (startTimeMin == Math.min(...beforeTimeArray) && endTimeMin !== Math.max(...beforeTimeArray)) {
+                        indexArray.splice(k, 1, categoryLegendIndex, 5);
+                    } else { //by this logic, this will never happen (before changes to remaining)
+                    indexArray.splice(k + 1, 1, categoryLegendIndex);
+                    console.log("indexArray after splice:", indexArray);
+                    }
+                    break;
+                case "partialBoth":
+                    console.log("partialBoth switchCase");
+                    indexArray.splice(k, 0, categoryLegendIndex);
+                    console.log("indexArray after splice:", indexArray);
+                    break;
+                case "complete":
+                    console.log("complete switchCase");
+                    indexArray.splice(k, count - 1, categoryLegendIndex);
+                    break;
+                default:
+                    console.log("default switchCase"); //for putting a slice directly after another slice, starting from beginning
+                    if (categoryLegendIndex !== undefined && startTimeMin !== 0 & endTimeMin !== 1440 && present !== true) {
+                        console.log("in first if");
+                        console.log("indexArray before splice:", indexArray);
+                        indexArray.splice(k, 1, categoryLegendIndex, 5);
+                        console.log("indexArray after splice:", indexArray);
+                        present = false;
+                    } else if (present) {
+                        console.log("present is true");
+                        indexArray.splice(k - 1, 1, categoryLegendIndex, 5);
+                    } else if (categoryLegendIndex == 5) {
+                        console.log("categoryLegendIndex == 5");
+                        indexArray.push(categoryLegendIndex); //for first run
+                    }
+                    break;
+            }
+
+            convertIndexToLegend(indexArray);
+
+            sum = data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            //remaining = 1440 - sum;
+
+            //sumAngle = angles.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            //remainingAngle = (360 - sumAngle);
+
+            //chartData.splice(0, chartData.length, ...data, remaining);
+            //backgroundColor.splice(0, backgroundColor.length, ...categoryColors, "white");
+            //category.splice(0, category.length, ...labelName, "Remaining");
+            //startAngle.splice(0, startAngle.length, ...angles, remainingAngle);
+
+            console.log("chartData before splice:", chartData);
+            console.log("backgroundColor before splice:", backgroundColor);
+            console.log("category before splice:", category);
+
+            const total = 1440;
+            if (sum > total) {
+                console.log("sum:", sum);
+                let remaining = indexArray.indexOf(5);
+                console.log("remaining:", remaining);
+                data[remaining] = data[remaining] - sum;
+                console.log("data[remaining]:", data[remaining]);
+            }
+            chartData.splice(0, chartData.length, ...data);
+            backgroundColor.splice(0, backgroundColor.length, ...categoryColors);
+            category.splice(0, category.length, ...labelName);
+
+            
+
+
+
+            console.log("indexArray:", indexArray);
+            //console.log("startAngle:", startAngle);
+            console.log("angles:", angles);
+            console.log("startTimeArray:", startTimeArray);
+            console.log("data:", data);
+            console.log("chartData:", chartData);
+            console.log("categoryColors:", categoryColors);
+            console.log("labelName:", labelName);
+            console.log("backgroundColor:", backgroundColor);
+            console.log("category:", category);
+            console.log("beforeTimeArray:", beforeTimeArray);
+            console.log("beforeColorArray:", beforeColorArray);
+            console.log("beforeCategoryArray:", beforeCategoryArray);
+            console.log("beforeIndexArray:", beforeIndexArray);
+            chartId.update()
+        }
+
+        updateChartData();
+
+        function createData(array) {
+            //if (chartData.length === 0) {
+            //} else {
+            data = [];
+            //} 
+            for (i = 0; i < startTimeArray.length - 1; i++) {
+                let second = startTimeArray[i + 1];
+                let first = startTimeArray[i];
+                data.push(second - first);
+                console.log("data pushed:", data);
+            }
+        }
+
+        function convertIndexToLegend(array) {
+            categoryColors = [];
+            labelName = [];
+            categoryColors = array.map(index => palette1[index]);
+            labelName = array.map(index => categoryLegend[index]);
+        }
+
+        // HANDS SCRIPT
+
+        const minsHand = document.querySelector('.min-hand');
+        const hourHand = document.querySelector('.hour-hand');
+
+        function setDate() {
+            const now = new Date();
+
+            const seconds = now.getSeconds();
+            const mins = now.getMinutes();
+            const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
+            minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+            const hour = now.getHours();
+            const hourDegrees = ((hour / 24) * 360) + ((mins / 60) * 15) + 90;
+            hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+        }
+        setInterval(setDate, 1000);
+        setDate();
+
+        //ANALOG CLOCK SCRIPT
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var radius = canvas.height / 2;
+        ctx.translate(radius, radius);
+        radius = radius * 0.90
+        drawClock();
+
+        function drawClock() {
+            drawFace(ctx, radius);
+            drawNumbers(ctx, radius);
+            drawTicks(ctx, radius); //inside ticks
+            drawTicks2(ctx, radius); //outside ticks
+        }
+
+        //Draw the face of the clock
+        function drawFace(ctx, radius) {
+            var grad;
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#CCC9E7'; //change this to change the color of the clock; white
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+        }
+
+        //Draw inside tick marks
+        function drawTicks(ctx, radius) {
+            var numTicks = 24;
+            var tickWidth = radius * 0.01; //0.01
+            var tickLength = radius * 0.1; //0.1
+            for (var i = 0; i < numTicks; i++) {
+                var tickAngle = (i / numTicks) * 2 * Math.PI;
+                var x1 = Math.sin(tickAngle) * (radius - tickWidth - radius * 0.3); //.15
+                var y1 = -Math.cos(tickAngle) * (radius - tickWidth - radius * 0.3);
+                var x2 = Math.sin(tickAngle) * (radius - tickLength - radius * 0.3);
+                var y2 = -Math.cos(tickAngle) * (radius - tickLength - radius * 0.3);
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineWidth = tickWidth;
+                if (i % 4 === 0) {
+                    ctx.strokeStyle = "black"; //#333
+                } else {
+                    ctx.strokeStyle = "darkslategray"; //#666
+                }
+                ctx.stroke();
+            }
+        }
+
+        //Draw outside tick marks
+        function drawTicks2(ctx, radius) {
+            var numTicks = 24;
+            var tickWidth = radius * 0.01; //0.01
+            var tickLength = radius * 0.1; //0.1
+            for (var i = 0; i < numTicks; i++) {
+                var tickAngle = (i / numTicks) * 2 * Math.PI;
+                var x1 = Math.sin(tickAngle) * (radius - tickWidth - radius * 0.04); //.15
+                var y1 = -Math.cos(tickAngle) * (radius - tickWidth - radius * 0.04);
+                var x2 = Math.sin(tickAngle) * (radius - tickLength - radius * 0.04);
+                var y2 = -Math.cos(tickAngle) * (radius - tickLength - radius * 0.04);
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineWidth = tickWidth;
+                if (i % 4 === 0) {
+                    ctx.strokeStyle = "black"; //#333
+                } else {
+                    ctx.strokeStyle = "darkslategray"; //#666
+                }
+                ctx.stroke();
+            }
+        }
+
+        //Draw numbers
+        function drawNumbers(ctx, radius) {
+            var ang;
+            var num;
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            //ctx.imageSmoothingEnabled = false;
+
+            for (num = 1; num < 25; num++) {
+                if (num == 4 || num == 8 || num == 12 || num == 16 || num == 20 || num == 24) {
+                    /*ctx.font = radius*0.1 + "px 'Concert One', sans-serif";*/
+                    ctx.font = "bold 15px 'Concert One'";
+                    ctx.fillStyle = "black";
+
+                } else {
+                    ctx.font = "bold 15px 'Concert One'";
+
+                    ctx.fillStyle = "darkslategray";
+                }
+                ang = num * Math.PI / 12;
+                ctx.rotate(ang);
+                ctx.translate(0, -radius * 0.77); //0.85
+                ctx.rotate(-ang);
+                ctx.fillText(num.toString(), 0, 0);
+                ctx.rotate(ang);
+                ctx.translate(0, radius * 0.77); //0.85
+                ctx.rotate(-ang);
+            }
+        }
+    </script>
+</body>
+
+</html>

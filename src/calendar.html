@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Calendar</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Keywords" content="calendar">
+    <meta name="Description" content="calendar">
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+
+    <link rel="stylesheet" href="minutiae.css">
+
+    <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        /* Calendar specific */
+        #title {
+            font-family: var(--font-family);
+            font-size: 3em;
+            letter-spacing: 2px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        #calendar {
+            font-family: var(--font-family);
+
+            width: 70%;
+            height: 70%;
+
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+
+            z-index: 9;
+        }
+
+        /* MEDIA QUERIES*/
+
+        /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+                320px: This is the width of many mobile devices in portrait mode. */
+
+        @media (max-width: 480px) {
+            #title {
+                display: none;
+            }
+
+            #calendar {
+                top: 15%;
+                width: 80%;
+                height: 80%;
+            }
+
+        }
+
+        /*480px: This is the width of many mobile devices in landscape mode.*/
+        @media (min-width: 480px) and (max-width: 768px) {}
+
+        /*768px: This is the width of most tablets in portrait mode.*/
+        @media (min-width: 768px) and (max-width:992px) {}
+
+        /*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+        @media (min-width: 992px) and (max-width: 1200px) {}
+
+        /*1200px: This is the width of many larger desktop screens.*/
+        @media (min-width: 1200px) {}
+    </style>
+</head>
+
+<body class="dark-mode">
+
+    <!-- loading screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p>Loading...</p>
+    </div>
+    
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+
+    <h2 id="title">Calendar</h2>
+
+    <!-- <button id="mode-switcher" class="dark-mode">
+        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+        <span class="mode-text">Dark Mode</span>
+    </button> -->
+
+    <div id='calendar'></div>
+
+    <div class="menu">
+        <!-- MENU -->
+        <button id="menu" class="dark-mode">
+            <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
+        </button>
+
+        <!-- NAV BAR -->
+        <ul id="navigationbar" class="dark-mode nav-link-colors">
+            <li><a href="index.html">Home</a></li>
+            <li"><a href="app.html">Current Day</a></li>
+                <li><a href="data.html">Data</a></li>
+                <li><a href="settings.html">Settings</a></li>
+                <li><a href="customize.html">Customize Legend</a></li>
+
+            <li><a href="#" id="mode-switcher" class="button-link">
+                <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                <span class="mode-text">Dark Mode</span>
+            </a></li>
+            <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
+        </ul>
+    </div>
+
+    <script type="module" src="./calendar.js"></script>
+
+</body>
+
+</html>

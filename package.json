@@ -1,0 +1,27 @@
+{
+  "name": "chartjs-example",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.6.2",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "@cubejs-client/core": "^0.31.0",
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "chart.js": "^4.3.0",
+    "chartjs": "^0.3.24",
+    "d3": "^7.8.4",
+    "firebase": "^9.22.0",
+    "firebaseui": "^6.0.2",
+    "fs": "^0.0.1-security",
+    "fullcalendar": "^6.1.8",
+    "jquery": "^3.7.0",
+    "luxon": "^3.3.0",
+    "tinycolor2": "^1.6.0"
+  }
+}

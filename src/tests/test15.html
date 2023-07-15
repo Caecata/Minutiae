@@ -1,0 +1,833 @@
+import Chart from 'chart.js/auto'
+import { DateTime } from 'luxon';
+import { drawClock } from './drawclock.js'
+import { initializeDarkLightMode } from './darklightmode.js'
+import { updateClock} from './time.js'
+import { legend, locations } from './legend.js'
+import { formValidations } from './form.js'
+
+formValidations();
+
+let startTimeMin = 0;
+let endTimeMin = 1440;
+let duration = 1440;
+
+let categoryLegendIndex = 5;
+
+let startTimeArray = [];
+let beforeTimeArray = [0, 1440];
+let uniqueStartTimeArray = [];
+
+let beforeDetailsArray = [];
+var durations = [1440];
+var labelName = [];
+var categoryColors = [];
+var detailsArray = [];
+var detailsArray2 = [];
+var angles = [0];
+
+var labelNameYesterday = [];
+var durationsYesterday = [];
+var categoryColorsYesterday = [];
+var anglesYesterday = [];
+var startTimeArrayYesterday = [];
+var beforeTimeArrayYesterday = [];
+var detailsArray2Yesterday = [];
+
+var labelNameTomorrow = [];
+var durationsTomorrow = [];
+var categoryColorsTomorrow = [];
+var anglesTomorrow = [];
+var startTimeArrayTomorrow = [];
+var beforeTimeArrayTomorrow = [];
+var detailsArray2Tomorrow = [];
+
+//for keeping track of which dateTime is at the center
+var current;
+var key;
+var yesterdayKey;
+var tomorrowKey;
+
+var userObject = {
+    index: 5
+    //subcategory: '',
+    //location: '',
+    //description: '',
+};
+
+var blankObject = {
+    index: 5
+    //subcategory: '',
+    //location: '',
+    //description: '',
+}
+
+var selectedCategory;
+var selectedSubcategory;
+var selectedLocation;
+var description;
+
+var dates = {};
+
+var pieOptions = {
+    animation: {
+        duration: 0
+    },
+    rotation: angles,
+    responsive: false,
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
+};
+
+var pieOptionsYesterday = {
+    animation: {
+        duration: 0
+    },
+    rotation: anglesYesterday,
+    responsive: false,
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
+};
+
+var pieOptionsTomorrow = {
+    animation: {
+        duration: 0
+    },
+    rotation: anglesTomorrow,
+    responsive: false,
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
+};
+
+var chrt = document.getElementById("chartId").getContext("2d");
+var chartId = new Chart(chrt, {
+    type: 'doughnut',
+    data: {
+        labels: labelName,
+        datasets: [{
+            type: 'doughnut',
+            //label: "online tutorial subjects",
+            data: durations,
+            backgroundColor: categoryColors,
+            hoverOffset: 5,
+
+            cutout: '60%' //sets the size of the doughnut 
+        },
+        {
+            type: 'pie',
+            //label: "online tutorial subjects",
+            data: durations,
+            backgroundColor: categoryColors,
+            hoverOffset: 5,
+
+            radius: '100%'//sets the size of the pie chart
+        }
+        ],
+    },
+    options: pieOptions,
+});
+
+var chrt2 = document.getElementById("chartLeft").getContext("2d");
+var chartId2 = new Chart(chrt2, {
+    type: 'pie',
+    data: {
+        labels: labelNameYesterday,
+        datasets: [{
+            type: 'pie',
+            //label: "online tutorial subjects",
+            data: durationsYesterday,
+            backgroundColor: categoryColorsYesterday,
+            hoverOffset: 5,
+
+            radius: '100%' //sets the size of the doughnut 
+        }],
+    },
+    options: pieOptionsYesterday,
+});
+var chrt3 = document.getElementById("chartRight").getContext("2d");
+var chartId3 = new Chart(chrt3, {
+    type: 'pie',
+    data: {
+        labels: labelNameTomorrow,
+        datasets: [{
+            type: 'pie',
+            //label: "online tutorial subjects",
+            data: durationsTomorrow,
+            backgroundColor: categoryColorsTomorrow,
+            hoverOffset: 5,
+
+            radius: '100%' //sets the size of the doughnut 
+        }],
+    },
+    options: pieOptionsTomorrow,
+});
+
+datePieChart(); 
+
+pieUpdates();
+
+//saveToDatabase(detailsArray2);
+//updateChartData();
+
+const submitButton = document.getElementById("yes");
+submitButton.addEventListener("click", function (event) {
+
+    event.preventDefault();
+
+    //console.log("detailsArray2, beforeTimeArray, angles:", detailsArray2, beforeTimeArray, angles);
+
+    //EXTRACTING DATA FROM USER
+    selectedCategory = document.querySelector('input[name="category"]:checked').value;
+    //selectedSubcategory = document.querySelector('input[name="subcategory"]:checked')?.value ?? '';
+    //selectedLocation = document.querySelector('input[name="location"]:checked')?.value ?? '';
+    //description = document.querySelector('input[name="description"]').value || '';
+    categoryLegendIndex = legend.findIndex(item => item.name === selectedCategory);
+
+    console.log("selectedCategory, selectedSubcategory, selectedLocation, description", selectedCategory, selectedSubcategory, selectedLocation, description);
+
+    const startTimeInput = document.getElementById("start-time-input");
+    const startTimeValue = startTimeInput.value;
+    const startTime = new Date(`1970-01-01T${startTimeValue}:00`);
+    startTimeMin = startTime.getHours() * 60 + startTime.getMinutes();
+
+    const endTimeInput = document.getElementById("end-time-input");
+    const endTimeValue = endTimeInput.value;
+    const endTime = new Date(`1970-01-01T${endTimeValue}:00`);
+    endTimeMin = endTime.getHours() * 60 + endTime.getMinutes();
+
+    beforeDetailsArray = detailsArray2.slice();
+    console.log("beforedetailsArray in Add:", beforeDetailsArray);
+
+    if (endTimeMin < startTimeMin) {
+        endTimeMin += 1440;
+    }
+    if (endTimeMin == startTimeMin) {
+        endTimeMin = 1440;
+    }
+    duration = endTimeMin - startTimeMin;
+
+    userObject = {
+        index: categoryLegendIndex
+        //subcategory: selectedSubcategory,
+        //location: selectedLocation,
+        //description: description,
+    };
+
+    angles = [0];
+    updateChartData(startTimeMin, endTimeMin, duration, categoryLegendIndex, userObject);
+});
+
+function updateChartData(startTimeMin, endTimeMin, duration, categoryLegendIndex, userObject) {
+
+    userObject ??= {
+        index: 5
+        //subcategory: '',
+        //location: '',
+        //description: '',
+    };
+
+    //console.log("userObject:", userObject);
+
+    startTimeMin ??= 0;
+    if (endTimeMin == undefined) {
+        endTimeMin = 1440;
+    }
+    if (duration == undefined) {
+        duration = 1440;
+    }
+    if (categoryLegendIndex == undefined) {
+        categoryLegendIndex = 5;
+    }
+
+    console.log("startTimeMin:", startTimeMin);
+    console.log("endTimeMin:", endTimeMin);
+    console.log("duration:", duration);
+
+    console.log("startTimeArray before reset:", startTimeArray);
+    uniqueStartTimeArray = beforeTimeArray.concat(startTimeMin, endTimeMin);
+    uniqueStartTimeArray = [... new Set(uniqueStartTimeArray)];
+    uniqueStartTimeArray.sort((a, b) => a - b);
+    console.log("uniqueStartTimeArray:", uniqueStartTimeArray);
+    startTimeArray = [];
+
+    var switchCase;
+    var remove = [];
+    var count = 0;
+    var switchCaseDetermined = false;
+    var firstCase = false;
+    if (startTimeMin === 0 && endTimeMin === 1440) {
+        firstCase = true;
+    }
+
+    for (const num of uniqueStartTimeArray) {
+        console.log("num:", num);
+
+        if (num === startTimeMin) {
+            for (let i = 0; i < beforeTimeArray.length; i++) {
+                let before = beforeTimeArray[i];
+                let next = beforeTimeArray[i + 1];
+                let nextNext = beforeTimeArray[i + 2];
+                //console.log("beforeTimeArray in for:", beforeTimeArray);
+
+                if (next !== undefined) {
+                    if (startTimeMin > before && startTimeMin < next && endTimeMin > before && endTimeMin < next) {
+                        switchCase = "inside";
+                        console.log("switchCase:", switchCase);
+                    }
+                    if (beforeTimeArray.includes(startTimeMin) && beforeTimeArray.includes(endTimeMin) && count === 0) {
+                        switchCase = "fillComplete";
+                        console.log("fillComplete is true");
+                        switchCaseDetermined = true;
+                    }
+                    console.log("before, startTimeMin, next, endTimeMin, nextNext:", before, startTimeMin, next, endTimeMin, nextNext);
+                    if (before > startTimeMin && before < endTimeMin) {
+                        count++;
+                        remove.push(before);
+                        console.log("value removed:", before);
+                        console.log("# of points in between:", count);
+                    }
+                    if ((startTimeMin == before && endTimeMin < next) || (startTimeMin > before && endTimeMin == next)) {
+                        switchCase = "partialBoth";
+                        console.log("switchCase:", switchCase);
+                    }
+                    if (next !== undefined && nextNext !== undefined) {
+                        if (startTimeMin > before && startTimeMin < next && endTimeMin > next && endTimeMin < nextNext) { 
+                            switchCase = "partialBoth";
+                            console.log("switchCase:", switchCase);
+                        }
+                        if ((startTimeMin == before && startTimeMin < next && endTimeMin > next && endTimeMin < nextNext) || (startTimeMin > before && startTimeMin < next && endTimeMin > next && endTimeMin == nextNext)) {
+                            switchCase = "onePointFive";
+                            console.log("switchCase:", switchCase);
+                            switchCaseDetermined = true;
+                        }
+                    }
+                    if (before > startTimeMin && before < endTimeMin && next > startTimeMin && next < endTimeMin && switchCaseDetermined !== true) { 
+                        switchCase = "complete";
+                        console.log("switchCase:", switchCase);
+                        switchCaseDetermined = true;
+                    }
+                }
+            }
+        }
+        if (remove.includes(num)) {
+        } else {
+            startTimeArray.push(num);
+        }
+        console.log("startTimeArray in progress:", startTimeArray);
+    }
+
+    createDurations(startTimeArray);
+
+    let k = startTimeArray.indexOf(startTimeMin);
+    //console.log("detailsArray2 before switch:", detailsArray2);
+    //console.log("categoryLegendIndex:", categoryLegendIndex);
+    console.log("values of beforedetailsArray and k before switch", beforeDetailsArray, ", ", k);
+
+    switch (switchCase) {
+        case "inside":
+            console.log("inside switchCase");
+            detailsArray2.splice(k - 1, 1, beforeDetailsArray[k - 1], userObject, beforeDetailsArray[k - 1]);
+            //console.log("detailsArray2:", detailsArray2);
+            break;
+        case "onePointFive":
+            console.log("onePointFive switchCase");
+            detailsArray2.splice(k, 1, userObject);
+            switchCaseDetermined = false;
+            //console.log("detailsArray2:", detailsArray2);
+            break;
+        case "partialBoth":
+            console.log("partialBoth switchCase");
+            detailsArray2.splice(k, 0, userObject);
+            //console.log("detailsArray2:", detailsArray2);
+            break;
+        case "complete":
+            console.log("complete switchCase");
+            console.log("count:", count);
+            if (beforeTimeArray.includes(startTimeMin) && !beforeTimeArray.includes(endTimeMin)) {
+                console.log("if beforeTimeArray.includes(startTimeMin)");
+                detailsArray2.splice(k, count, userObject);
+            } else if (beforeTimeArray.includes(endTimeMin) && !beforeTimeArray.includes(startTimeMin)) {
+                console.log("if beforeTimeArray.includes(endTimeMin)");
+                detailsArray2.splice(k, count, userObject);
+            } else {
+                detailsArray2.splice(k, count - 1, userObject);
+                console.log("else complete switchCase");
+            }  
+            //console.log("detailsArray2:", detailsArray2);
+            break;
+        case "fillComplete":
+            console.log("fillComplete switchCase");
+            detailsArray2.splice(k, count + 1, userObject);
+            fillComplete = false;
+            break;
+        default:
+            console.log("default switchCase");
+            detailsArray2.push(userObject);
+            break;
+    }
+
+    beforeTimeArray = startTimeArray.slice();
+    //console.log("beforeTimeArray:", beforeTimeArray);
+
+    //console.log("detailsArray2 before splice:", detailsArray2);
+    //console.log("detailsArray before splice:", detailsArray);
+
+    appendDurationsAndStartTimes(startTimeArray, durations, detailsArray2); 
+
+    detailsArray.splice(0, detailsArray.length, ...detailsArray2);
+
+    //SAVING THE DATA 
+    console.log("detailsArray being passed into saveToDatabase:", detailsArray);
+    saveToDatabase(detailsArray);
+
+    angles = checkToCombineRemaining(durations, detailsArray, angles, startTimeArray);
+
+    convertIndexToLegend(detailsArray, categoryColors, labelName);
+
+    chartId.data.datasets[0].data = durations;
+    chartId.data.labels = labelName;
+    chartId.data.datasets[0].backgroundColor = categoryColors;
+    chartId.options.rotation = angles;
+
+    chartId.data.datasets[1].data = durations;
+    chartId.data.datasets[1].backgroundColor = categoryColors;
+
+    chartId.update();
+}
+
+
+function initialUpdate() {
+    console.log("in initialUpdate");
+
+    //const now = DateTime.local();
+    //const today = now.toISODate();
+    
+    //console.log("current in initialUpdate after clicking Previous Day:", current);
+
+    const storedDataToday = window.localStorage.getItem(key); //today
+    console.log("storedDataToday:", storedDataToday);
+
+    //today pie chart
+    if (!storedDataToday) {
+        console.log("no storedData");
+        updateChartData();
+    } else {
+        const parsedData = JSON.parse(storedDataToday);
+        if (parsedData.data.detailsArray === undefined) {
+            console.log("undefined detailsArray");
+            updateChartData();
+        } else if (parsedData.data.detailsArray.length == 0) {
+            console.log("empty detailsArray");
+            updateChartData();
+        } else {
+            /*const dateTime = DateTime.fromISO(parsedData.data.timestamp);
+            console.log("timestamp:", dateTime);
+            const timeZone = DateTime.fromISO(parsedData.data.timezone);
+            console.log("timezone:", timeZone); */
+
+            const durations = parsedData.data.detailsArray.map(obj => obj.duration);
+            const startTimeArray = parsedData.data.detailsArray.map(obj => obj.start);
+
+            console.log("durations:", durations);
+            //console.log("startTimeArray:", startTimeArray);
+
+            var retrievedDetailsArray = parsedData.data.detailsArray;
+            console.log("detailsArray:", retrievedDetailsArray);
+
+            detailsArray2 = retrievedDetailsArray.slice();
+            //console.log("detailsArray2:", detailsArray2);
+
+            angles = [0];
+
+            angles = checkToCombineRemaining(durations, retrievedDetailsArray, angles, startTimeArray);
+
+            console.log("angles:", angles);
+
+            const minValue = Math.min(...startTimeArray);
+            const calculatedValue = minValue + 1440;
+            startTimeArray.push(calculatedValue);
+
+            beforeTimeArray = startTimeArray.slice();
+            console.log("beforeTimeArray:", beforeTimeArray);
+
+            convertIndexToLegend(retrievedDetailsArray, categoryColors, labelName);
+
+            updateMainChartDataManually(durations, labelName, categoryColors, angles);
+
+            /*chartId.data.datasets[0].data = durations;
+            chartId.data.labels = labelName;
+            chartId.data.datasets[0].backgroundColor = categoryColors;
+            chartId.options.rotation = angles;
+
+            chartId.data.datasets[1].data = durations;
+            chartId.data.datasets[1].backgroundColor = categoryColors;
+
+            chartId.update(); */
+
+            //console.log("detailsArray2, beforeTimeArray, angles:", detailsArray2, beforeTimeArray, angles);
+
+            //return [detailsArray2, beforeTimeArray, angles];
+        }
+    }
+}
+
+function updateLeftPie() {
+    //const now = DateTime.local();
+    //const yesterday = now.minus({ days: 1 }).toISODate();
+
+    const storedDataYesterday = window.localStorage.getItem(yesterdayKey);
+    console.log("storedDataYesterday:", storedDataYesterday);
+    //yesterday pie chart
+    const parsedDataYesterday = JSON.parse(storedDataYesterday);
+
+    if (!storedDataYesterday) {
+        console.log("no storedDataYesterday");
+
+        durationsYesterday = [1440];
+        labelNameYesterday = ["Remaining"];
+        categoryColorsYesterday = ["white"];
+        anglesYesterday = [0];
+            
+        chartId2.data.datasets[0].data = durationsYesterday;
+        chartId2.data.labels = labelNameYesterday;
+        chartId2.data.datasets[0].backgroundColor = categoryColorsYesterday;
+        chartId2.options.rotation = anglesYesterday;
+
+        chartId2.update();
+    } else {
+        durationsYesterday = parsedDataYesterday.data.detailsArray.map(obj => obj.duration);
+        startTimeArrayYesterday = parsedDataYesterday.data.detailsArray.map(obj => obj.start);
+
+        console.log("durationsYesterday:", durationsYesterday);
+
+        var retrievedDetailsArrayYesterday = parsedDataYesterday.data.detailsArray;
+        detailsArray2Yesterday = retrievedDetailsArrayYesterday.slice();
+
+        console.log("detailsArrayYesterday:", retrievedDetailsArrayYesterday);
+
+        anglesYesterday = [0];
+
+        anglesYesterday = checkToCombineRemaining(durationsYesterday, retrievedDetailsArrayYesterday, anglesYesterday, startTimeArrayYesterday);
+
+        console.log("anglesYesterday:", anglesYesterday);
+
+        const minValueYesterday = Math.min(...startTimeArrayYesterday);
+        const calculatedValueYesterday = minValueYesterday + 1440;
+        startTimeArrayYesterday.push(calculatedValueYesterday);
+
+        beforeTimeArrayYesterday = startTimeArrayYesterday.slice();
+
+        console.log("beforeTimeArrayYesterday:", beforeTimeArrayYesterday);
+
+        convertIndexToLegend(retrievedDetailsArrayYesterday, categoryColorsYesterday, labelNameYesterday);
+
+        chartId2.data.datasets[0].data = durationsYesterday;
+        chartId2.data.labels = labelNameYesterday;
+        chartId2.data.datasets[0].backgroundColor = categoryColorsYesterday;
+        chartId2.options.rotation = anglesYesterday;
+
+        //console.log("detailsArray2Yesterday, beforeTimeArrayYesterday, anglesYesterday:", detailsArray2Yesterday, beforeTimeArrayYesterday, anglesYesterday);
+
+        chartId2.update();
+    }
+}
+
+function updateRightPie() {
+    //const now = DateTime.local();
+    //const tomorrow = now.plus({ days: 1 }).toISODate();
+    const storedDataTomorrow = window.localStorage.getItem(tomorrowKey);
+    console.log("storedDataTomorrow:", storedDataTomorrow);
+    //tomorrow pie chart
+    const parsedDataTomorrow = JSON.parse(storedDataTomorrow);
+
+    if (!storedDataTomorrow) {
+        console.log("no storedDataTomorrow");
+
+        durationsTomorrow = [1440];
+        labelNameTomorrow = ["Remaining"];
+        categoryColorsTomorrow = ["white"];
+        anglesTomorrow = [0];
+            
+        chartId3.data.datasets[0].data = durationsTomorrow;
+        chartId3.data.labels = labelNameTomorrow;
+        chartId3.data.datasets[0].backgroundColor = categoryColorsTomorrow;
+        chartId3.options.rotation = anglesTomorrow;
+
+        chartId3.update();
+    } else {
+        durationsTomorrow = parsedDataTomorrow.data.detailsArray.map(obj => obj.duration);
+        startTimeArrayTomorrow = parsedDataTomorrow.data.detailsArray.map(obj => obj.start);
+
+        console.log("durationsTomorrow:", durationsTomorrow);
+
+        var retrievedDetailsArrayTomorrow = parsedDataTomorrow.data.detailsArray;
+        detailsArray2Tomorrow = retrievedDetailsArrayTomorrow.slice();
+
+        console.log("detailsArrayTomorrow:", retrievedDetailsArrayTomorrow);
+
+        anglesTomorrow = [0];
+
+        anglesTomorrow = checkToCombineRemaining(durationsTomorrow, retrievedDetailsArrayTomorrow, anglesTomorrow, startTimeArrayTomorrow);
+
+        console.log("anglesTomorrow:", anglesTomorrow);
+
+        const minValueTomorrow = Math.min(...startTimeArrayTomorrow);
+        const calculatedValueTomorrow = minValueTomorrow + 1440;
+        startTimeArrayTomorrow.push(calculatedValueTomorrow);
+
+        beforeTimeArrayTomorrow = startTimeArrayTomorrow.slice();
+
+        console.log("beforeTimeArrayTomorrow:", beforeTimeArrayTomorrow);
+
+        convertIndexToLegend(retrievedDetailsArrayTomorrow, categoryColorsTomorrow, labelNameTomorrow);
+
+        chartId3.data.datasets[0].data = durationsTomorrow;
+        chartId3.data.labels = labelNameTomorrow;
+        chartId3.data.datasets[0].backgroundColor = categoryColorsTomorrow;
+        chartId3.options.rotation = anglesTomorrow;
+
+        //console.log("detailsArray2Tomorrow, beforeTimeArrayTomorrow, anglesTomorrow:", detailsArray2Tomorrow, beforeTimeArrayTomorrow, anglesTomorrow);
+
+        chartId3.update();
+    }
+}
+
+function createDurations(startTimeArray) {
+    durations = [];
+    for (i = 0; i < startTimeArray.length - 1; i++) {
+        let second = startTimeArray[i + 1];
+        let first = startTimeArray[i];
+        durations.push(second - first);
+        console.log("durations pushed:", durations);
+    }
+}
+
+function checkToCombineRemaining(array1, array2, array3, array4) {
+    if (array2[0].index == 5 && array2[array2.length - 1].index == 5 && array2.length >= 3) {
+        array1[array1.length - 1] += array1[0];
+        array1.splice(0, 1);
+        array2.splice(0, 1);
+        array3 = [(array4[1] / 1440) * 360];
+    }
+    console.log("checkToCombineRemaining"); 
+    return array3;
+}
+
+function convertIndexToLegend(detailsArray, categoryColors, labelName) {
+    categoryColors.length = 0;
+    labelName.length = 0;
+    categoryColors.push(...detailsArray.map(obj => legend[obj.index].color));
+    labelName.push(...detailsArray.map(obj => legend[obj.index].name));
+} 
+
+
+function appendDurationsAndStartTimes(startTimeArray, durations, detailsArray) {
+
+    console.log("startTimeArray, durations, and detailsArray BEFORE:", startTimeArray, durations, detailsArray);
+
+    for (let i = 0; i < detailsArray.length; i++) {
+        //const newDetailObj = detailsArray[i];
+        const newDetailObj = { ...detailsArray[i] }
+        newDetailObj.start = startTimeArray[i];
+        newDetailObj.duration = durations[i];
+        detailsArray[i] = newDetailObj;
+    }
+    //detailsArray = detailsArray.map((obj, index) => {
+    //    console.log(index)
+    //    console.log(obj)
+    //    obj.start = startTimeArray2[index];
+    //    obj.duration = durations[index];    
+    //    return {...obj}
+    //  }); 
+}
+
+function saveToDatabase(array) {
+    console.log("in to saveToDatabase");
+    console.log("detailsArray:", array);
+    const newData = {};
+
+    console.log("current in saveToDatabase:", current);
+
+    const saveState = current.toISODate();
+    console.log("saveState:", saveState);
+
+    const now = DateTime.local();
+    //const localDateISO = now.toISODate();
+    //console.log(localDateISO);
+    //console.log("now:", now);
+    
+
+    newData.data = {
+        detailsArray: array,
+        timestamp: now,
+        timezone: now.zoneName
+    };
+    window.localStorage.setItem(saveState, JSON.stringify(newData));
+}
+
+// HANDS SCRIPT
+
+const minsHand = document.querySelector('.min-hand');
+const hourHand = document.querySelector('.hour-hand');
+
+function setDate() {
+    const now = new Date();
+
+    const seconds = now.getSeconds();
+    const mins = now.getMinutes();
+    const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
+    minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+    const hour = now.getHours();
+    const hourDegrees = ((hour / 24) * 360) + ((mins / 60) * 15) + 90;
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+}
+setInterval(setDate, 1000);
+setDate();
+
+//ANALOG CLOCK SCRIPT
+drawClock();
+
+//datePieChart
+function datePieChart() {
+
+    var dateElement = document.getElementById("date");
+    var goBackOneDayBtn = document.getElementById("day-back");
+    var goForwardOneDayBtn = document.getElementById("day-forward");
+
+    var now = DateTime.local();
+    var today = now.toISODate();
+    //var yesterday = now; // = now.minus({ days: 1 }).toISODate();
+    //var tomorrow = now; //= now.plus({ days: 1 }).toISODate();
+
+    var yesterday;
+    var tomorrow;
+
+    var yesterdayString;
+    var yesterdayData;
+    var parsedYesterdayData;
+
+    var formattedDate = now.toFormat('MM/dd/yy');
+    dateElement.innerHTML = formattedDate;
+
+    current = now;
+    console.log("current in datePieChart:", current);
+
+    goBackOneDayBtn.addEventListener("click", function (event) {
+        //console.log("durationsYesterday:", durationsYesterday);
+        //console.log("labelNameYesterday:", labelNameYesterday);
+        //console.log("categoryColorsYesterday:", categoryColorsYesterday);
+        //console.log("anglesYesterday:", anglesYesterday);
+
+        event.preventDefault();
+        yesterday = current.minus({ days: 1 });
+        current = yesterday;
+        formattedDate = yesterday.toFormat('MM/dd/yy');
+        dateElement.innerHTML = formattedDate;
+
+        console.log("current after changing value:", current);
+
+        /*yesterdayString = yesterday.toISODate();
+        yesterdayData = window.localStorage.getItem(yesterdayString);
+        parsedYesterdayData = JSON.parse(yesterdayData); */
+
+        /*console.log("durations:", durations);
+
+        durationsTomorrow = durations.slice();
+        labelNameTomorrow = labelName.slice();
+        categoryColorsTomorrow = categoryColors.slice();
+        anglesTomorrow = angles.slice();
+
+        durations = durationsYesterday.slice();
+        labelName = labelNameYesterday.slice();
+        categoryColors = categoryColorsYesterday.slice();
+        angles = anglesYesterday.slice(); */
+
+        //updateMainChartDataManually(durations, labelName, categoryColors, angles);
+
+        /*chartId.data.datasets[0].data = durations;
+        chartId.data.labels = labelName;
+        chartId.data.datasets[0].backgroundColor = categoryColors;
+        chartId.options.rotation = angles;
+
+        chartId.data.datasets[1].data = durations;
+        chartId.data.datasets[1].backgroundColor = categoryColors; */
+
+        /*chartId3.data.datasets[0].data = durationsTomorrow;
+        chartId3.data.labels = labelNameTomorrow;
+        chartId3.data.datasets[0].backgroundColor = categoryColorsTomorrow;
+        chartId3.options.rotation = anglesTomorrow;
+
+        chartId3.update();  */
+
+        //this is where things got weird because this is going to do what I just did above again...
+        pieUpdates(current); 
+    });
+
+    goForwardOneDayBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        tomorrow = current.plus({ days: 1});
+        current = tomorrow;
+        formattedDate = tomorrow.toFormat('MM/dd/yy');
+        dateElement.innerHTML = formattedDate;
+
+        console.log("current after changing value:", current);
+
+        pieUpdates(current);
+    });
+};
+
+function pieUpdates() {
+
+    const now = DateTime.local();
+
+    console.log("current in pieUpdates:", current);
+
+    key = current.toISODate();
+
+    yesterdayKey = current.minus({ days: 1}).toISODate();
+    tomorrowKey = current.plus({ days: 1}).toISODate();
+
+    console.log("key:", key);
+    console.log("yesterdayKey:", yesterdayKey);
+    console.log("tomorrowKey:", tomorrowKey);
+
+    //insert code relating to current and gathering data to parse for the pies
+    //this function is triggered every time you click previous day or next day
+    //that way every time you press one of those buttons, the pie charts are generated from storage
+    //I need to adjust these functions below to adjust to the value of current
+    //look at these functions and see if I can generate functions to save more time (since we have to pull 
+    //data from the storage and still dress them to fit the chart)
+    //figure out flow between multiple days' data and how to pass parameters into updateChartData so that 
+    //it can process whatever day in the center (durations = durationsYesterday... already started)
+    initialUpdate();
+    updateLeftPie();
+    updateRightPie();
+}
+
+function generateEmptyPie() {
+    //insert code for generating empty pie if no storage data exists for that date and put in if statements as necessary
+}
+
+//I also need to check about saving other day's pies so it looks like something
+
+function updateMainChartDataManually(durations, labelName, categoryColors, angles) {
+    chartId.data.datasets[0].data = durations;
+    chartId.data.labels = labelName;
+    chartId.data.datasets[0].backgroundColor = categoryColors;
+    chartId.options.rotation = angles;
+
+    chartId.data.datasets[1].data = durations;
+    chartId.data.datasets[1].backgroundColor = categoryColors;
+
+    chartId.update();
+}

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8" />
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>chart.js</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+    <link rel="stylesheet" href="minutiae.css">
+
+    <!-- FONT -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>-->
+    <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
+    <style>
+        /* CSS for log */
+        #log {
+            font-family: var(--font-family), sans-serif;
+
+            width: 23vw;
+            height: 65vh;
+
+            position: absolute;
+            left: 0;
+            top: 17%;
+
+            margin-right: 1em;
+
+            overflow-y: auto;
+            /*max-height: 200px CHAT GPT */
+
+            z-index: 9;
+
+        }
+
+        .dark-mode #log {
+            background-color: black;
+        }
+
+        .light-mode #log {
+            background-color: white;
+        }
+
+        /* CSS for log button */
+        #view-log {
+            font-family: var(--font-family), sans-serif;
+            font-size: var(--font-size);
+
+            position: absolute;
+            left: 0;
+            bottom: 0;
+
+            padding: 0.3em;
+            margin: 1em;
+
+            z-index: 1;
+        }
+
+        /* CSS for log elements */
+        .log-entry {
+            font-family: var(--font-family);
+
+            width: 100%;
+
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .dark-mode .log-entry {
+            border-bottom: 2px solid white;
+        }
+
+        .light-mode .log-entry {
+            border-bottom: 2px solid black;
+        }
+
+        .core-div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .log-entry .log-label {
+            font-size: 1.2em;
+        }
+
+        .log-entry .log-time-label {
+            font-size: 0.8em;
+        }
+
+        .log-entry .log-description {
+            font-size: 0.8em;
+        }
+
+        .log-entry .tag {
+            font-size: 0.7em;
+            margin-top: 0.2em;
+        }
+
+        .log-edit {
+            font-family: var(--font-family), sans-serif;
+            font-size: 0.6em;
+
+            position: absolute;
+            right: 10%;
+            bottom: 3%;
+
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .log-delete {
+            font-family: var(--font-family), sans-serif;
+            font-size: 0.6em;
+
+            position: absolute;
+            right: 3%;
+            bottom: 3%;
+
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* CSS for forms */
+        #multi-step-form,
+        #one-step-form {
+            font-family: var(--font-family), sans-serif;
+            font-size: var(--font-size);
+
+            width: 18vw;
+            height: 40vh;
+
+            position: absolute;
+            right: 0;
+            top: 35%;
+
+            margin-right: 1em;
+
+            z-index: 9;
+        }
+        .dark-mode #multi-step-form, .dark-mode #one-step-form {
+            background-color: black;
+            border: 2px solid white;
+        }
+        .light-mode #multi-step-form, .light-mode #one-step-form {
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        .dark-mode #multi-step-form,
+        .dark-mode #one-step-form,
+        .dark-mode #log {
+            border: 2px solid white;
+        }
+
+        .light-mode #multi-step-form,
+        .light-mode #one-step-form,
+        .light-mode #log {
+            border: 2px solid black;
+        }
+
+        /* CSS for multi-step-form elements */
+        #category,
+        #subcategory,
+        #tag-label,
+        #description-label,
+        #time-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #subcategory-input,
+        #tag-input,
+        #description-input,
+        #starting,
+        #start-time-input,
+        #end-time-input {
+            margin-top: 3vh;
+        }
+
+        /* tag container exists in multi-step form */
+        #tag-container {
+            position: absolute;
+            right: 0%;
+        }
+
+        /* CSS for one-step-form */
+        /* one step form is manually shown and unshown */
+        #one-step-dropdown,
+        #submit-inputs {
+            display: none;
+        }
+
+        #start-time-label-for-one-step-form,
+        #end-time-label-for-one-step-form {
+            position: absolute;
+            top: 25%;
+        }
+
+        #end-time-input-for-one-step-form {
+            position: absolute;
+            right: 0%;
+        }
+
+        #start-time-input-for-one-step-form,
+        #end-time-input-for-one-step-form {
+            position: absolute;
+            top: 35%;
+        }
+
+        #end-time-label-for-one-step-form {
+            position: absolute;
+            right: 5%;
+        }
+
+        #description-input-for-one-step-form {
+            width: 100%;
+
+            position: absolute;
+            top: 50%;
+
+            resize: none;
+        }
+
+        #tag-dropdown-btn {
+            position: absolute;
+            top: 90%;
+        }
+
+        .tag-dropdown-content {
+            min-width: 200px;
+
+            display: none;
+
+            background-color: #f9f9f9;
+
+            padding: 10px;
+            border: 1px solid #ddd;
+
+            position: absolute;
+            top: 100%;
+            left: 0%;
+        }
+
+        .tag-dropdown-content label {
+            font-size: 14px;
+
+            display: block;
+
+            color: black;
+
+            margin-bottom: 5px;
+        }
+
+        .tag-dropdown-content label input {
+            margin-right: 5px;
+        }
+
+        #submit-inputs {
+            position: absolute;
+            right: 0%;
+            top: 90%;
+        }
+
+        /* CSS for add button */
+        #add-slice-button {
+            font-family: var(--font-family), sans-serif;
+            font-size: var(--font-size);
+
+            position: absolute;
+            right: 0;
+            bottom: 0;
+
+            padding: 0.3em;
+            margin: 1em;
+        }
+
+        /* CSS for all form buttons*/
+        #skip,
+        #back-button,
+        #add-category,
+        #next,
+        #add-subcategory,
+        #add-tag,
+        #next-in-tag,
+        #submit-description,
+        #start-time-input,
+        #end-time-input,
+        #submit-time-inputs,
+        #submit-inputs,
+        #start-time-input-for-one-step-form,
+        #end-time-input-for-one-step-form,
+        #tag-dropdown-btn {
+            font-family: var(--font-family), sans-serif;
+        }
+
+        /* hidden and visible classes for multi-step form */
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        /* CSS for clock */
+        .clock {
+            font-family: var(--font-family), sans-serif;
+            font-size: 2em;
+            line-height: 1.5em;
+
+            position: absolute;
+            right: 0;
+
+            padding: 0.3em;
+
+            z-index: 1;
+        }
+
+        /* Adding dark/light mode to buttons' borders */
+        .dark-mode #add-slice-button,
+        .dark-mode #view-log,
+        .dark-mode #edit,
+        .dark-mode #delete {
+            border: 0.2em solid white;
+        }
+
+        .light-mode #add-slice-button,
+        .light-mode #view-log,
+        .light-mode #edit,
+        .light-mode #delete {
+            border: 0.2em solid black;
+        }
+
+        /* CSS for centered date */
+        #date {
+            font-family: var(--font-family), sans-serif;
+            font-size: 3em;
+
+            position: absolute;
+            left: 38%;
+            top: 0;
+        }
+
+        /* CSS for left and right charts */
+        #chartLeft {
+            position: absolute;
+            left: 10%;
+            top: 44%;
+        }
+
+        #chartRight {
+            position: absolute;
+            right: 23%;
+            top: 44%;
+        }
+
+        /* CSS for center chart */
+        #chartId {
+            height: 500px;
+            width: 500px;
+
+            position: absolute;
+            top: 15%;
+            left: 25%;
+
+            z-index: 5;
+
+            pointer-events: auto;
+        }
+
+        /* CSS for #canvas */
+        #canvas-modern,
+        #canvas-traditional, #canvas-minimal {
+
+            position: absolute;
+            left: 25%;
+            top: 15%;
+            /* move the #canvas, #chartId, and .inner-clock-face TOGETHER */
+        }
+
+        /* CSS for the hands of the clock */
+        .inner-clock-face {
+            width: 500px;
+            height: 500px;
+
+            position: absolute;
+            left: 25%;
+            top: 15%;
+
+            background: transparent;
+            /* transparent */
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+
+            z-index: 11;
+
+            pointer-events: none;
+        }
+
+        /* center dot */
+        .inner-clock-face::before {
+            width: 16px;
+            height: 16px;
+
+            content: '';
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            border: 2px solid darkslategray;
+            border-radius: 18px;
+
+            margin-left: -9px;
+            margin-top: -6px;
+
+            background: darkslategray;
+            /*#4d4b63*/
+
+            z-index: 11;
+        }
+
+        .hand {
+            width: 20%;
+            /* 50% */
+            height: 6px;
+
+            background: black;
+
+            position: absolute;
+            right: 50%;
+            top: 50%;
+
+            border-radius: 6px;
+
+            transform-origin: 100%;
+            /* 100% */
+            transform: rotate(90deg);
+            transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+
+            z-index: 10;
+        }
+
+        #hour-hand {
+            width: 25%;
+            /* width: 20% */
+
+            z-index: 10;
+        }
+
+        #min-hand {
+            height: 3px;
+            width: 39%;
+            /* height: 3px; width: 20%; */
+
+            z-index: 10;
+        }
+
+        /* CSS for pie chart arrows */
+        .button-icon {
+            cursor: pointer;
+        }
+
+        /* CSS class for sliding out to the left animation */
+        .slide-out-left {
+            animation: slideOutLeftAnimation 0.5s ease-out;
+        }
+
+        /* CSS class for sliding out to the right animation */
+        .slide-out-right {
+            animation: slideOutRightAnimation 0.5s ease-out;
+        }
+
+        /* CSS class for sliding in from the left animation */
+        .slide-in-left {
+            animation: slideInLeftAnimation 0.5s ease-out;
+        }
+
+        /* CSS class for sliding in from the right animation */
+        .slide-in-right {
+            animation: slideInRightAnimation 0.5s ease-out;
+        }
+
+        @keyframes slideOutLeftAnimation {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+
+            100% {
+                transform: translate(calc(-50% - 100px), -50%);
+            }
+        }
+
+        @keyframes slideOutRightAnimation {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+
+            100% {
+                transform: translate(calc(50% + 100px), -50%);
+            }
+        }
+
+        @keyframes slideInLeftAnimation {
+            0% {
+                transform: translate(calc(-50% - 100px), -50%);
+            }
+
+            100% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        @keyframes slideInRightAnimation {
+            0% {
+                transform: translate(calc(50% + 100px), -50%);
+            }
+
+            100% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /*.dark-mode #day-back:hover,
+        .dark-mode #day-forward:hover {
+            color: lightgray;
+            text-shadow: 2px 2px 4px white; 
+        }
+        .light-mode #day-back:hover,
+        .light-mode #day-forward:hover {
+            color: darkslategray;
+            text-shadow: 2px 2px 4px black;
+        }  */
+
+        /* MEDIA QUERIES*/
+
+        /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+                320px: This is the width of many mobile devices in portrait mode. */
+
+        @media (max-width: 480px) {
+
+            #view-log, #add-slice-button {
+                z-index: 11;
+            }
+
+            #log {
+                width: 70%;
+            }
+            #multi-step-form, #one-step-form {
+                width: 70%;
+            } 
+        }
+
+        /*480px: This is the width of many mobile devices in landscape mode.*/
+        @media (min-width: 480px) and (max-width: 768px) {}
+
+        /*768px: This is the width of most tablets in portrait mode.*/
+        @media (min-width: 768px) and (max-width:992px) {}
+
+        /*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+        @media (min-width: 992px) and (max-width: 1200px) {}
+
+        /*1200px: This is the width of many larger desktop screens.*/
+        @media (min-width: 1200px) {}
+    </style>
+</head>
+
+<body class="dark-mode">
+
+    <!-- loading screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- CHART -->
+    <canvas id="chartId" aria-label="chart"></canvas>
+    <canvas id="chartLeft" aria-label="chart" class="side-chart" height="100px" width="100px"></canvas>
+    <!--add dark mode class later -->
+    <canvas id="chartRight" aria-label="chart" class="side-chart" height="100px" width="100px"></canvas>
+    <!--add dark mode class later -->
+
+    <!-- ANALOG CLOCK -->
+    <canvas id="canvas-modern" width="500px" height="500px"></canvas> <!-- 400 400--> <!-- 300 300-->
+    <canvas id="canvas-traditional" width="500" height="500"></canvas> <!-- 400 400--> <!-- 300 300-->
+    <canvas id="canvas-minimal" width="500" height="500"></canvas>
+
+    <!-- HANDS -->
+    <div class="inner-clock-face" id="clock-face">
+        <div class="hand" id="hour-hand"></div>
+        <div class="hand" id="min-hand"></div>
+    </div>
+
+
+    <!-- top right -->
+    <div class="clock" id="clock"></div>
+
+    <!-- bottom left -->
+    <!-- <button id="mode-switcher" class="dark-mode">
+        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+        <span class="mode-text">Dark Mode</span>
+    </button> -->
+
+    <button id="view-log" class="dark-mode">Log</button>
+    <div id="log" style="display:none;">
+    </div>
+
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+
+
+    <!-- top left -->
+    <div class="menu">
+        <!-- MENU -->
+        <button id="menu" class="dark-mode">
+            <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
+        </button>
+
+        <!-- NAV BAR -->
+        <ul id="navigationbar" class="dark-mode nav-link-colors">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="data.html">Data</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li"><a href="customize.html">Customize Legend</a></li>
+                <li><a href="settings.html">Settings</a></li>
+
+                <li><a href="#" id="mode-switcher" class="button-link">
+                        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                        <span class="mode-text">Dark Mode</span>
+                    </a></li>
+                <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
+        </ul>
+    </div>
+
+    <!-- DATE -->
+    <div id="date" class="dark-mode"></div>
+
+    <!-- arrows -->
+    <i class="fa-solid fa-caret-left button-icon dark-mode" id="day-back"
+        style="font-size: 5em; position: absolute; top: 45%; left: 20%;"></i>
+    <i class="fa-solid fa-caret-right button-icon dark-mode" id="day-forward"
+        style="font-size: 5em; position: absolute; top: 45%; right: 33%;"></i>
+
+    <!-- FORM -->
+    <form id="one-step-form" style="display: none;">
+        <label for="one-step-dropdown" id="one-step-dropdown-label">Categories:</label>
+        <select id="one-step-dropdown"></select>
+        <!--<label for="tag-dropdown" id="tag-dropdown-label">Tags:</label>-->
+        <div class="tag-div">
+            <button id="tag-dropdown-btn">Change Tags</button>
+            <div id="tag-dropdown-content" class="tag-dropdown-content">
+            </div>
+            <div id="description-input-for-one-step-form"></div>
+            <label for="start-time-input-for-one-step-form" id="start-time-label-for-one-step-form">Start Time:</label>
+            <input type="time" id="start-time-input-for-one-step-form" name="start-time">
+            <label for="end-time-input-for-one-step-form" id="end-time-label-for-one-step-form">End Time:</label>
+            <input type="time" id="end-time-input-for-one-step-form" name="end-time">
+            <button id="submit-inputs">Submit</button>
+        </div>
+    </form>
+
+    <form id="multi-step-form" style="display: none;">
+
+        <div id="close"><i class="fa-solid fa-xmark"
+                style="font-size: 2em; position: absolute; right: 3%; top: 3%;"></i></div>
+        <button id="back-button" style="display: none; position: absolute; left: 3%; top: 3%;">Back</button>
+        <button id="skip" style="display: none; position: absolute; right: 3%; bottom: 3%;">Skip</button>
+
+        <!-- category section (0-3) -->
+        <div id="category-section" class="step hidden">
+            <div id="category" class="step hidden">CATEGORY:</div>
+            <div id="category-input" class="step hidden"></div>
+        </div>
+        <button id="add-category" class="step hidden">+ New Category</button>
+
+        <!-- subcategory section (4-8)-->
+        <div id="subcategory-section" class="step hidden">
+            <div id="subcategory" class="step hidden">SUBCATEGORY:</div>
+            <div id="subcategory-input" class="step hidden"></div>
+        </div>
+        <button id="next" class="step hidden">Next</button>
+        <button id="add-subcategory" class="step hidden">+ New Subcategory</button>
+
+        <!-- tag section (9-14) -->
+        <div id="tag-section" class="step hidden">
+            <div id="tag-label" class="step hidden">TAG:</div>
+            <div id="tag-input" class="step hidden"></div>
+        </div>
+        <div id="tag-container" class="step hidden"></div>
+        <button id="next-in-tag" class="step hidden">Next</button>
+        <button id="add-tag" class="step hidden">+ New Tag</button>
+
+        <!-- description section (15-18) -->
+        <div id="description-section" class="step hidden">
+            <div id="description-label" class="step hidden">DESCRIPTION:</div>
+        </div>
+        <div id="description-input" class="step hidden"></div>
+        <button id="submit-description" class="step hidden">Enter</button>
+
+        <!-- 19-25 -->
+        <div id="time-input-section" class="step hidden">
+            <div id="time-label" class="step hidden">TIME: </div>
+        </div>
+        <label for="start-time-input" id="start-time-label" class="step hidden">Start Time:</label>
+        <!-- these steps are out of the <div> because one step form utilizes them-->
+        <input type="time" id="start-time-input" name="start-time" class="step hidden">
+        <label for="end-time-input" id="end-time-label" class="step hidden">End Time:</label>
+        <input type="time" id="end-time-input" name="end-time" class="step hidden">
+        <button id="submit-time-inputs" class="step hidden">Enter</button>
+
+        <br>
+
+    </form>
+
+    <button id="add-slice-button" class="dark-mode">Add</button>
+    <!-- <button id="submit" class="dark-mode">Submit</button> -->
+
+    <!-- CHARTS SCRIPT -->
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Keywords" content="data analytics">
+    <meta name="Description" content="study your time">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+
+    <link rel="stylesheet" href="minutiae.css">
+
+    <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .dark-mode #submit,
+        .dark-mode #seeDetails,
+        .dark-mode #resetButton {
+            border: 0.2em solid white;
+        }
+
+        .light-mode #submit,
+        .light-mode #seeDetails,
+        .light-mode #resetButton {
+            border: 0.2em solid black;
+        }
+
+        /* DATA SPECIFIC */
+        #title {
+            font-family: var(--font-family);
+            font-size: 3em;
+            letter-spacing: 2px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        /* #baseReport {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+
+            display: none;
+        }
+         .chartContainer {
+            flex: 0 0 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
+        .chartCanvas {
+            width: 1000px; 
+            height: 500px; 
+        }  */
+
+        .factoid {
+            font-family: var(--font-family);
+            font-size: 1.5em;
+
+            word-spacing: 3px;
+            letter-spacing: 1px;
+        }
+
+        /* .seeDetails {
+            font-family: var(--font-family);
+            word-spacing: 3px;
+            letter-spacing: 1px;
+            font-size: 1.3em;
+        } */
+
+        /* CSS for data log */
+        #data-log {
+            font-family: var(--font-family), sans-serif;
+
+            width: 23vw;
+            height: 65vh;
+
+            position: absolute;
+            left: 35%;
+            top: 17%;
+
+            margin-right: 1em;
+
+            overflow-y: auto;
+            /*max-height: 200px CHAT GPT */
+
+            z-index: 9;
+        }
+
+        .dark-mode #data-log {
+            border: 2px solid white;
+            background-color: black;
+        }
+
+        .light-mode #data-log {
+            border: 2px solid black;
+            background-color: white;
+        }
+
+        .log-section {
+            font-family: var(--font-family);
+
+            /* display: flex;
+            justify-content: center;
+            text-align: center; */
+
+            width: 100%;
+
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .date-entry {
+            font-family: var(--font-family);
+            font-size: 1.4em;
+
+            width: 100%;
+
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+
+            /* display: flex;
+            justify-content: center;
+            text-align: center; */
+        }
+
+        /* log CSS from app.html */
+        .log-entry {
+            font-family: var(--font-family);
+
+            width: 100%;
+
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .dark-mode .log-entry {
+            border-bottom: 2px solid white;
+        }
+
+        .light-mode .log-entry {
+            border-bottom: 2px solid black;
+        }
+
+        .core-div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .log-entry .log-label {
+            font-size: 1.2em;
+        }
+
+        .log-entry .log-time-label {
+            font-size: 0.8em;
+        }
+
+        .log-entry .log-description {
+            font-size: 0.8em;
+        }
+
+        .log-entry .tag {
+            font-size: 0.7em;
+            margin-top: 0.2em;
+        }
+
+        /* CSS styles for backdrop of report */
+        /* BEFORE: GRADIENTS DID NOT WORK 
+        #backdropForReport {
+            font-family: var(--font-family);
+
+            width: 80%;
+            height: 70%;
+
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            display: none;
+
+            z-index: 30; 
+        }
+        #spaceForChart2 {
+            position: absolute;
+            top: 10%;
+            left: 0;
+            bottom: 0;
+            right: 0;
+
+            z-index: 30; 
+        } */
+        /* This works but I'm going to modify 
+        #backdropForReport {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        #spaceForChart2 {
+            flex: 0 0 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
+        #barChartForFrequency {
+            width: 1000px; 
+            height: 500px;
+        } */
+        
+        /*starting afresh*/
+        #backdropForReport {
+            width: 80%;
+            height: 70vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            margin: auto;
+            margin-top: 2%;
+
+            visibility: hidden;
+        }
+
+        #spaceForChart,
+        #spaceForChart2,
+        #spaceForChart3,
+        #spaceForChart4 {
+            /*flex: 1;*/
+            width: 100%;
+            height: 70%;
+        }
+
+        /* .chart { //very different outcome.. than using the above 
+            width: 100%; 
+            height: 70%;
+        } */
+        .dark-mode #backdropForReport {
+            border: 2px solid white;
+        }
+
+        .light-mode #backdropForReport {
+            border: 2px solid black;
+        }
+
+        #spaceForFact,
+        #spaceForFact2,
+        #spaceForFact3,
+        #spaceForFact4 {
+            width: 100%;
+            height: 10%;
+
+            text-align: center;
+        }
+
+        #next-chart {
+            position: absolute;
+            right: 12%;
+            top: 17%;
+
+            z-index: 8;
+        }
+
+        #chart-back {
+            position: absolute;
+            right: 15%;
+            top: 17%;
+
+            z-index: 8;
+
+        }
+
+        #seeDetails {
+            font-family: var(--font-family), sans-serif;
+            font-size: 0.8em;
+
+            position: absolute;
+            top: 15%;
+            left: 10%;
+
+            padding: 0.3em;
+            margin: 1em;
+
+            z-index: 1;
+        }
+
+        #resetButton {
+            font-family: var(--font-family), sans-serif;
+            font-size: 0.8em;
+
+            position: absolute;
+            top: 21%;
+            left: 10%;
+
+            padding: 0.3em;
+            margin: 1em;
+
+            z-index: 1;
+        }
+
+        #make-your-choice {
+            font-family: var(--font-family);
+            font-size: 2em;
+            letter-spacing: 2px;
+            word-spacing: 2px;
+
+            display: flex;
+            justify-content: center;
+            margin-top: 7%;
+
+            z-index: 5;
+
+        }
+
+        #dataTypeForm {
+            width: 40%;
+            height: 40%;
+
+            position: absolute;
+            right: 30%;
+            top: 35%;
+
+            z-index: 5;
+        }
+
+        .dark-mode #dataTypeForm {
+            background-color: black;
+            border: 2px solid white;
+        }
+
+        .light-mode #dataTypeForm {
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        #dropdownForCategory {
+            position: absolute;
+            top: 15%;
+            left: 5%;
+        }
+
+        #dropdownForTimeUnit {
+            position: absolute;
+            top: 40%;
+            left: 5%;
+        }
+
+        /* For use when I was calling a function to create the date input dynamically to set it to var(--font-family)
+        #time-input {
+            /*font-size: 1.5em;
+
+            position: absolute;
+            top: 65%;
+            left: 5%;
+
+            /* background-color: white;
+            color: black; 
+
+            border: 1px solid black;
+            border-radius: 4px;
+        } */
+
+        #date-input {
+            /*font-size: 1.5em;*/
+            font-family: var(--font-family);
+
+            position: absolute;
+            top: 65%;
+            left: 5%;
+
+            /* background-color: white;
+                color: black; */
+
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+
+        #submit {
+            font-family: var(--font-family), sans-serif;
+            font-size: var(--font-size);
+
+            position: absolute;
+            bottom: 0;
+            right: 0;
+
+            padding: 0.3em;
+            margin: 1em;
+
+            z-index: 1;
+        }
+
+        /* MEDIA QUERIES*/
+
+        /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+                320px: This is the width of many mobile devices in portrait mode. */
+
+        @media (max-width: 480px) {
+            #title {
+                display: none;
+            }
+
+            #make-your-choice {
+                margin-top: 45%;
+            }
+
+            #dataTypeForm {
+                width: 80%;
+            }
+
+            #backdropForReport {
+                width: 90%;
+                margin-top: 25%;
+                height: 85vh; /* try 90vh */
+            }
+            .light-mode #backdropForReport, .dark-mode #backdropForReport {
+                border: none;
+            }
+
+            .factoid {
+                font-size: 1.2em;
+            }
+            
+            #seeDetails {
+                left: 0%;
+                top: 10%;
+            }
+            
+            #resetButton {
+                left: 0%;
+                top: 15%;
+            } 
+
+            #next-chart {
+                position: absolute;
+                right: 10%;
+                top: 12%;
+            }
+
+            #chart-back {
+                position: absolute;
+                right: 15%;
+                top: 12%;
+            }
+
+            #data-log {
+                width: 70%;
+            }
+
+        }
+
+        /*480px: This is the width of many mobile devices in landscape mode.*/
+        @media (min-width: 480px) and (max-width: 768px) {}
+
+        /*768px: This is the width of most tablets in portrait mode.*/
+        @media (min-width: 768px) and (max-width:992px) {}
+
+        /*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+        @media (min-width: 992px) and (max-width: 1200px) {}
+
+        /*1200px: This is the width of many larger desktop screens.*/
+        @media (min-width: 1200px) {}
+    </style>
+</head>
+
+<body class="dark-mode">
+
+    <!-- loading screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p>Loading...</p>
+    </div>
+
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+
+    <h2 id="title">Data</h2>
+
+    <!-- user input -->
+
+    <h3 id="make-your-choice">Make your selection</h3>
+
+    <form id="dataTypeForm">
+        <select id="dropdownForCategory"></select>
+        <select id="dropdownForTimeUnit">
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+        </select>
+        <!-- Removed this because I wasn't able to figure out how to get the date input to be in the specified font unless I built it dynamically -->
+        <div id="timeIntervalInput">
+            <input type="date" id="date-input">
+        </div>
+        <button id="submit" class="dark-mode">Submit</button>
+    </form>
+
+    <!-- log -->
+    <div id="data-log" style="display:none;"></div>
+
+    <!-- place to put the report -->
+    <div id="backdropForReport">
+
+        <button id="seeDetails" class="dark-mode">See Details</button>
+
+        <div id="spaceForFact">
+            <h2 class="factoid" id="averageFactoid">On the average day, 40 minutes are spent on task A.</h2>
+        </div>
+        <div id="spaceForFact2">
+            <h2 class="factoid" id="frequencyFactoid">Task A was performed 100 times during the week.</h2>
+        </div>
+        <div id="spaceForFact3">
+            <h2 class="factoid" id="percentageOfWeekFactoid">8% of the week from 08/19/22 to 08/26/22 was spent on task
+                A. </h2>
+        </div>
+        <div id="spaceForFact4">
+            <h2 class="factoid" id="percentageOfParentFactoid">Task A composed 90% of time spent in Task B for the week.
+            </h2>
+        </div>
+
+        <div id="iconsContainer">
+            <i class="fa-solid fa-caret-left button-icon dark-mode" id="chart-back" style="font-size: 2em"></i>
+            <!-- position: absolute; top: 1%; right: 8%;, right: 3% -->
+            <i class="fa-solid fa-caret-right button-icon dark-mode" id="next-chart" style="font-size: 2em"></i>
+        </div>
+
+        <div id="spaceForChart">
+            <canvas id="barChartForTotals" class="chart"
+                aria-label="Bar chart showing total amounts of time spent"></canvas>
+        </div>
+        <div id="spaceForChart2">
+            <canvas id="barChartForFrequency" class="chart"
+                aria-label="Bar chart showing how often this event occurs"></canvas>
+        </div>
+        <div id="spaceForChart3">
+            <canvas id="pieChartForPercentageOfWeek" class="chart"
+                aria-label="Pie chart showing what percentage of the entire time was spent doing a particular task"></canvas>
+        </div>
+        <div id="spaceForChart4">
+            <canvas id="pieChartForPercentageOfParent" class="chart"
+                aria-label="Pie chart showing what percentage a task took up within its parent categorization"></canvas>
+        </div>
+
+        <button id="resetButton" class="dark-mode">Reset</button>
+    </div>
+
+    <!-- generated report -->
+
+    <!-- <div id="baseReport"> 
+        <div class="chartContainer" id="chart1" style="width: 600px; height: 400px">
+            <canvas class="chartCanvas" id="barChartForTotals" aria-label="chart"></canvas>
+        </div>
+
+         <br>
+        <p class="seeDetails">See Details</p>
+
+    
+        <div class="chartContainer" id="chart2" style="width: 1000px; height: 400px">
+            <canvas class="chartCanvas" id="barChartForFrequency" aria-label="chart"></canvas>
+        </div>
+
+        <h2 class="factoid" id="frequencyFactoid">Factoid: Task A was completed 100 times during the week.</h2>
+        <br>
+        <p class="seeDetails">See Details</p>
+
+        <div class="chartContainer" id="chart3" style="width: 600px; height: 400px">
+            <canvas class="chartCanvas" id="pieChartForPercentageOfWeek" aria-label="chart"></canvas>
+        </div>
+
+        <h2 class="factoid" id="percentageOfWeekFactoid">Factoid: 8% of the week from 08/19/22 to 08/26/22 was spent doing task A. </h2>
+        <br>
+        <p class="seeDetails">See Details</p>
+
+        <div class="chartContainer" id="chart4" style="width: 600px; height: 400px">
+            <canvas class="chartCanvas" id="pieChartForPercentageOfParent" aria-label="chart"></canvas>
+        </div>
+
+        <h2 class="factoid" id="percentageOfParentFactoid">Factoid: Task A composed 90% of time spent in Task B for the week.</h2>
+        <br>
+        <p class="seeDetails">See Details</p> 
+
+    </div>-->
+
+    <!-- dark/light mode button and menu button -->
+    <!-- <button id="mode-switcher" class="dark-mode">
+        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+        <span class="mode-text">Dark Mode</span>
+    </button> -->
+
+
+    <div class="menu">
+        <!-- MENU -->
+        <button id="menu" class="dark-mode">
+            <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
+        </button>
+        <!-- NAV BAR -->
+        <ul id="navigationbar" class="dark-mode nav-link-colors">
+            <li><a href="index.html">Home</a></li>
+            <li"><a href="app.html">Current Day</a></li>
+                <li><a href="settings.html">Settings</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="customize.html">Customize Legend</a></li>
+
+                <li><a href="#" id="mode-switcher" class="button-link">
+                        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                        <span class="mode-text">Dark Mode</span>
+                    </a></li>
+                <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
+        </ul>
+    </div>
+
+    <script src='data.js' type="module"></script>
+
+</body>
+
+</html>

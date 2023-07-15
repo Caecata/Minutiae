@@ -1,0 +1,132 @@
+{
+    "userid-1": {
+        "legend": {
+            "palette1": ["#5F05B3", "#09BC8A", "#3587A4", "#F21B3F", "#FF9914", "white"],
+            "categoryLegend": ["Sleep", "Work", "Transition", "Meal", "TV", "Remaining"]
+        },
+        "2023-05-11": {
+            "startTimeArray": [0, 240, 600, 1200, 1440],
+            "chartData": [240, 360, 600, 240],
+            "indexArray": [0, 1, 2, 4]
+        }
+    },
+    "userid-2": {
+        "legend": {
+            "palette1": ["#1BDAD7", "#4A5043", "#1C0221", "#17DE63", "#FFCB47", "#B80C09"],
+            "categoryLegend": ["Sleep", "Work", "Transition", "Meal", "TV", "Remaining"]
+        },
+        "2023-05-11": {
+            "startTimeArray": [0, 60, 120, 180, 900, 1080, 1200, 1440],
+            "chartData": [60, 60, 60, 720, 180, 120, 240],
+            "indexArray": [0, 1, 2, 4, 0, 3, 1]
+        }
+    },
+    "userid-3": {
+        "legend": 
+            [
+                {"name": "Sleep", "subcategory": ["Nap"], "color": "#5F05B3"},
+                {"name": "Work", "subcategory": ["Job Search", "Programming", "Learning"], "color": "#09BC8A"},
+                {"name": "Transition", "subcategory": ["Driving", "Teeth", "Cleaning"], "color": "#3587A4"},
+                {"name": "Meal", "subcategory": ["Breakfast", "Lunch", "Dinner", "Snack"], "color": "#F21B3F"},
+                {"name": "TV", "subcategory": ["LoL", "Show"], "color": "#FF9914"},
+                {"name": "Remaining", "subcategory": [], "color": "white"}
+            ],
+        "locations": ["Home", "Starbucks", "Dan"],
+        "settings": [],
+        "dates": {
+            "2023-05-14": {
+                "data": [
+                    {
+                        "legendIndex": 3,
+                        "startTime": 0,
+                        "duration": 600,
+                        "subcategory": "undefined",
+                        "location": "undefined",
+                        "description": "undefined",
+                        "comment": "put detailsArray into "
+                    },
+                    {
+                        "legendIndex": 3,
+                        "startTime": 0,
+                        "duration": 600,
+                        "subcategory": "undefined",
+                        "location": "undefined",
+                        "description": "undefined"
+                    }
+                ]
+            }
+        }
+    },
+
+    "userid-4": {
+        "legend": 
+            [
+                {"name": "Sleep", "subcategory": ["Nap"], "color": "#5F05B3"},
+                {"name": "Work", "subcategory": ["Job Search", "Programming", "Learning"], "color": "#09BC8A"},
+                {"name": "Transition", "subcategory": ["Driving", "Teeth", "Cleaning"], "color": "#3587A4"},
+                {"name": "Meal", "subcategory": ["Breakfast", "Lunch", "Dinner", "Snack"], "color": "#F21B3F"},
+                {"name": "TV", "subcategory": ["LoL", "Show"], "color": "#FF9914"},
+                {"name": "Remaining", "subcategory": [], "color": "white"}
+            ],
+        "locations": ["Home", "Starbucks", "Dan"],
+        "settings": [],
+        "dates": {
+            "2023-05-14": {
+                "startTimeArray": [0, 600, 900, 1100, 1440],
+                "durationArray": [600, 300, 200, 340],
+                "detailsArray": [
+                    {
+                        "legendIndex": 3,
+                        "subcategory": "undefined",
+                        "location": "undefined",
+                        "description": "undefined"
+                    },
+                    {
+                        "legendIndex": 4,
+                        "subcategory": "undefined",
+                        "location": "undefined",
+                        "description": "undefined"  
+                    }
+                ]
+            }
+        }
+    },
+    "userid-5": {
+        "legend": [
+            {"name": "Sleep", "subcategory": ["Nap"], "color": "#5F05B3"},
+            {"name": "Work", "subcategory": ["Job Search", "Programming", "Learning"], "color": "#09BC8A"},
+            {"name": "Transition", "subcategory": ["Driving", "Teeth", "Cleaning"], "color": "#3587A4"},
+            {"name": "Meal", "subcategory": ["Breakfast", "Lunch", "Dinner", "Snack"], "color": "#F21B3F"},
+            {"name": "TV", "subcategory": ["LoL", "Show"], "color": "#FF9914"},
+            {"name": "Remaining", "subcategory": [], "color": "white"}
+        ],
+        "locations": ["Home", "Starbucks", "Dan"],
+        "settings": [],
+        "dates": {
+            "2023-05-14": {
+                "data": {
+                    "detailsArray": [
+                        {
+                            "description": "",
+                            "duration": 600,
+                            "index": 3,
+                            "location": "",
+                            "start": 0,
+                            "subcategory": ""
+                        },
+                        {
+                            "description": "",
+                            "duration": 900,
+                            "index": 1,
+                            "location": "",
+                            "start": 600,
+                            "subcategory": ""
+                        }
+                    ]
+                }
+            }
+        }
+    }    
+}
+
+                

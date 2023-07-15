@@ -1,0 +1,541 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>chart.js</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Fjalla One|Chewy">
+    <!-- FONT -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Concert One']
+            }
+        });
+    </script>
+    <style>
+        /* CHARTS */
+        #chartId {
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            z-index: 5;
+
+            pointer-events: auto;
+
+        }
+
+        /* ANALOG CLOCK */
+        #canvas {
+            position: absolute;
+            left: 25%;
+            top: 10%;
+        }
+
+        body {
+            margin: 0;
+            /*display: flex;
+   min-height: 100vh;
+   align-items: center;
+   NOT SURE HOW NEEDED*/
+        }
+
+        /* HANDS OF THE CLOCK */
+        .inner-clock-face {
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            width: 500px;
+            height: 500px;
+            background: transparent;
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+            z-index: 11;
+
+            pointer-events: none;
+
+        }
+
+        .inner-clock-face::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border-radius: 18px;
+            margin-left: -9px;
+            margin-top: -6px;
+            background: darkslategray;
+            /*#4d4b63*/
+            z-index: 11;
+            border: 2px solid darkslategray;
+        }
+
+        .hand {
+            width: 50%;
+            right: 50%;
+            height: 6px;
+            background: black;
+            position: absolute;
+            top: 50%;
+            border-radius: 6px;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+            transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+            z-index: 10;
+        }
+
+        .hand.hour-hand {
+            width: 20%;
+            z-index: 10;
+        }
+
+        .hand.min-hand {
+            height: 3px;
+            z-index: 10;
+            width: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- CHART -->
+    <canvas id="chartId" aria-label="chart" height="500px" width="500px"></canvas> <!-- 300, 580 --> <!-- 480 580-->
+
+    <!-- ANALOG CLOCK -->
+    <canvas id="canvas" width="500" height="500"></canvas> <!-- 400 400--> <!-- 300 300-->
+
+    <!-- HANDS -->
+
+    <div class="inner-clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+    </div>
+
+    <form>
+        <!--<label for="category-input">Category:</label>
+        <input type="text" id="category-input" name="category"><br>-->
+
+        <input type="radio" id="sleep" name="category" value="Sleep">
+          <label for="sleep">Sleep</label><br>
+
+        <input type="radio" id="work" name="category" value="Work">
+          <label for="work">Work</label><br>
+
+        <input type="radio" id="transition" name="category" value="Transition">
+          <label for="transition">Transition</label><br>
+
+        <input type="radio" id="meal" name="category" value="Meal">
+          <label for="meal">Meal</label><br>
+
+        <input type="radio" id="tv" name="category" value="TV">
+          <label for="tv">TV</label><br>
+
+        <label for="start-time-input">Start Time:</label>
+        <input type="time" id="start-time-input" name="start-time"><br>
+
+        <label for="end-time-input">End Time:</label>
+        <input type="time" id="end-time-input" name="end-time"><br>
+    </form>
+    <button id="add-slice-button">Add</button>
+
+    <!-- CHARTS SCRIPT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+    <script>
+
+        const palette1 = ['#5F05B3', '#09BC8A', '#3587A4', '#F21B3F', '#FF9914', 'white']; //#F6511D orange
+        //purple - sleep, mint - work, blue - transition, red - meal, yellow - TV, white - remaining
+
+        //this variable works in conjunction with the palette to identify what category is what color
+        const categoryLegend = ["Sleep", "Work", "Transition", "Meal", "TV", "Remaining"];
+
+        //define startTimeMin for initial use of the pie chart; startTimeMin determines rotation
+        let startTimeMin = 0;
+
+        /*new*/
+        //const startTime = [0];
+
+        //create the arrays that will keep track of the order of the data/pie slices
+        const data = [];
+        const chartData = [...data, remaining];
+
+        const labelName = [];
+        const category = [...labelName, "Remaining"];
+
+        const categoryColors = [];
+        const backgroundColor = [...categoryColors, "white"];
+
+        //created global variables for sum and remaining; used inside updateChartData function
+        var sum;
+        var remaining;
+
+        //gets the sum of all the items in the data array and finds out how many more minutes are there to code
+        //updates the three arrays with the backup arrays + the "Remaining" parameters
+        //updates the charts
+        function updateChartData() {
+            sum = data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            remaining = 1440 - sum;
+            chartData.splice(0, chartData.length, ...data, remaining);
+            backgroundColor.splice(0, backgroundColor.length, ...categoryColors, "white");
+            category.splice(0, labelName.length, ...labelName, "Remaining");
+            console.log(data); //durations
+            console.log(chartData); //durations + remaining
+            chartId.update();
+            console.log("startTimeMin:", startTimeMin);
+        }
+
+        //creates the chart by accessing the canvas
+        var chrt = document.getElementById("chartId").getContext("2d");
+        var chartId = new Chart(chrt, {
+            type: 'doughnut',
+            data: {
+                labels: category,
+                datasets: [{
+                    type: 'doughnut',
+                    label: "online tutorial subjects",
+                    data: chartData,
+                    backgroundColor: backgroundColor,
+                    hoverOffset: 5,
+
+                    cutout: '60%' //sets the size of the doughnut hole
+                },
+                {
+                    type: 'pie',
+                    label: "online tutorial subjects",
+                    data: chartData,
+                    backgroundColor: backgroundColor,
+                    hoverOffset: 5,
+
+                    radius: '100%'//sets the size of the pie chart
+                }
+                ],
+            },
+            options: {
+                rotation: (startTimeMin / 1440) * 2 * Math.PI, //determines rotation for the slice
+                responsive: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            },
+        });
+
+        /* ADD BUTTON */
+        const addButton = document.getElementById("add-slice-button");
+        addButton.addEventListener("click", function () {
+
+            const selectedCategory = document.querySelector('input[name="category"]:checked').value;
+            const categoryLegendIndex = categoryLegend.indexOf(selectedCategory);
+            const sliceColor = palette1[categoryLegendIndex];
+
+            const startTimeInput = document.getElementById("start-time-input");
+            const startTimeValue = startTimeInput.value;
+            const startTime = new Date(`1970-01-01T${startTimeValue}:00`); //for some reason this line is important
+            startTimeMin = startTime.getHours() * 60 + startTime.getMinutes();
+
+            //trying to do something; check if sum calculation is needed in the chart update function anymore if put in the add event button
+            //sum = data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            //this would work if you are overwriting the last inputted task; it wouldn't work if it happened two tasks ago because
+            //it would take the difference from the wrong task so
+            //I think that is why we need a startTimeMin array to determine correct pie to remove the difference
+            if (startTimeMin < sum) {
+                sum = data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                const difference = sum - startTimeMin;
+                data[data.length - 1] = data[data.length - 1] - difference;
+            }
+
+            const endTimeInput = document.getElementById("end-time-input");
+            const endTimeValue = endTimeInput.value;
+            const endTime = new Date(`1970-01-01T${endTimeValue}:00`);
+            const endTimeMin = endTime.getHours() * 60 + endTime.getMinutes();
+
+            const duration = endTimeMin - startTimeMin;
+            data.push(duration);
+            categoryColors.push(sliceColor);
+            labelName.push(selectedCategory);
+
+            /*new*/
+            //startTime.push(startTimeMin, endTimeMin);
+
+            //create a startTimeMin array to help with deciding the order of the slices 
+
+            updateChartData();
+            chartId.update();
+        });
+
+        updateChartData();
+
+        //IDEA FOR time overlaps: now I'm trying to get the overlap to decipher which data point needs the difference removed because 
+        //it may not be the last one. 
+        //example: you sleep for 10 hours from 12AM to 10AM (600 minutes). you work from 10AM to 12PM (120 minutes). you input
+        //one hour (60 minutes) from 4AM to 5AM. 
+        //so startTimeMin = 240, which would be less than the sum (720) BUT you need to pull 60 minutes from sleep and NOT 
+        //the last inputted task. 
+        //It would also break up sleep into two different pies
+        //the data array (containing durations) would look like [600, 120] (2 pies) but you want to change it to [240, 60, 300, 120] (4 pies)
+        //if I had an array of startTimes it would look like [0, 600, 720] and it would change to [0, 240, 300, 600, 720]
+
+        //if I had the array of startTimes, I would notice that 240 (the place where I want to input the pie) is between 0 and 600
+        //and then I would know which pie would be affected, the first one. 
+        //the computer would have to know that 0-240 remains the same - sleep; 240 - 300 is the overwrite - work (call it OVERWRITE and
+        //give the sleep pie a boolean called INTERRUPTED)
+        //the difference was taken from sleep so a pie chart for the remaining time for sleep needs to be made
+        //and then the last pie should be untouched because (240-300) is outside the range of (600-720)
+
+        //probably need a startTime + duration (comparison operator) startTime for other values in the array (for loop??) TO BE LOOKED INTO LATER
+        //theoretically, it could affect multiple pies...
+
+        //to get [0, 600, 720] to become [0, 240, 300, 600, 720], you have to first realize 240 is in the first pie
+        //then you have to use the data array with the startTime array to create the startTimes so
+        //0 is always first, 240 is the first startTime that is relevant so that is the reference point; if not 240, it should move on
+        //to 600 (you can determine this by updating your startTime array with [0, 240, 600] (does not include 300 yet because we 
+        //haven't taken duration into account yet) and choosing the first occurring #
+        //take first relevant startTime (in this case: 240) and add duration (60); 300 should be the next value in the startTime array
+        //in the duration array you know the first pie was affected so you need to remove 60 minutes from sleep which changes
+        //the value of the item to 540
+        //540 - 240 is 300 so a pie of 300 minutes should be created for 
+        // LOOKING FOR INTERRUPTED; once found it will add duration to its value to get another start time (even if the duration 
+        // was large enough to affect two pies, like adding 400 minutes at 300 minutes start time, you would still do this)
+
+        //you need to save the before start time array so that you can see where the new start times (interrupted and interrupted + duration)
+        // occur in the original pie chart so you can transfer over the codes
+        //you need to save the before duration array as well to do math about where to remove times
+        //for example, you'd know that the new start times are: 240 and 300 which are in the range of 0 to 600 (from the original time array)
+        //and you know that 240 and 300 are both INSIDE the first pie
+
+        //other scenarios are affecting two or more pies (partially affecting this pie), completely affecting this pie
+        //(start time and end time are outside range), or not affected which means it will move on (TO BE FIGURED OUT LATER)
+
+        //then there should be updates to the DURATION ARRAY: from [600, 120] to [240, 60, 300, 120]
+
+        //240 can be found by finding the value of the startTime array with index 1 (so not the first one, which is always 0)
+        //60 is duration; if the first value of the startTime array was 600, it should be 120 after (duration is inputted once
+        //interrupted is detected)
+        //300 is 600 (before value of pie slice) - start time + duration 
+        //this pattern is the interrupted pattern (INSIDE); if the start times are within a slice
+
+        //the new duration is going to be sliced in ... no too simple; just update the arrays
+        //if interrupted and INSIDE, it will break into two slices, with interrupted in the middle
+        //for colors/labels:
+        //simplicity (going with labels): [Sleep, Work, remaining] to [Sleep, Work, Sleep, Work, remaining]
+        // --> slice interrupting color (color of Work) with interrupted pie color (color of Sleep)
+
+
+
+        //______________________________________________________________________
+
+        //you have to create both the startTime array and the duration array in tandem
+
+        //assuming startTimeMin was 700 (happening within the last pie), the startTime array with index 1 would be 600
+        //and something happened from 700 to 720 (as the overwrite), duration array would go from
+        // [600, 120] to [600, 100, 20]
+        //start time array from [0, 600, 720] to [0, 600, 700, 720] (INSIDE)
+        // the startTime array would be updated first to [0, 600, 700, ...]
+        //figure out which data value is INTERRUPTED
+
+        //PARTIAL example
+        //300 minutes added to 400
+        //start time array from: [0, 600, 720] to [0, 400, 700, 720]
+        //duration array from: [600, 120] to [400, 300, 20]
+        // start times are 400 and 700; 400 < 600 and 700 > 600
+        // --> two differences; 200 taken from 1st pie and 100 taken from second 
+
+        //if interrupted pie, duration will be inserted in the data array
+
+        //there is a key relationship between the duration array and the startTime array
+        //startTime array: going from [0, 600, 720] to [0, 240, 300, 600, 720]
+        //duration array: [600, 120] to [240, 60, 300, 120]
+        //startTime array always has one more value than the other
+        //if you add durations to startTimes it should tell the story
+
+        //you know you are using duration (recently inputted) because you are interrupting this first pie and going through
+        //changing the first index of the startTime array
+        //if you did not change the startTime array for segment, it should be the same as before
+        //--> if within an if (nested) OR boolean - true if "interrupted"
+        //either way, interrupting the first or second pie, the duration (recently inputted) will be used to "insert" a pie, thereby
+        //affecting the duration array
+        //300 = 600 (before value of slice) - 240(index 1 of startTime array) - 60(duration)
+
+
+
+
+
+        //IDEA FROM CHAT GPT: you can create an object called newSlice and then push all of its properties at once and then I can access 
+        //them in the chart by doing something like newSlice.category or newSlice.backgroundColor or newSlice.data
+
+        /* Create the chart instance
+        const chartCanvas = document.getElementById("chartId").getContext("2d");
+        const chart = new Chart(chartCanvas, {
+        type: 'doughnut',
+        data: data,
+        options: options
+        });
+
+        // Add a click event listener to the "Add" button
+        const addButton = document.getElementBysId("add-button");
+        addButton.addEventListener("click", () => {
+        // Get the input values from the user
+        const category = document.getElementById("category-input").value;
+        const color = document.getElementById("color-input").value;
+        const startTime = parseInt(document.getElementById("start-time-input").value);
+        const endTime = parseInt(document.getElementById("end-time-input").value);
+
+        // Calculate the duration of the slice (in hours)
+        const duration = endTime - startTime;
+
+        // Get the chart data and update it with the new slice
+        const chartData = chart.data.datasets[0].data;
+        const newSlice = {
+            label: category,
+            backgroundColor: color,
+            data: [duration]
+            .. put a property for start time and end time; I guess you don't need duration anymore
+        };
+        --> first sort the pie slices by the start time property, loop to check and adjust for collisions 
+        chartData.push(newSlice);
+
+        // Update the chart with the new data
+        chart.update();
+
+        // Clear the input fields
+        document.getElementById("category-input").value = "";
+        document.getElementById("color-input").value = "";
+        document.getElementById("start-time-input").value = "";
+        document.getElementById("end-time-input").value = "";
+        }); */
+
+        // HANDS SCRIPT
+
+        const minsHand = document.querySelector('.min-hand');
+        const hourHand = document.querySelector('.hour-hand');
+
+        function setDate() {
+            const now = new Date();
+
+            const seconds = now.getSeconds();
+            const mins = now.getMinutes();
+            const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
+            minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+            const hour = now.getHours();
+            const hourDegrees = ((hour / 24) * 360) + ((mins / 60) * 15) + 90;
+            hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+        }
+        setInterval(setDate, 1000);
+        setDate();
+
+        //ANALOG CLOCK SCRIPT
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var radius = canvas.height / 2;
+        ctx.translate(radius, radius);
+        radius = radius * 0.90
+        drawClock();
+
+        function drawClock() {
+            drawFace(ctx, radius);
+            drawNumbers(ctx, radius);
+            drawTicks(ctx, radius); //inside ticks
+            drawTicks2(ctx, radius); //outside ticks
+        }
+
+        //Draw the face of the clock
+        function drawFace(ctx, radius) {
+            var grad;
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#CCC9E7'; //change this to change the color of the clock; white
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+        }
+
+        //Draw inside tick marks
+        function drawTicks(ctx, radius) {
+            var numTicks = 24;
+            var tickWidth = radius * 0.01; //0.01
+            var tickLength = radius * 0.1; //0.1
+            for (var i = 0; i < numTicks; i++) {
+                var tickAngle = (i / numTicks) * 2 * Math.PI;
+                var x1 = Math.sin(tickAngle) * (radius - tickWidth - radius * 0.3); //.15
+                var y1 = -Math.cos(tickAngle) * (radius - tickWidth - radius * 0.3);
+                var x2 = Math.sin(tickAngle) * (radius - tickLength - radius * 0.3);
+                var y2 = -Math.cos(tickAngle) * (radius - tickLength - radius * 0.3);
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineWidth = tickWidth;
+                if (i % 4 === 0) {
+                    ctx.strokeStyle = "black"; //#333
+                } else {
+                    ctx.strokeStyle = "darkslategray"; //#666
+                }
+                ctx.stroke();
+            }
+        }
+
+        //Draw outside tick marks
+        function drawTicks2(ctx, radius) {
+            var numTicks = 24;
+            var tickWidth = radius * 0.01; //0.01
+            var tickLength = radius * 0.1; //0.1
+            for (var i = 0; i < numTicks; i++) {
+                var tickAngle = (i / numTicks) * 2 * Math.PI;
+                var x1 = Math.sin(tickAngle) * (radius - tickWidth - radius * 0.04); //.15
+                var y1 = -Math.cos(tickAngle) * (radius - tickWidth - radius * 0.04);
+                var x2 = Math.sin(tickAngle) * (radius - tickLength - radius * 0.04);
+                var y2 = -Math.cos(tickAngle) * (radius - tickLength - radius * 0.04);
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineWidth = tickWidth;
+                if (i % 4 === 0) {
+                    ctx.strokeStyle = "black"; //#333
+                } else {
+                    ctx.strokeStyle = "darkslategray"; //#666
+                }
+                ctx.stroke();
+            }
+        }
+
+        //Draw numbers
+        function drawNumbers(ctx, radius) {
+            var ang;
+            var num;
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            //ctx.imageSmoothingEnabled = false;
+
+            for (num = 1; num < 25; num++) {
+                if (num == 4 || num == 8 || num == 12 || num == 16 || num == 20 || num == 24) {
+                    /*ctx.font = radius*0.1 + "px 'Concert One', sans-serif";*/
+                    ctx.font = "bold 15px 'Concert One'";
+                    ctx.fillStyle = "black";
+
+                } else {
+                    ctx.font = "bold 15px 'Concert One'";
+
+                    ctx.fillStyle = "darkslategray";
+                }
+                ang = num * Math.PI / 12;
+                ctx.rotate(ang);
+                ctx.translate(0, -radius * 0.77); //0.85
+                ctx.rotate(-ang);
+                ctx.fillText(num.toString(), 0, 0);
+                ctx.rotate(ang);
+                ctx.translate(0, radius * 0.77); //0.85
+                ctx.rotate(-ang);
+            }
+        }
+    </script>
+</body>
+
+</html>
