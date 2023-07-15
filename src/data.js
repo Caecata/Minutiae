@@ -41,29 +41,33 @@ function findRemaining(data) {
 receiveSettingsFromDatabase()
     .then((receivedSettings) => {
         settings = receivedSettings;
-        if (settings.font !== "default") {
-            const userFont = `${settings.font}, sans-serif`;
-            changeFontFamily(userFont);
+        if (settings !== null) {
+            if (settings.font !== "default") {
+                const userFont = `${settings.font}, sans-serif`;
+                changeFontFamily(userFont);
+            }
         }
         //setDateInputFont();
         receiveLegendFromDatabase()
             .then((receivedLegend) => {
                 legend = receivedLegend;
 
-                if (settings.darkLightMode === "dark-mode") {
-                } else if (settings.darkLightMode === "light-mode") {
-                    document.body.classList.remove("dark-mode");
-                    document.body.classList.add('light-mode');
-                    const darkModeElements = document.querySelectorAll(".dark-mode");
-                    darkModeElements.forEach((element) => {
-                        element.classList.remove("dark-mode");
-                        element.classList.add("light-mode");
-
-                        const modeSwitcher = document.getElementById("mode-switcher");
-                        modeSwitcher.querySelector(".mode-text").textContent = "Light Mode";
-                        modeSwitcher.querySelector(".dark-icon").classList.add("hidden");
-                        modeSwitcher.querySelector(".light-icon").classList.remove("hidden")
-                    });
+                if (settings !== null) {
+                    if (settings.darkLightMode === "dark-mode") {
+                    } else if (settings.darkLightMode === "light-mode") {
+                        document.body.classList.remove("dark-mode");
+                        document.body.classList.add('light-mode');
+                        const darkModeElements = document.querySelectorAll(".dark-mode");
+                        darkModeElements.forEach((element) => {
+                            element.classList.remove("dark-mode");
+                            element.classList.add("light-mode");
+    
+                            const modeSwitcher = document.getElementById("mode-switcher");
+                            modeSwitcher.querySelector(".mode-text").textContent = "Light Mode";
+                            modeSwitcher.querySelector(".dark-icon").classList.add("hidden");
+                            modeSwitcher.querySelector(".light-icon").classList.remove("hidden")
+                        });
+                    }
                 }
 
                 findRemaining(legend);

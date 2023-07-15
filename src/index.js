@@ -1,5 +1,5 @@
 import { receiveSettingsFromDatabase } from './firebase/dbHandler.js'
-import { loginWithGoogle } from './firebase/authentication.js'
+import { uiConfig } from './firebase/authentication.js'
 import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists } from './firebase/dbHandler.js'
 
 //loading screen
@@ -41,7 +41,7 @@ function changeFontFamily(fontFamily) {
     document.documentElement.style.setProperty('--font-family', fontFamily);
 }
 
-
+/*
 async function handleLogin() {
     console.log("handleLogin()")
     try {
@@ -57,13 +57,13 @@ async function handleLogin() {
 
         if (!userIdExists) {
             saveNewUser(userId);
-        } */
+        } 
         return userId;
     } catch (error) {
         console.log("Error:", error);
     }
 }
-
+*/
 //handleLogin();
 
 /* handleLogin()

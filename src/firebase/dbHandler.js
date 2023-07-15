@@ -113,7 +113,7 @@ export async function receiveSettingsFromDatabase() {
 
         get(settingsRef)
             .then((snapshot) => {
-                settings = snapshot.val();
+                let settings = snapshot.val();
                 resolve(settings);
             })
     })
@@ -129,7 +129,7 @@ export async function receiveLegendFromDatabase() {
 
         get(legendRef)
             .then((snapshot) => {
-                legend = snapshot.val();
+                let legend = snapshot.val();
                 resolve(legend);
             })
     })
@@ -223,9 +223,9 @@ export async function retrieveData(current) {
 
     console.log("current in retrieveData:", current);
 
-    key = current.toISODate();
-    yesterdayKey = current.minus({ days: 1 }).toISODate();
-    tomorrowKey = current.plus({ days: 1 }).toISODate();
+    let key = current.toISODate();
+    let yesterdayKey = current.minus({ days: 1 }).toISODate();
+    let tomorrowKey = current.plus({ days: 1 }).toISODate();
 
     console.log("key:", key);
     console.log("yesterdayKey:", yesterdayKey);

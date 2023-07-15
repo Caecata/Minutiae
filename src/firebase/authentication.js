@@ -1,5 +1,5 @@
 import { app } from './firebase.js'
-import { getAuth, auth, signOut, signInAnonymously } from "firebase/auth";
+import { getAuth, signOut, signInAnonymously } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
@@ -36,7 +36,7 @@ var uiConfig = {
   },
   // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
   signInFlow: 'popup',
-  signInSuccessUrl: '<url-to-redirect-to-on-success>',
+  signInSuccessUrl: '', //<url-to-redirect-to-on-success>
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -54,11 +54,11 @@ var uiConfig = {
 
 const currentPage = window.location.pathname;
 console.log("currentPage:", currentPage);
-if (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E") {
+if (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E" || currentPage === "/") {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 
-initApp = function () {
+const initApp = function () {
   getAuth(app).onAuthStateChanged(function (user) {
     if (user) {
       // User is signed in.
@@ -113,7 +113,7 @@ initApp = function () {
 
                 receiveLegendFromDatabase()
                   .then((legend) => {
-                    if (legend === null) {
+                    if (legend === null && (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E" || currentPage === "/")) {
                       initializeFirstUserExperience();
                     }
                   })

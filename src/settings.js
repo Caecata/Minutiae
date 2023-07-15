@@ -11,7 +11,7 @@ signInBtn.addEventListener("click", signOutUser);
 //loading screen
 const loadingScreen = document.getElementById('loading-screen');
 
-settings = {};
+let settings = {};
 
 receiveSettingsFromDatabase()
     .then((receivedSettings) => {

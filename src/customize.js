@@ -109,7 +109,7 @@ export const data2 = [
 export function updateVisualization(data, svgLocation) {
 
   root = hierarchy({ children: data });
-  treeLayout = tree()
+  let treeLayout = tree()
   treeLayout.size([400, 400]);
   treeLayout.separation((a, b) => {
     if (a.depth === 1 && b.depth === 1) {
@@ -117,19 +117,19 @@ export function updateVisualization(data, svgLocation) {
     }
     return 1;
   });
-  treeData = treeLayout(root);
+  let treeData = treeLayout(root);
   treeData.descendants().forEach(node => {
     const x = node.x;
     node.x = node.y;
     node.y = x;
   });
-  svg = select(svgLocation)
+  let svg = select(svgLocation)
     .append("svg")
     .attr("width", 700)
     .attr("height", 500)
     .append("g")
     .attr("transform", "translate(50,50)");
-  links = svg.selectAll(".link")
+  let links = svg.selectAll(".link")
     .data(treeData.links())
     .enter()
     .append("path")
@@ -147,7 +147,7 @@ export function updateVisualization(data, svgLocation) {
     .style("stroke", "darkgrey")
     .style("stroke-width", 2);
   //links.exit().remove();
-  nodes = svg.selectAll(".node")
+  let nodes = svg.selectAll(".node")
     .data(treeData.descendants())
     .enter()
     .append("g")
@@ -444,9 +444,7 @@ checkDatabaseForFirstTime()
         })
     }
   })
-  .catch((error) => {
-    console.error(error);
-  })
+
 
 //Functions for setting up first user with a legend
 function initializeChoice() {
