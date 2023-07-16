@@ -14,14 +14,15 @@
     "@cubejs-client/core": "^0.31.0",
     "@fortawesome/fontawesome-free": "^6.4.0",
     "chart.js": "^4.3.0",
-    "chartjs": "^0.3.24",
     "d3": "^7.8.4",
     "firebase": "^9.22.0",
     "firebaseui": "^6.0.2",
-    "fs": "^0.0.1-security",
     "fullcalendar": "^6.1.8",
     "jquery": "^3.7.0",
     "luxon": "^3.3.0",
     "tinycolor2": "^1.6.0"
+  },
+  "compilerOptions": {
+    "target": "es6"
   }
 }

@@ -1263,7 +1263,7 @@ function createSiblingArray() {
     }
 }
 function createUidArraysForSiblings() {
-    for (i = 0; i < siblingArray.length; i++) {
+    for (let i = 0; i < siblingArray.length; i++) {
         siblingArray[i].uidArray.push(siblingArray[i].aboutObj.uniqueId);
         if (siblingArray[i].aboutObj.children) {
             createUidArray(siblingArray[i].aboutObj.children, siblingArray[i].uidArray);
@@ -1271,26 +1271,26 @@ function createUidArraysForSiblings() {
     }
 }
 function getSlicesForSiblings() {
-    for (i = 0; i < siblingArray.length; i++) {
+    for (let i = 0; i < siblingArray.length; i++) {
         getSlices(siblingArray[i].uidArray, siblingArray[i]);
     }
 }
 function getSlicesForSiblingsForMonth(start) {
-    for (i = 0; i < siblingArray.length; i++) {
+    for (let i = 0; i < siblingArray.length; i++) {
         getSlicesForMonth(siblingArray[i].uidArray, siblingArray[i], start);
     }
 }
 function getSlicesForSiblingsForYear(start) {
     console.log('getSlicesForSiblingsForYear');
-    for (i = 0; i < siblingArray.length; i++) {
+    for (let i = 0; i < siblingArray.length; i++) {
         getSlicesForYear(siblingArray[i].uidArray, siblingArray[i], start);
     }
 }
 //Functions that process the data
 function createTotalsForMain() {
-    for (i = 0; i < mainObj.dateArray.length; i++) {
+    for (let i = 0; i < mainObj.dateArray.length; i++) {
         let totalForDay = 0;
-        for (j = 0; j < mainObj.dateArray[i].length; j++) {
+        for (let j = 0; j < mainObj.dateArray[i].length; j++) {
             totalForDay += mainObj.dateArray[i][j].duration;
         }
         totalsArrayForMain.push(totalForDay);
@@ -1304,8 +1304,8 @@ function findTotalsValueForMain(totalsValue) {
 }
 function findTotals(obj) {
     let total = 0;
-    for (i = 0; i < obj.dateArray.length; i++) {
-        for (j = 0; j < obj.dateArray[i].length; j++) {
+    for (let i = 0; i < obj.dateArray.length; i++) {
+        for (let j = 0; j < obj.dateArray[i].length; j++) {
             total += obj.dateArray[i][j].duration;
         }
     }
@@ -1782,7 +1782,7 @@ function seeDetailsLog(dateArray, unit) {
             tags.classList.add("log-tags");
 
             if (dateArray[i][j].tags !== undefined) {
-                for (k = 0; k < dateArray[i][j].tags.length; k++) {
+                for (let k = 0; k < dateArray[i][j].tags.length; k++) {
                     const tag = document.createElement("span");
                     tag.classList.add("tag");
                     tag.textContent = dateArray[i][j].tags[k].tagName;

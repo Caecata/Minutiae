@@ -922,7 +922,7 @@ function findDataPoint(data, targetUniqueId, delta) {
 
 function createDurations(startTimeArray) {
     durations = [];
-    for (i = 0; i < startTimeArray.length - 1; i++) {
+    for (let i = 0; i < startTimeArray.length - 1; i++) {
         let second = startTimeArray[i + 1];
         let first = startTimeArray[i];
         durations.push(second - first);

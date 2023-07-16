@@ -1,6 +1,9 @@
 //import { legend } from './legend.js';
 //import { checkDeviceWidth, isMobile } from './responsiveness.js'; ASK JANSEN WHY THIS IMPORT IS NOT WORKING 
-import { hierarchy, tree, select, drag, selectAll } from 'd3'
+import { tree, select, drag, selectAll } from 'd3'
+import * as d3 from 'd3'
+console.log(d3);
+//import * as d3 from 'd3'
 const { DateTime } = require('luxon');
 import { initializeDarkLightMode } from './darklightmodecustomize.js'
 import { registerVersion } from 'firebase/app';
@@ -108,7 +111,7 @@ export const data2 = [
 //exported into dark/light mode js file to re-render the visualization when the mode changes so that the text of the svg changes with the toggle
 export function updateVisualization(data, svgLocation) {
 
-  root = hierarchy({ children: data });
+  let root = d3.hierarchy({ children: data });
   let treeLayout = tree()
   treeLayout.size([400, 400]);
   treeLayout.separation((a, b) => {
