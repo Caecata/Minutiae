@@ -11,8 +11,8 @@ export function checkDeviceWidth() {
     if (isMobile === true && currentPage === '/app.html') {
         console.log("condition met");
 
-        document.getElementById('chartId').width = 300;
-        document.getElementById('chartId').height = 300;
+        document.getElementById('chartId').width = 250;
+        document.getElementById('chartId').height = 250;
 
         document.getElementById('canvas-modern').width = 300;
         document.getElementById('canvas-modern').height = 300;
@@ -36,7 +36,8 @@ export function checkDeviceWidth() {
             'date', 
             'log',
             'one-step-form',
-            'multi-step-form'
+            'multi-step-form',
+            'canvas-half-cylinder'
         ];
 
         centeredElements.forEach((elementId) => {

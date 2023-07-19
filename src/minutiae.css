@@ -4,7 +4,7 @@
 }
 
 :root {
-    --font-family: "Chewy", sans-serif;
+    --font-family: "chewy", sans-serif;
     --font-size: 1.3em;
 }
 
@@ -51,12 +51,12 @@
 
 /* CSS for dark/light mode */
 .dark-mode {
-    color: white;
+    color: white; /*white, black*/
     background-color: black;
 }
 
 .light-mode {
-    color: black;
+    color: black; /*black, white*/
     background-color: white;
 }
 

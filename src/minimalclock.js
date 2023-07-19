@@ -16,7 +16,7 @@ function drawFace(ctx, radius) {
     var grad;
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = '#CCC9E7'; //change this to change the color of the clock; white'#CCC9E7, black
+    ctx.fillStyle = 'transparent'; //change this to change the color of the clock; white'#CCC9E7, black 
     ctx.fill();
 
     ctx.beginPath();
@@ -90,9 +90,9 @@ function drawNumbers(ctx, radius) {
             ctx.fillStyle = "darkslategray"; //black
 
         } else {
-            ctx.font = "bold 16px " + font;
+             ctx.font = "bold 12px " + font;
 
-            ctx.fillStyle = "darkslategray"; 
+            ctx.fillStyle = "transparent";  
         }
         ang = num * Math.PI / 12;
         ctx.rotate(ang);

@@ -12,19 +12,6 @@
     <link rel="stylesheet" href="minutiae.css">
     <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
     <style>
-        /* Display the time at the top left */
-        /* .clock {
-            font-family: var(--font-family), sans-serif;
-            font-size: 1em;
-            line-height: 1.5em;
-            padding: 0.3em;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-
-            z-index: 1;
-        } */
-
         .hidden {
             display: none;
         }
@@ -146,16 +133,6 @@
         <p>Loading...</p>
       </div> 
 
-    <!-- CLOCK -->
-    <!-- <div class="clock" id="clock"></div> -->
-
-    <!-- DARK/LIGHT MODE -->
-    <!-- <button id="mode-switcher" class="dark-mode">
-        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
-        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
-        <span class="mode-text">Dark Mode</span>
-    </button> -->
-
     <!-- TITLE -->
     <h1 class="title">Minutiae</h1>
 
@@ -179,10 +156,11 @@
 
         <!-- NAV BAR -->
         <ul id="navigationbar" class="dark-mode nav-link-colors">
-            <li><a href="app.html" id="app-url">Current Day</a></li>
-            <li><a href="data.html" id="data-url">Data</a></li>
+            <li><a>Home</a></li>
+            <li><a href="app.html" id="app-url">Today</a></li>
+            <li><a href="data.html" id="data-url">Analytics</a></li>
             <li><a href="calendar.html" id="calendar-url">Calendar</a></li>
-            <li><a href="customize.html" id="customize-url">Customize Legend</a></li>
+            <li><a href="customize.html" id="customize-url">My Legend</a></li>
             <li><a href="settings.html" id="settings-url">Settings</a></li>
 
             <li><a href="#" id="mode-switcher" class="button-link">
@@ -205,9 +183,6 @@
         modeSwitcherBtn.addEventListener("click", function () {
             document.body.classList.toggle("light-mode"); //This toggles the body between light mode and dark mode
             document.body.classList.toggle("dark-mode");
-
-            //modeSwitcherBtn.classList.toggle('dark-mode'); //This toggles the dark and light mode icons 
-            //modeSwitcherBtn.classList.toggle('light-mode');
 
             const darkIcon = modeSwitcherBtn.querySelector('.dark-icon'); //This defines the dark and light mode icons
             const lightIcon = modeSwitcherBtn.querySelector('.light-icon');
@@ -240,56 +215,6 @@
             navBar.classList.toggle('active');
 
         });
-
-               //Script for Clock
-               //function updateClock() {
-               // const now = new Date();
-
-                //Arrays for months and days of the weeks since JavaScript starts on 0
-                //const months = ["January", "February", "March", "April", "May", "June",
-                //"July", "August", "September", "October", "November", "December"];
-                //const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-                //Adjustments to hour variable to change 24-hour clock to 12-hour clock with AM/PM
-                //var hours = now.getHours();
-                //var afternoon = false;
-                //var ampm = "AM";
-//
-                //if (hours >= 12) {
-                //    hours = hours - 12;
-                //    afternoon = true;
-                //    var ampm = "PM";
-                //}
-                //if (hours == 0) {
-                //    hours = 12;
-                ////}
-                //
-                ////Getting time values
-                ////Learned that you should declare var/let for variables that are expected to be updated
-                //var minutes = now.getMinutes();
-                //const seconds = String(now.getSeconds());
-                //const month = months[(now.getMonth())];
-                //const day = String(now.getDate());
-                //const year = String(now.getFullYear());
-                //const dayofweek = days[(now.getDay())];
-//
-                //if (hours < 10) {
-                //    hours = "0" + hours;
-                //}
-//
-                //if (minutes < 10) {
-                //    minutes = "0" + minutes;
-                //}
-
-                //Outputting time
-                //document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds + " " + ampm + "<br>" +
-                //month + " " + day + ", " + year + "<br>" +
-                //dayofweek;
-
-               //}
-               //This updates the clock each second or 1000 milliseconds
-               //updateClock();
-               //setInterval(updateClock, 1000);
     </script>
 
 

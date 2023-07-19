@@ -2,7 +2,6 @@
 
 <head>
     <meta charset="UTF-8" />
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1" />-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>chart.js</title>
@@ -10,8 +9,6 @@
         href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
     <link rel="stylesheet" href="minutiae.css">
 
-    <!-- FONT -->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>-->
     <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
     <style>
         /* CSS for log */
@@ -383,6 +380,9 @@
             top: 15%;
             /* move the #canvas, #chartId, and .inner-clock-face TOGETHER */
         }
+        #canvas-half-cylinder {
+            z-index: -1;
+        }
 
         /* CSS for the hands of the clock */
         .inner-clock-face {
@@ -588,9 +588,11 @@
     <!--add dark mode class later -->
 
     <!-- ANALOG CLOCK -->
-    <canvas id="canvas-modern" width="500px" height="500px"></canvas> <!-- 400 400--> <!-- 300 300-->
-    <canvas id="canvas-traditional" width="500" height="500"></canvas> <!-- 400 400--> <!-- 300 300-->
+    <canvas id="canvas-modern" width="500px" height="500px"></canvas>
+    <canvas id="canvas-traditional" width="500" height="500"></canvas>
     <canvas id="canvas-minimal" width="500" height="500"></canvas>
+
+    <canvas id="canvas-half-cylinder" width ="300" height="550"></canvas>
 
     <!-- HANDS -->
     <div class="inner-clock-face" id="clock-face">
@@ -598,16 +600,8 @@
         <div class="hand" id="min-hand"></div>
     </div>
 
-
     <!-- top right -->
     <div class="clock" id="clock"></div>
-
-    <!-- bottom left -->
-    <!-- <button id="mode-switcher" class="dark-mode">
-        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
-        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
-        <span class="mode-text">Dark Mode</span>
-    </button> -->
 
     <button id="view-log" class="dark-mode">Log</button>
     <div id="log" style="display:none;">
@@ -627,9 +621,9 @@
         <!-- NAV BAR -->
         <ul id="navigationbar" class="dark-mode nav-link-colors">
             <li><a href="index.html">Home</a></li>
-            <li><a href="data.html">Data</a></li>
+            <li><a href="data.html">Analytics</a></li>
             <li><a href="calendar.html">Calendar</a></li>
-            <li"><a href="customize.html">Customize Legend</a></li>
+            <li"><a href="customize.html">My Legend</a></li>
                 <li><a href="settings.html">Settings</a></li>
 
                 <li><a href="#" id="mode-switcher" class="button-link">
@@ -722,7 +716,6 @@
     </form>
 
     <button id="add-slice-button" class="dark-mode">Add</button>
-    <!-- <button id="submit" class="dark-mode">Submit</button> -->
 
     <!-- CHARTS SCRIPT -->
     <script type="module" src="app.js"></script>

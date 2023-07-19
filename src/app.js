@@ -73,7 +73,6 @@ receiveLegendFromDatabase()
                             }
                             if (settings.analogStyle === "traditional") {
                                 handsOfTheClock();
-                                traditionalClock();
                             } else if (settings.analogStyle === "minimal") {
                                 noHandsOfTheClock();
                                 minimalClock();
@@ -118,6 +117,8 @@ receiveLegendFromDatabase()
                                 removeArray = receivedRemoveArray;
                                 loadData()
                                     .then(() => {
+                                        traditionalClock(dressedData.mainChartData);
+
                                         createLog(detailsArray2, current);
                                         loadingScreen.style.display = "none";
                                     })
@@ -318,28 +319,28 @@ var pieOptionsTomorrow = {
 
 var chrt = document.getElementById("chartId").getContext("2d");
 var chartId = new Chart(chrt, {
-    type: 'doughnut',
+    type: 'pie',
     data: {
-        labels: labelName,
-        datasets: [{
+        /* labels: labelName, */
+        datasets: [
+        /*{
             type: 'doughnut',
-            //label: "online tutorial subjects",
             data: durations,
             backgroundColor: categoryColors, //categoryColors,
             hoverOffset: 5,
             borderColor: "black",
             borderWidth: 1, //consider between 0, 1, or 2 
 
-            cutout: '60%' //sets the size of the doughnut  //60%
-        },
-        {
+            cutout: '90%' //sets the size of the doughnut  //60%
+        }, */
+        { 
             type: 'pie',
             //label: "online tutorial subjects",
             data: durations,
             backgroundColor: categoryColors,
             hoverOffset: 5,
             borderColor: "black",
-            borderWidth: 1,
+            borderWidth: 0,
 
             radius: '90%'//sets the size of the pie chart //100% //90%
         }
@@ -1023,6 +1024,8 @@ function settingCurrent(swipeEffect) {
                 formattedDate = yesterday.toFormat('MM/dd/yy');
                 dateElement.innerHTML = formattedDate;
                 loadData().then(() => {
+                    traditionalClock(dressedData.mainChartData);
+
                     // Remove slide-out-right class and add slide-in-left class after loading data
                     document.getElementById('chartId').classList.remove('slide-out-right');
                     document.getElementById('clock-face').classList.remove('slide-out-right');
@@ -1062,6 +1065,8 @@ function settingCurrent(swipeEffect) {
                 formattedDate = tomorrow.toFormat('MM/dd/yy');
                 dateElement.innerHTML = formattedDate;
                 loadData().then(() => {
+                    traditionalClock(dressedData.mainChartData);
+
                     // Remove slide-out-left class and add slide-in-right class after loading data
                     document.getElementById('chartId').classList.remove('slide-out-left');
                     document.getElementById('clock-face').classList.remove('slide-out-left');
@@ -1110,6 +1115,9 @@ function settingCurrent(swipeEffect) {
 
                 loadData()
                     .then(() => {
+                        traditionalClock(dressedData.mainChartData);
+
+
                         updateLog(detailsArray2, current);
                     })
 
@@ -1126,6 +1134,9 @@ function settingCurrent(swipeEffect) {
 
                 loadData()
                     .then(() => {
+                        traditionalClock(dressedData.mainChartData);
+
+
                         updateLog(detailsArray2, current);
                     })
 
@@ -1219,15 +1230,15 @@ function updateMainChartDataManually(durations, labelName, categoryColors, angle
     chartId.data.datasets[0].backgroundColor = adjustedColors;
     chartId.options.rotation = [0];
 
-    chartId.data.datasets[1].data = durations;
-    chartId.data.datasets[1].backgroundColor = categoryColors;
+    //chartId.data.datasets[1].data = durations;
+    //chartId.data.datasets[1].backgroundColor = categoryColors;
 
     if (durations.length === 1) {
         chartId.data.datasets[0].borderWidth = 0;
-        chartId.data.datasets[1].borderWidth = 0;
+        //chartId.data.datasets[1].borderWidth = 0;
     } else {
-        chartId.data.datasets[0].borderWidth = 1;
-        chartId.data.datasets[1].borderWidth = 1;
+        chartId.data.datasets[0].borderWidth = 0;
+        //chartId.data.datasets[1].borderWidth = 1;
     }
     chartId.update();
 }
