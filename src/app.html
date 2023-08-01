@@ -6,7 +6,7 @@
 
     <title>chart.js</title>
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+        href="https://fonts.googleapis.com/css?family=Chivo|Concert One|Chewy|Oregano|Rancho|Comic Neue|Pacifico">
     <link rel="stylesheet" href="minutiae.css">
 
     <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
@@ -19,7 +19,7 @@
             height: 65vh;
 
             position: absolute;
-            left: 0;
+            left: 2%;
             top: 17%;
 
             margin-right: 1em;
@@ -27,8 +27,12 @@
             overflow-y: auto;
             /*max-height: 200px CHAT GPT */
 
-            z-index: 9;
+            /* overriding the button styles */
+            border-radius: 15px;
+            cursor: auto;
+            color: black;
 
+            z-index: 9;
         }
 
         .dark-mode #log {
@@ -312,6 +316,7 @@
             line-height: 1.5em;
 
             position: absolute;
+            top: 0;
             right: 0;
 
             padding: 0.3em;
@@ -324,19 +329,22 @@
         .dark-mode #view-log,
         .dark-mode #edit,
         .dark-mode #delete {
-            border: 0.2em solid white;
+            /* border: 0.2em solid white; */
+            border: none;
         }
 
         .light-mode #add-slice-button,
         .light-mode #view-log,
         .light-mode #edit,
         .light-mode #delete {
-            border: 0.2em solid black;
+            /* border: 0.2em solid black; */
+            border: none;
         }
 
         /* CSS for centered date */
         #date {
             font-family: var(--font-family), sans-serif;
+            /*font-family: "Pacifico", sans-serif; */  
             font-size: 3em;
 
             position: absolute;
@@ -362,6 +370,9 @@
             height: 500px;
             width: 500px;
 
+            /* height: 250px;
+            width: 250px; */
+
             position: absolute;
             top: 15%;
             left: 25%;
@@ -380,9 +391,6 @@
             top: 15%;
             /* move the #canvas, #chartId, and .inner-clock-face TOGETHER */
         }
-        #canvas-half-cylinder {
-            z-index: -1;
-        }
 
         /* CSS for the hands of the clock */
         .inner-clock-face {
@@ -399,7 +407,7 @@
             -moz-border-radius: 100%;
             border-radius: 100%;
 
-            z-index: 11;
+            z-index: 8;
 
             pointer-events: none;
         }
@@ -576,8 +584,9 @@
 
     <!-- loading screen -->
     <div id="loading-screen">
-        <div class="loader"></div>
-        <p>Loading...</p>
+        <div class="loader">
+            <p>Loading...</p>
+        </div>
     </div>
 
     <!-- CHART -->
@@ -592,8 +601,6 @@
     <canvas id="canvas-traditional" width="500" height="500"></canvas>
     <canvas id="canvas-minimal" width="500" height="500"></canvas>
 
-    <canvas id="canvas-half-cylinder" width ="300" height="550"></canvas>
-
     <!-- HANDS -->
     <div class="inner-clock-face" id="clock-face">
         <div class="hand" id="hour-hand"></div>
@@ -603,35 +610,35 @@
     <!-- top right -->
     <div class="clock" id="clock"></div>
 
-    <button id="view-log" class="dark-mode">Log</button>
-    <div id="log" style="display:none;">
+    <button id="view-log" class="button-33">Log</button> <!-- put "class="dark-mode" back -->
+    <div id="log" class="button-33" style="display:none;">
     </div>
 
     <div id="firebaseui-auth-container"></div>
-    <div id="loader">Loading...</div>
+    <!-- <div id="loader">Loading...</div> -->
 
 
     <!-- top left -->
     <div class="menu">
         <!-- MENU -->
-        <button id="menu" class="dark-mode">
+        <button id="menu" class="button-33" class="dark-mode">
             <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
         </button>
 
         <!-- NAV BAR -->
-        <ul id="navigationbar" class="dark-mode nav-link-colors">
+        <ul id="navigationbar" class="button-33 nav-link-colors"> <!-- class="dark-mode nav-link-colors" -->
             <li><a href="index.html">Home</a></li>
             <li><a href="data.html">Analytics</a></li>
             <li><a href="calendar.html">Calendar</a></li>
-            <li"><a href="customize.html">My Legend</a></li>
-                <li><a href="settings.html">Settings</a></li>
+            <li><a href="customize.html">My Legend</a></li>
+            <li><a href="settings.html">Settings</a></li>
 
-                <li><a href="#" id="mode-switcher" class="button-link">
-                        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
-                        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
-                        <span class="mode-text">Dark Mode</span>
-                    </a></li>
-                <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
+            <li><a href="#" id="mode-switcher" class="button-link">
+                    <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                    <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                    <span class="mode-text">Dark Mode</span>
+                </a></li>
+            <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
         </ul>
     </div>
 
@@ -645,7 +652,7 @@
         style="font-size: 5em; position: absolute; top: 45%; right: 33%;"></i>
 
     <!-- FORM -->
-    <form id="one-step-form" style="display: none;">
+    <form id="one-step-form" class="button-33" style="display: none;">
         <label for="one-step-dropdown" id="one-step-dropdown-label">Categories:</label>
         <select id="one-step-dropdown"></select>
         <!--<label for="tag-dropdown" id="tag-dropdown-label">Tags:</label>-->
@@ -662,7 +669,7 @@
         </div>
     </form>
 
-    <form id="multi-step-form" style="display: none;">
+    <form id="multi-step-form" class="button-33" style="display: none;">
 
         <div id="close"><i class="fa-solid fa-xmark"
                 style="font-size: 2em; position: absolute; right: 3%; top: 3%;"></i></div>
@@ -715,7 +722,7 @@
 
     </form>
 
-    <button id="add-slice-button" class="dark-mode">Add</button>
+    <button id="add-slice-button" class="button-33">Add</button> <!-- put "class="dark-mode" back -->
 
     <!-- CHARTS SCRIPT -->
     <script type="module" src="app.js"></script>

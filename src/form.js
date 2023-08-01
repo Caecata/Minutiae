@@ -577,8 +577,11 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
     }
 }
 
+export let finalCategoryOption;
+
 export function formValidations2(legend, tagsBool, descriptionBool, tags) {
     console.log("formValidations2()");
+
     var formSection = document.getElementById("multi-step-form");
     var addSliceButton = document.getElementById('add-slice-button');
     var backButton = document.getElementById("back-button");
@@ -737,8 +740,7 @@ export function formValidations2(legend, tagsBool, descriptionBool, tags) {
         selectedSubcategory = undefined;
         selectedTags = [];
     })
-
-
+    
     //setting up form based on which step the user is on
     function updateForm() {
         if (currentStep === 0) {
@@ -889,10 +891,7 @@ export function formValidations2(legend, tagsBool, descriptionBool, tags) {
             updateForm();
         } else {
 
-            finalOption = document.createElement('span');
-            finalOption.classList.add("final-option");
-            finalOption.id = `${selectedCategory.uniqueId}`
-            formSection.append(finalOption);
+            finalCategoryOption = selectedCategory;
 
             currentStep = 2;
             if (!currentActiveSteps.includes(currentStep)) {
@@ -920,11 +919,7 @@ export function formValidations2(legend, tagsBool, descriptionBool, tags) {
         if (selectedSubcategory.children !== undefined) {
             populateMoreOptions(selectedSubcategory);
         } else {
-
-            finalOption = document.createElement('span');
-            finalOption.classList.add("final-option");
-            finalOption.id = `${selectedSubcategory.uniqueId}`
-            formSection.append(finalOption);
+            finalCategoryOption = selectedSubcategory;
 
             populateTagOptions();
             currentStep = 2;

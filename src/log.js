@@ -51,6 +51,8 @@ export function createLog(detailsArray2, current) {
                 const logEntry = document.createElement("div");
                 logEntry.classList.add("log-entry");
                 logEntry.style.position = "relative";
+                logEntry.style.backgroundColor = detailsArray2[i].color;
+                //logEntry.style.width = "100%";
                 //logEntry.value = JSON.stringify(detailsArray2[i]);
 
                 const coreDiv = document.createElement("div");
@@ -60,7 +62,8 @@ export function createLog(detailsArray2, current) {
                 const label = document.createElement("div");
                 label.classList.add("log-label");
                 label.textContent = detailsArray2[i].name;
-                label.style.color = detailsArray2[i].color;
+                //label.style.color = detailsArray2[i].color;
+                label.style.color = "black";
 
                 if (detailsArray2[i].name.length > 15) {
                     label.style.fontSize = "0.8em";
@@ -85,7 +88,7 @@ export function createLog(detailsArray2, current) {
                 tags.classList.add("log-tags");
 
                 if (detailsArray2[i].tags !== undefined) {
-                    for (j = 0; j < detailsArray2[i].tags.length; j++) {
+                    for (let j = 0; j < detailsArray2[i].tags.length; j++) {
                         const tag = document.createElement("span");
                         tag.classList.add("tag");
                         tag.textContent = detailsArray2[i].tags[j].tagName;

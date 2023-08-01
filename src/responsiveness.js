@@ -11,20 +11,20 @@ export function checkDeviceWidth() {
     if (isMobile === true && currentPage === '/app.html') {
         console.log("condition met");
 
-        document.getElementById('chartId').width = 250;
-        document.getElementById('chartId').height = 250;
+        document.getElementById('chartId').width = 250; //250
+        document.getElementById('chartId').height = 250; //250
 
         document.getElementById('canvas-modern').width = 300;
         document.getElementById('canvas-modern').height = 300;
 
-        document.getElementById('canvas-traditional').width = 300;
-        document.getElementById('canvas-traditional').height = 300;
+        //document.getElementById('canvas-traditional').width = 300; //300
+        //document.getElementById('canvas-traditional').height = 300; //300
 
         document.getElementById('canvas-minimal').width = 300;
         document.getElementById('canvas-minimal').height = 300;
 
-        document.getElementById('clock-face').style.width = '300px';
-        document.getElementById('clock-face').style.height = '300px';
+        document.getElementById('clock-face').style.width = '300px'; //300px
+        document.getElementById('clock-face').style.height = '300px'; //300px
 
         // Center the elements
         const centeredElements = [
@@ -36,8 +36,7 @@ export function checkDeviceWidth() {
             'date', 
             'log',
             'one-step-form',
-            'multi-step-form',
-            'canvas-half-cylinder'
+            'multi-step-form'
         ];
 
         centeredElements.forEach((elementId) => {

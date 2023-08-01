@@ -1,4 +1,5 @@
 import Chart from 'chart.js/auto'
+
 import { DateTime } from 'luxon';
 import tinycolor from "tinycolor2";
 
@@ -11,7 +12,7 @@ import { minimalClock } from './minimalclock.js'
 import { modernClock } from './modernclock.js'
 
 import { legendData } from './templates.js'
-import { formValidations, oneStepForm, formValidations2 } from './form.js'
+import { formValidations, oneStepForm, formValidations2, finalCategoryOption } from './form.js'
 import { retrieveData, saveToDatabase, receiveLegendFromDatabase, receiveSettingsFromDatabase, saveLegendToDatabase, getRemoveArray, saveRemoveArray, receiveTagsFromDatabase, saveTagsToDatabase } from './firebase/dbHandler.js'
 import { createLog, updateLog } from './log.js'
 import { signOutUser } from './firebase/authentication.js'
@@ -105,6 +106,7 @@ receiveLegendFromDatabase()
                             console.log("user has no saved settings");
                             formValidations2(legend, false, false, tags);
                             handsOfTheClock();
+                            //need to adjust parameters
                             traditionalClock();
                         }
 
@@ -117,7 +119,7 @@ receiveLegendFromDatabase()
                                 removeArray = receivedRemoveArray;
                                 loadData()
                                     .then(() => {
-                                        traditionalClock(dressedData.mainChartData);
+                                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
 
                                         createLog(detailsArray2, current);
                                         loadingScreen.style.display = "none";
@@ -342,6 +344,7 @@ var chartId = new Chart(chrt, {
             borderColor: "black",
             borderWidth: 0,
 
+            //default is set for mobile device here
             radius: '90%'//sets the size of the pie chart //100% //90%
         }
         ],
@@ -558,13 +561,7 @@ submitButton.addEventListener("click", function (event) {
     event.preventDefault();
 
     //EXTRACTING DATA FROM USER
-
-    //const obj = JSON.parse(document.querySelector('input[name="category"]:checked').value);
-
-    const finalOptionElement = document.querySelector('.final-option');
-    const finalOptionId = finalOptionElement.id;
-    const selectedOptionElement = document.querySelector(`input[data-option-id="${finalOptionId}"]:checked`);
-    const obj = JSON.parse(selectedOptionElement.value);
+    console.log("finalCategoryOption:", finalCategoryOption);
 
     const startTimeInput = document.getElementById("start-time-input");
     const startTimeValue = startTimeInput.value;
@@ -592,6 +589,7 @@ submitButton.addEventListener("click", function (event) {
     
     const descriptionElement = document.getElementById("description-input-field");
     const description = descriptionElement ? descriptionElement.value : "";
+    console.log("description:", description);
 
     beforeDetailsArray = detailsArray2.slice();
     console.log("beforedetailsArray in Add:", beforeDetailsArray);
@@ -605,9 +603,9 @@ submitButton.addEventListener("click", function (event) {
     duration = endTimeMin - startTimeMin;
 
     userObject = {
-        uniqueId: obj.uniqueId,
-        name: obj.name,
-        color: obj.color
+        uniqueId: finalCategoryOption.uniqueId,
+        name: finalCategoryOption.name,
+        color: finalCategoryOption.color
     };
 
     userObject.tags = tagsArray;
@@ -618,6 +616,7 @@ submitButton.addEventListener("click", function (event) {
 
     angles = [0];
     console.log("userObject:", userObject);
+    console.log("beforeDetailsArray:", beforeDetailsArray);
     updateChartData(startTimeMin, endTimeMin, duration, userObject, legend);
 });
 
@@ -876,7 +875,7 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
         saveToDatabase(detailsArray, current);
         saveLegendToDatabase(legend);
         saveTagsToDatabase(tags);
-    }
+    } 
 
     angles = checkToCombineRemaining(durations, detailsArray, angles, startTimeArray);
 
@@ -887,10 +886,11 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
     chartId.data.datasets[0].backgroundColor = categoryColors;
     chartId.options.rotation = angles;
 
-    chartId.data.datasets[1].data = durations;
-    chartId.data.datasets[1].backgroundColor = categoryColors;
+    //chartId.data.datasets[1].data = durations;
+    //chartId.data.datasets[1].backgroundColor = categoryColors;
 
     chartId.update();
+    traditionalClock(durations, categoryColors);
 }
 
 function updateInstances(obj, delta) {
@@ -1024,7 +1024,7 @@ function settingCurrent(swipeEffect) {
                 formattedDate = yesterday.toFormat('MM/dd/yy');
                 dateElement.innerHTML = formattedDate;
                 loadData().then(() => {
-                    traditionalClock(dressedData.mainChartData);
+                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
 
                     // Remove slide-out-right class and add slide-in-left class after loading data
                     document.getElementById('chartId').classList.remove('slide-out-right');
@@ -1065,7 +1065,7 @@ function settingCurrent(swipeEffect) {
                 formattedDate = tomorrow.toFormat('MM/dd/yy');
                 dateElement.innerHTML = formattedDate;
                 loadData().then(() => {
-                    traditionalClock(dressedData.mainChartData);
+                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
 
                     // Remove slide-out-left class and add slide-in-right class after loading data
                     document.getElementById('chartId').classList.remove('slide-out-left');
@@ -1115,8 +1115,7 @@ function settingCurrent(swipeEffect) {
 
                 loadData()
                     .then(() => {
-                        traditionalClock(dressedData.mainChartData);
-
+                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
 
                         updateLog(detailsArray2, current);
                     })
@@ -1134,8 +1133,7 @@ function settingCurrent(swipeEffect) {
 
                 loadData()
                     .then(() => {
-                        traditionalClock(dressedData.mainChartData);
-
+                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
 
                         updateLog(detailsArray2, current);
                     })
@@ -1239,6 +1237,12 @@ function updateMainChartDataManually(durations, labelName, categoryColors, angle
     } else {
         chartId.data.datasets[0].borderWidth = 0;
         //chartId.data.datasets[1].borderWidth = 1;
+    }
+
+    if (isMobile) {
+        //keep radius at 90%;
+    } else {
+        chartId.data.datasets[0].radius = "80%";
     }
     chartId.update();
 }

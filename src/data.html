@@ -9,7 +9,7 @@
     <meta name="Description" content="study your time">
 
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Chivo|Roboto|Concert One|Oleo Script|Chewy|Lekton|Raleway|Amarante|Oregano|Combo|Rancho|Lacquer">
+        href="https://fonts.googleapis.com/css?family=Chivo|Concert One|Chewy|Oregano|Rancho|Pacifico|Comic Neue">
 
     <link rel="stylesheet" href="minutiae.css">
 
@@ -46,25 +46,6 @@
             justify-content: center;
         }
 
-        /* #baseReport {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-
-            display: none;
-        }
-         .chartContainer {
-            flex: 0 0 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center; 
-        }
-        .chartCanvas {
-            width: 1000px; 
-            height: 500px; 
-        }  */
-
         .factoid {
             font-family: var(--font-family);
             font-size: 1.5em;
@@ -72,13 +53,6 @@
             word-spacing: 3px;
             letter-spacing: 1px;
         }
-
-        /* .seeDetails {
-            font-family: var(--font-family);
-            word-spacing: 3px;
-            letter-spacing: 1px;
-            font-size: 1.3em;
-        } */
 
         /* CSS for data log */
         #data-log {
@@ -132,10 +106,6 @@
             padding: 10px;
             margin-top: 5px;
             margin-bottom: 5px;
-
-            /* display: flex;
-            justify-content: center;
-            text-align: center; */
         }
 
         /* log CSS from app.html */
@@ -179,50 +149,6 @@
             font-size: 0.7em;
             margin-top: 0.2em;
         }
-
-        /* CSS styles for backdrop of report */
-        /* BEFORE: GRADIENTS DID NOT WORK 
-        #backdropForReport {
-            font-family: var(--font-family);
-
-            width: 80%;
-            height: 70%;
-
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-
-            display: none;
-
-            z-index: 30; 
-        }
-        #spaceForChart2 {
-            position: absolute;
-            top: 10%;
-            left: 0;
-            bottom: 0;
-            right: 0;
-
-            z-index: 30; 
-        } */
-        /* This works but I'm going to modify 
-        #backdropForReport {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-        }
-        #spaceForChart2 {
-            flex: 0 0 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center; 
-        }
-        #barChartForFrequency {
-            width: 1000px; 
-            height: 500px;
-        } */
         
         /*starting afresh*/
         #backdropForReport {
@@ -249,10 +175,6 @@
             height: 70%;
         }
 
-        /* .chart { //very different outcome.. than using the above 
-            width: 100%; 
-            height: 70%;
-        } */
         .dark-mode #backdropForReport {
             border: 2px solid white;
         }
@@ -362,21 +284,6 @@
             top: 40%;
             left: 5%;
         }
-
-        /* For use when I was calling a function to create the date input dynamically to set it to var(--font-family)
-        #time-input {
-            /*font-size: 1.5em;
-
-            position: absolute;
-            top: 65%;
-            left: 5%;
-
-            /* background-color: white;
-            color: black; 
-
-            border: 1px solid black;
-            border-radius: 4px;
-        } */
 
         #date-input {
             /*font-size: 1.5em;*/
@@ -504,7 +411,6 @@
             <option value="month">Month</option>
             <option value="year">Year</option>
         </select>
-        <!-- Removed this because I wasn't able to figure out how to get the date input to be in the specified font unless I built it dynamically -->
         <div id="timeIntervalInput">
             <input type="date" id="date-input">
         </div>
@@ -560,51 +466,6 @@
         <button id="resetButton" class="dark-mode">Reset</button>
     </div>
 
-    <!-- generated report -->
-
-    <!-- <div id="baseReport"> 
-        <div class="chartContainer" id="chart1" style="width: 600px; height: 400px">
-            <canvas class="chartCanvas" id="barChartForTotals" aria-label="chart"></canvas>
-        </div>
-
-         <br>
-        <p class="seeDetails">See Details</p>
-
-    
-        <div class="chartContainer" id="chart2" style="width: 1000px; height: 400px">
-            <canvas class="chartCanvas" id="barChartForFrequency" aria-label="chart"></canvas>
-        </div>
-
-        <h2 class="factoid" id="frequencyFactoid">Factoid: Task A was completed 100 times during the week.</h2>
-        <br>
-        <p class="seeDetails">See Details</p>
-
-        <div class="chartContainer" id="chart3" style="width: 600px; height: 400px">
-            <canvas class="chartCanvas" id="pieChartForPercentageOfWeek" aria-label="chart"></canvas>
-        </div>
-
-        <h2 class="factoid" id="percentageOfWeekFactoid">Factoid: 8% of the week from 08/19/22 to 08/26/22 was spent doing task A. </h2>
-        <br>
-        <p class="seeDetails">See Details</p>
-
-        <div class="chartContainer" id="chart4" style="width: 600px; height: 400px">
-            <canvas class="chartCanvas" id="pieChartForPercentageOfParent" aria-label="chart"></canvas>
-        </div>
-
-        <h2 class="factoid" id="percentageOfParentFactoid">Factoid: Task A composed 90% of time spent in Task B for the week.</h2>
-        <br>
-        <p class="seeDetails">See Details</p> 
-
-    </div>-->
-
-    <!-- dark/light mode button and menu button -->
-    <!-- <button id="mode-switcher" class="dark-mode">
-        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
-        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
-        <span class="mode-text">Dark Mode</span>
-    </button> -->
-
-
     <div class="menu">
         <!-- MENU -->
         <button id="menu" class="dark-mode">
@@ -613,17 +474,17 @@
         <!-- NAV BAR -->
         <ul id="navigationbar" class="dark-mode nav-link-colors">
             <li><a href="index.html">Home</a></li>
-            <li"><a href="app.html">Current Day</a></li>
-                <li><a href="settings.html">Settings</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="customize.html">Customize Legend</a></li>
-
-                <li><a href="#" id="mode-switcher" class="button-link">
-                        <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
-                        <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
-                        <span class="mode-text">Dark Mode</span>
-                    </a></li>
-                <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
+            <li><a href="app.html">Today</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="customize.html">My Legend</a></li>
+            <li><a href="settings.html">Settings</a></li>
+        
+            <li><a href="#" id="mode-switcher" class="button-link">
+                    <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
+                    <span class="light-icon hidden"><i class="fa-solid fa-toggle-off"></i></span>
+                    <span class="mode-text">Dark Mode</span>
+                </a></li>
+            <li><a href="#" id="sign-in" class="button-link">Sign Out</a></li>
         </ul>
     </div>
 

@@ -1,82 +1,67 @@
 import tinycolor from "tinycolor2";
+import { isMobile } from './responsiveness.js'
 
 var canvas = document.getElementById("canvas-traditional");
 var ctx = canvas.getContext("2d");
-var radius = canvas.height / 2;
+
+// Get the device's pixel ratio
+const devicePixelRatio = window.devicePixelRatio || 1;
+console.log("devicePixelRatio:", devicePixelRatio);
+
+// Set the canvas dimensions at a higher resolution
+console.log("window.innerWidth:", window.innerWidth);
+canvas.width = window.innerWidth * devicePixelRatio;
+canvas.height = canvas.width;
+
+// Scale the canvas back down with CSS to the desired size
+if (isMobile) {
+    canvas.style.width = '300px';
+    canvas.style.height = '300px';
+} else {
+    canvas.style.width = '500px';
+    canvas.style.height = '500px';
+}
+
+
+// Adjust the drawing scale to account for the higher resolution
+ctx.scale(devicePixelRatio, devicePixelRatio);
+
+var radius = canvas.width / 2 / devicePixelRatio;
+console.log("radius:", radius);
 ctx.translate(radius, radius);
 radius = radius * 1//0.90
 
 let centerX = 0;
 let centerY = 0;
 
-export function traditionalClock(chartData) { //PUT EXPORT IN LATER
 
-    drawFace(ctx, radius, chartData);
-    drawNumbers(ctx, radius, chartData);
+export function traditionalClock(durationsArray, colorsArray) { //PUT EXPORT IN LATER
+
+    drawFace(ctx, radius, durationsArray, colorsArray);
+    drawNumbers(ctx, radius);
     //drawNumbers2(ctx, radius);
-    drawTicks(ctx, radius, chartData); //inside ticks
+    drawTicks(ctx, radius); //inside ticks
     //drawTicks2(ctx, radius); //outside ticks
-    //drawHalfCylinder();
 }
 
-/*function drawHalfCylinder() {
-    var canvas = document.getElementById("canvas-half-cylinder");
-    var ctx = canvas.getContext("2d");
-    var width = canvas.width;
-    var height = canvas.height;
-
-    // Set the color and style for the background
-    ctx.fillStyle = "#ECECEC";
-    ctx.strokeStyle = "#888888";
-    ctx.lineWidth = 2;
-
-    // Calculate the radius of the half-circle
-    var radius = height / 2;
-
-    // Calculate the width of the top rectangle
-    var topWidth = width - 2 * radius;
-
-    // Begin drawing the background shape
-    ctx.beginPath();
-
-    // Draw the top rectangle
-    ctx.moveTo(radius, 0);
-    ctx.lineTo(radius + topWidth, 0);
-
-    // Draw the curved part of the shape
-    ctx.arc(width / 2, height / 2, radius, Math.PI, 0);
-
-    // Draw lines to complete the bottom rectangle
-    ctx.lineTo(width - radius, height);
-    ctx.lineTo(radius, height);
-
-    // Close the path
-    ctx.closePath();
-
-    // Fill and stroke the shape
-    ctx.fill();
-    ctx.stroke();
-} */
-
 //Draw the face of the clock
-function drawFace(ctx, radius, chartData) {
-    console.log("chartData:", chartData);
-    
+function drawFace(ctx, radius, durations, colors) {    
+
     var angleOffset = -Math.PI / 2; // Offset to start the angles from the top
     var startAngle = angleOffset;
-    var startTimeArray = chartData.reiterateData.detailsArray2.map(slice => slice.start);
+    //var startTimeArray = chartData.reiterateData.detailsArray2.map(slice => slice.start);
   
-  for (var i = 0; i < chartData.pieData.durations.length; i++) {
+  for (var i = 0; i < durations.length; i++) {
 
-    var duration = chartData.pieData.durations[i];
-    var color = chartData.pieData.categoryColors[i];
-    var startTime = startTimeArray[i];
-    var adjustedColor = adjustBrightness(color, 0.2);
+    var duration = durations[i];
+    var color = colors[i];
+    //var startTime = startTimeArray[i];
+    var adjustedColor = adjustBrightness(color, 0);
     
     var sliceAngle = (duration / 1440 ) * 2 * Math.PI;
     var endAngle = startAngle + sliceAngle;
 
-    var gradient = ctx.createRadialGradient(
+    /* var gradient = ctx.createRadialGradient(
         0,
         0,
         radius * 0.75,
@@ -85,7 +70,7 @@ function drawFace(ctx, radius, chartData) {
         radius
       );
       gradient.addColorStop(0, adjustedColor); // Light color at the center
-      gradient.addColorStop(1, color); // Darker color at the outer edge
+      gradient.addColorStop(1, color); // Darker color at the outer edge */
 
     // Calculate the adjusted start and end angles based on the start time
     //var adjustedStartAngle = startAngle + (startTime / 1440) * 2 * Math.PI;
@@ -95,17 +80,16 @@ function drawFace(ctx, radius, chartData) {
     ctx.arc(0, 0, radius, startAngle, endAngle);
     ctx.lineTo(0, 0);
     ctx.closePath();
-    ctx.fillStyle = gradient;
+    ctx.fillStyle = adjustedColor;
     ctx.fill();
 
-      // Update the start angle for the next slice
-        startAngle = endAngle;
+    // Update the start angle for the next slice
+    startAngle = endAngle;
   }
 }
 
 //Draw inside tick marks
-function drawTicks(ctx, radius, chartData) {
-
+function drawTicks(ctx, radius) {
     var numTicks = 24;
     var tickWidth = radius * 0.01; //0.01
     var tickLength = radius * 0.1; //0.1
@@ -131,7 +115,6 @@ function drawTicks(ctx, radius, chartData) {
             ctx.strokeStyle = "black"; //#666 //black
         }
         ctx.stroke();
-
     }
 }
 
@@ -160,13 +143,7 @@ function drawTicks2(ctx, radius) {
 }
 
 //Draw numbers
-function drawNumbers(ctx, radius, chartData) {
-
-    const invertedColors = invertColorArray(chartData.pieData.categoryColors);
-    let indexCounter = 0;
-
-    let triggerNumber = chartData.reiterateData.detailsArray2[0].start + chartData.pieData.durations[0];
-    console.log("initial triggerNumber:", triggerNumber);
+function drawNumbers(ctx, radius) {
 
     var ang;
     var num;
@@ -174,32 +151,17 @@ function drawNumbers(ctx, radius, chartData) {
     ctx.textAlign = "center";
     //ctx.imageSmoothingEnabled = false;
 
-    //var font = getComputedStyle(document.documentElement).getPropertyValue('--font-family');
+    //var font = getComputedStyle(document.documentElement).getPropertyValue('--font-family-clock');
 
         for (num = 1; num < 25; num++) {
 
             if (num === 4 || num === 8 || num === 12 || num === 16 || num === 20 || num === 24) {
-                
-                /* if (num * 60 > triggerNumber) {
-                    console.log("triggerNumber:", triggerNumber);
-                    console.log("indexCounter incremented");
-                    indexCounter++;
-                    triggerNumber = chartData.reiterateData.detailsArray2[indexCounter].start + chartData.pieData.durations[indexCounter];
-                } */
+                ctx.font = "bold " + (.08333 * canvas.width / devicePixelRatio) + "px " + "Pacifico"; //25px
+                //ctx.letterSpacing = "3px";
+                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
 
-                /* if (ang > angleArray[indexCounter].startAngle && ang <= angleArray[indexCounter].endAngle || indexCounter === max) {
-                    console.log("in if");
-                } else {
-                    console.log("else");
-                    indexCounter = indexCounter + 1;
-                }  */
-
-                ctx.font = "bold 25px " + "Raleway";
-                //ctx.letterSpacing = "2px";
-                ctx.fillStyle = "black";
-
-                ctx.shadowColor = "#000"; // Outline color
-                ctx.shadowBlur = 10; // Outline blur radius
+                //ctx.shadowColor = "#000"; // Outline color
+                //ctx.shadowBlur = 0; // Outline blur radius
     
                 ang = num * Math.PI / 12;
                 ctx.rotate(ang);
@@ -210,11 +172,12 @@ function drawNumbers(ctx, radius, chartData) {
                 ctx.translate(0, radius * 0.90); //0.85 //0.77
                 ctx.rotate(-ang);
 
-                ctx.shadowColor = "transparent"; // Reset shadow color
-                ctx.shadowBlur = 0; // Reset shadow blur radius 
+                //ctx.shadowColor = "transparent"; // Reset shadow color
+                //ctx.shadowBlur = 0; // Reset shadow blur radius 
             } 
         }
 }
+
 
 function drawNumbers2(ctx, radius) {
     ctx.textBaseline = "middle";
@@ -224,7 +187,7 @@ function drawNumbers2(ctx, radius) {
     //var font = getComputedStyle(document.documentElement).getPropertyValue('--font-family');
 
     for (let num = 0; num < 60; num += 5) {
-        ctx.font = "bold 15px " + "Raleway";
+        ctx.font = "bold 15px " + "Sintony";
         //ctx.letterSpacing = "2px";
         ctx.fillStyle = "black";
 
