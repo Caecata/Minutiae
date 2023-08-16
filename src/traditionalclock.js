@@ -22,7 +22,6 @@ if (isMobile) {
     canvas.style.height = '500px';
 }
 
-
 // Adjust the drawing scale to account for the higher resolution
 ctx.scale(devicePixelRatio, devicePixelRatio);
 
@@ -44,12 +43,21 @@ export function traditionalClock(durationsArray, colorsArray) { //PUT EXPORT IN 
     //drawTicks2(ctx, radius); //outside ticks
 }
 
+const clockBGColor = "#919191";
+const clockNumberTextColor = '#333333';
+const clockNumberTextShadowLightColor = '#828282';
+const clockNumberTextShadowDarkColor = '#9c9c9c';
+
 //Draw the face of the clock
 function drawFace(ctx, radius, durations, colors) {    
 
     var angleOffset = -Math.PI / 2; // Offset to start the angles from the top
     var startAngle = angleOffset;
     //var startTimeArray = chartData.reiterateData.detailsArray2.map(slice => slice.start);
+
+    var borderWidth = 5; // You can adjust the border width as per your preference
+    var shadowBlur = 10; // You can adjust the shadow blur radius as per your preference
+
   
   for (var i = 0; i < durations.length; i++) {
 
@@ -77,10 +85,21 @@ function drawFace(ctx, radius, durations, colors) {
     //var adjustedEndAngle = adjustedStartAngle + sliceAngle;
 
     ctx.beginPath();
-    ctx.arc(0, 0, radius, startAngle, endAngle);
+    ctx.arc(0, 0, radius * 0.97, startAngle, endAngle);
     ctx.lineTo(0, 0);
+
+    // Add the border
+    ctx.lineWidth = borderWidth;
+    ctx.strokeStyle = "black"; // You can change the border color here
+    ctx.stroke();
+
+    // Add the drop shadow
+    ctx.shadowBlur = shadowBlur;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // You can adjust the shadow color and opacity here
+
+
     ctx.closePath();
-    ctx.fillStyle = adjustedColor;
+    ctx.fillStyle = adjustedColor; /*clockBGColor*/
     ctx.fill();
 
     // Update the start angle for the next slice
@@ -94,6 +113,9 @@ function drawTicks(ctx, radius) {
     var tickWidth = radius * 0.01; //0.01
     var tickLength = radius * 0.1; //0.1
     var positionOffset = radius * 0.08;
+
+    //ctx.font = "bold " + (.08333 * canvas.width / devicePixelRatio) + "px " + "Comic Neue"; //25px
+
 
     for (var i = 0; i < numTicks; i++) {
 
@@ -113,7 +135,7 @@ function drawTicks(ctx, radius) {
             ctx.strokeStyle = "transparent"; //#333 // black //transparent
         } else {
             ctx.strokeStyle = "black"; //#666 //black
-        }
+        } 
         ctx.stroke();
     }
 }
@@ -145,6 +167,9 @@ function drawTicks2(ctx, radius) {
 //Draw numbers
 function drawNumbers(ctx, radius) {
 
+    //let shadowArray = ["black", "white", "black"];
+    //const shadowOffset = 6;
+
     var ang;
     var num;
     ctx.textBaseline = "middle";
@@ -156,24 +181,47 @@ function drawNumbers(ctx, radius) {
         for (num = 1; num < 25; num++) {
 
             if (num === 4 || num === 8 || num === 12 || num === 16 || num === 20 || num === 24) {
-                ctx.font = "bold " + (.08333 * canvas.width / devicePixelRatio) + "px " + "Pacifico"; //25px
-                //ctx.letterSpacing = "3px";
-                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                ctx.font = "bold " + (.08333 * canvas.width / devicePixelRatio) + "px " + "Inter"; //25px
+                ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; //clockNumberTextColor
 
-                //ctx.shadowColor = "#000"; // Outline color
-                //ctx.shadowBlur = 0; // Outline blur radius
-    
+                /* for (let i = 0; i < 2; i++) {
+                    if (i == 0) {
+                        ctx.shadowOffsetX = -2;
+                        ctx.shadowOffsetY = -2;
+                        ctx.shadowBlur = 3;
+                        ctx.shadowColor = clockNumberTextShadowLightColor;
+                        ctx.fillText(num.toString(), 0, 0);
+                    } else if (i == 1) {
+                        ctx.shadowOffsetX = 4;
+                        ctx.shadowOffsetY = 4;
+                        ctx.shadowBlur = 4;
+                        ctx.shadowColor = clockNumberTextShadowDarkColor;
+                        ctx.fillText(num.toString(), 0, 0);
+                    }
+                    ang = num * Math.PI / 12;
+                    ctx.rotate(ang);
+                    ctx.translate(0, -radius * 0.85); 
+                    ctx.rotate(-ang);
+                    ctx.fillText(num.toString(), 0, 0);
+                    ctx.rotate(ang);
+                    ctx.translate(0, radius * 0.85); 
+                    ctx.rotate(-ang);
+                }
+
+                // Reset shadow properties
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.shadowBlur = 0;
+                ctx.shadowColor = "transparent"; */
+
                 ang = num * Math.PI / 12;
                 ctx.rotate(ang);
-                ctx.translate(0, -radius * 0.90); //0.85 //0.77
+                ctx.translate(0, -radius * 0.85); 
                 ctx.rotate(-ang);
                 ctx.fillText(num.toString(), 0, 0);
                 ctx.rotate(ang);
-                ctx.translate(0, radius * 0.90); //0.85 //0.77
+                ctx.translate(0, radius * 0.85);
                 ctx.rotate(-ang);
-
-                //ctx.shadowColor = "transparent"; // Reset shadow color
-                //ctx.shadowBlur = 0; // Reset shadow blur radius 
             } 
         }
 }

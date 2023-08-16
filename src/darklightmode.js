@@ -12,6 +12,7 @@ export function initializeDarkLightMode() {
     const navBar = document.getElementById('navigationbar');
     const addBtn = document.getElementById('add-slice-button');
     const today = document.getElementById('date');
+    const dayOfWeek = document.getElementById('dayOfWeek');
     const leftArrow = document.getElementById('day-back');
     const rightArrow = document.getElementById('day-forward');
     
@@ -71,6 +72,8 @@ export function initializeDarkLightMode() {
         //This applies dark mode and light mode to the date above the clock
         today.classList.toggle("dark-mode");
         today.classList.toggle("light-mode");
+        dayOfWeek.classList.toggle("dark-mode");
+        dayOfWeek.classList.toggle("light-mode");
 
         //This applies dark mode and light mode to the arrows
         leftArrow.classList.toggle("dark-mode");

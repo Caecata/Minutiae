@@ -6,11 +6,52 @@
 
     <title>chart.js</title>
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Chivo|Concert One|Chewy|Oregano|Rancho|Comic Neue|Pacifico">
+        href="https://fonts.googleapis.com/css?family=Chivo|Concert One|Chewy|Oregano|Rancho|Comic Neue|Pacifico|Inter">
     <link rel="stylesheet" href="minutiae.css">
 
     <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
     <style>
+        /* CSS for overlay - mobile is default */
+        #overlay {
+            position: absolute;
+            width: 88%;
+            height: 80%;
+            top: 12%;
+            left: 6%;
+
+            background-color: #FFFFFF;
+            border: 2px solid #000000;
+
+            z-index: -1;
+        }
+        /* CSS for ellipsis - mobile is default */
+        #ellipsis {
+            font-size: 3em;
+
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 70%;
+
+            z-index: 1;
+        }
+
+        /* CSS for legend - mobile is default */
+        #legend {
+            width: 78%;
+            height: 14%;
+            position: absolute;
+            left: 11%;
+            top: 76%;
+
+            background-color: #F7F0F5;
+            border: 2px solid #000000;
+
+            overflow-y: scroll;
+
+            z-index: 1;
+        }
+
         /* CSS for log */
         #log {
             font-family: var(--font-family), sans-serif;
@@ -53,7 +94,7 @@
             bottom: 0;
 
             padding: 0.3em;
-            margin: 1em;
+            margin: 0.5em; /* 1em */
 
             z-index: 1;
         }
@@ -278,7 +319,7 @@
             bottom: 0;
 
             padding: 0.3em;
-            margin: 1em;
+            margin: 0.5em; /* 1em */
         }
 
         /* CSS for all form buttons*/
@@ -325,11 +366,11 @@
         }
 
         /* Adding dark/light mode to buttons' borders */
-        .dark-mode #add-slice-button,
+        /* .dark-mode #add-slice-button,
         .dark-mode #view-log,
         .dark-mode #edit,
         .dark-mode #delete {
-            /* border: 0.2em solid white; */
+            /* border: 0.2em solid white; 
             border: none;
         }
 
@@ -337,19 +378,34 @@
         .light-mode #view-log,
         .light-mode #edit,
         .light-mode #delete {
-            /* border: 0.2em solid black; */
+            /* border: 0.2em solid black; 
             border: none;
-        }
+        } */
 
         /* CSS for centered date */
         #date {
-            font-family: var(--font-family), sans-serif;
-            /*font-family: "Pacifico", sans-serif; */  
+            /*font-family: var(--font-family), sans-serif; */
             font-size: 3em;
 
+            font-family: "Inter";
+            /*color: rgba(0, 0, 0, 0.5);
+
+            text-shadow: 0px 0px 5px #333532; */
+
             position: absolute;
-            left: 38%;
+            left: 38%;  
             top: 0;
+
+            background-color: transparent;
+        }
+        #dayOfWeek {
+            font-size: 2.3em;
+            font-family: "Inter";
+            position: absolute;
+            left: 40%;
+            top: 8%;
+
+            background-color: transparent;
         }
 
         /* CSS for left and right charts */
@@ -410,6 +466,12 @@
             z-index: 8;
 
             pointer-events: none;
+
+            border: 7px solid #282828;
+            box-shadow: -4px -4px 10px rgba(67,67,67,0.5),
+                inset 4px 4px 10px rgba(0,0,0,0.5),
+                inset -4px -4px 10px rgba(67,67,67,0.5),
+                4px 4px 10px rgba(0,0,0,0.3);
         }
 
         /* center dot */
@@ -610,23 +672,18 @@
     <!-- top right -->
     <div class="clock" id="clock"></div>
 
-    <button id="view-log" class="button-33">Log</button> <!-- put "class="dark-mode" back -->
-    <div id="log" class="button-33" style="display:none;">
-    </div>
-
     <div id="firebaseui-auth-container"></div>
     <!-- <div id="loader">Loading...</div> -->
-
 
     <!-- top left -->
     <div class="menu">
         <!-- MENU -->
-        <button id="menu" class="button-33" class="dark-mode">
+        <button id="menu" class="button" class="dark-mode">
             <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
         </button>
 
         <!-- NAV BAR -->
-        <ul id="navigationbar" class="button-33 nav-link-colors"> <!-- class="dark-mode nav-link-colors" -->
+        <ul id="navigationbar" class="dark-mode nav-link-colors"> 
             <li><a href="index.html">Home</a></li>
             <li><a href="data.html">Analytics</a></li>
             <li><a href="calendar.html">Calendar</a></li>
@@ -643,7 +700,8 @@
     </div>
 
     <!-- DATE -->
-    <div id="date" class="dark-mode"></div>
+    <div id="date" class="dark-mode"></div> 
+    <div id="dayOfWeek" class="dark-mode"></div>
 
     <!-- arrows -->
     <i class="fa-solid fa-caret-left button-icon dark-mode" id="day-back"
@@ -652,7 +710,7 @@
         style="font-size: 5em; position: absolute; top: 45%; right: 33%;"></i>
 
     <!-- FORM -->
-    <form id="one-step-form" class="button-33" style="display: none;">
+    <form id="one-step-form" style="display: none;">
         <label for="one-step-dropdown" id="one-step-dropdown-label">Categories:</label>
         <select id="one-step-dropdown"></select>
         <!--<label for="tag-dropdown" id="tag-dropdown-label">Tags:</label>-->
@@ -669,7 +727,7 @@
         </div>
     </form>
 
-    <form id="multi-step-form" class="button-33" style="display: none;">
+    <form id="multi-step-form" style="display: none;">
 
         <div id="close"><i class="fa-solid fa-xmark"
                 style="font-size: 2em; position: absolute; right: 3%; top: 3%;"></i></div>
@@ -722,7 +780,22 @@
 
     </form>
 
-    <button id="add-slice-button" class="button-33">Add</button> <!-- put "class="dark-mode" back -->
+    <!-- Bottom Buttons -->
+    <button id="add-slice-button" class="button">Add</button> <!-- put "class="dark-mode" back -->
+    
+    <button id="view-log" class="button">Log</button> <!-- put "class="dark-mode" back -->
+    <div id="log" style="display:none;"></div>
+
+    <!-- overlay -->
+    <div id="overlay"></div>
+
+    <!-- ellipsis icon -->
+    <div id="ellipsis">
+        <i class="fas fa-ellipsis" style="color: #433633;"></i>
+    </div>
+
+    <!-- legend -->
+    <div id="legend"></div>
 
     <!-- CHARTS SCRIPT -->
     <script type="module" src="app.js"></script>

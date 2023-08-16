@@ -968,8 +968,7 @@ function appendDurationsAndStartTimes(startTimeArray, durations, detailsArray) {
 function settingCurrent(swipeEffect) {
 
     var dateElement = document.getElementById("date");
-    //var goBackOneDayBtn = document.getElementById("day-back");
-    //var goForwardOneDayBtn = document.getElementById("day-forward");
+    var dayElement = document.getElementById("dayOfWeek");
     var formattedDate;
 
     let urlParams = new URLSearchParams(window.location.search);
@@ -981,14 +980,23 @@ function settingCurrent(swipeEffect) {
         //sets the date parameter to null so that the calendar gives a one-time-pass to a specified date
         history.replaceState(null, '', 'app.html');
 
-        formattedDate = now.toFormat('MM/dd/yy');
+        formattedDate = now.toFormat('M/d/yy');
         dateElement.innerHTML = formattedDate;
+
+        var dayOfWeekName = now.weekdayLong;
+        dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+        dayElement.innerHTML = dayOfWeekName;
+
     } else {
         var now = DateTime.local();
         var today = now.toISODate();
 
-        formattedDate = now.toFormat('MM/dd/yy');
+        formattedDate = now.toFormat('M/d/yy');
         dateElement.innerHTML = formattedDate;
+
+        var dayOfWeekName = now.weekdayLong;
+        dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+        dayElement.innerHTML = dayOfWeekName;
     }
     var yesterday;
     var tomorrow;
@@ -1021,8 +1029,11 @@ function settingCurrent(swipeEffect) {
 
                 yesterday = current.minus({ days: 1 });
                 current = yesterday;
-                formattedDate = yesterday.toFormat('MM/dd/yy');
+                formattedDate = yesterday.toFormat('M/d/yy');
                 dateElement.innerHTML = formattedDate;
+                var dayOfWeekName = current.weekdayLong;
+                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+                dayElement.innerHTML = dayOfWeekName;
                 loadData().then(() => {
                     traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
 
@@ -1062,8 +1073,11 @@ function settingCurrent(swipeEffect) {
 
                 tomorrow = current.plus({ days: 1 });
                 current = tomorrow;
-                formattedDate = tomorrow.toFormat('MM/dd/yy');
+                formattedDate = tomorrow.toFormat('M/d/yy');
                 dateElement.innerHTML = formattedDate;
+                var dayOfWeekName = current.weekdayLong;
+                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+                dayElement.innerHTML = dayOfWeekName;
                 loadData().then(() => {
                     traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
 
@@ -1108,8 +1122,11 @@ function settingCurrent(swipeEffect) {
                 event.preventDefault();
                 yesterday = current.minus({ days: 1 });
                 current = yesterday;
-                formattedDate = yesterday.toFormat('MM/dd/yy');
+                formattedDate = yesterday.toFormat('M/d/yy');
                 dateElement.innerHTML = formattedDate;
+                var dayOfWeekName = current.weekdayLong;
+                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+                dayElement.innerHTML = dayOfWeekName;
 
                 console.log("current after changing value:", current);
 
@@ -1126,8 +1143,11 @@ function settingCurrent(swipeEffect) {
                 event.preventDefault();
                 tomorrow = current.plus({ days: 1 });
                 current = tomorrow;
-                formattedDate = tomorrow.toFormat('MM/dd/yy');
+                formattedDate = tomorrow.toFormat('M/d/yy');
                 dateElement.innerHTML = formattedDate;
+                var dayOfWeekName = current.weekdayLong;
+                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+                dayElement.innerHTML = dayOfWeekName;
 
                 console.log("current after changing value:", current);
 
@@ -1242,7 +1262,7 @@ function updateMainChartDataManually(durations, labelName, categoryColors, angle
     if (isMobile) {
         //keep radius at 90%;
     } else {
-        chartId.data.datasets[0].radius = "80%";
+        chartId.data.datasets[0].radius = "70%";
     }
     chartId.update();
 }

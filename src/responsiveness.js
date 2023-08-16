@@ -34,6 +34,7 @@ export function checkDeviceWidth() {
             'canvas-minimal',
             'clock-face',
             'date', 
+            'dayOfWeek',
             'log',
             'one-step-form',
             'multi-step-form'
@@ -55,7 +56,8 @@ export function checkDeviceWidth() {
             element.style.display = 'none';
         });
 
-        document.getElementById("date").style.top = '20%';
+        document.getElementById("date").style.top = '18%';
+        document.getElementById("dayOfWeek").style.top = '25%';
 
     }
     if (isMobile === true && currentPage === '/data.html') {
