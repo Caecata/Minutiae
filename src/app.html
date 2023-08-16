@@ -49,7 +49,27 @@
 
             overflow-y: scroll;
 
+            display: flex;
+            flex-wrap: wrap;
+            
             z-index: 1;
+        }
+
+        .legend-entry {
+            display: flex;
+            flex-basis: calc(50% - 5px); /* Two items per row with spacing */
+            align-items: center; 
+            flex: 0 0 calc(50% - 5px);
+        }
+
+        .legend-icon {
+            font-size: 1.1em;
+        }
+
+        .legend-label {
+            font-family: var(--font-family);
+            font-size: 0.9em;
+            white-space: nowrap;
         }
 
         /* CSS for log */
@@ -69,7 +89,7 @@
             /*max-height: 200px CHAT GPT */
 
             /* overriding the button styles */
-            border-radius: 15px;
+            /* border-radius: 15px; */
             cursor: auto;
             color: black;
 
@@ -399,7 +419,7 @@
             background-color: transparent;
         }
         #dayOfWeek {
-            font-size: 2.3em;
+            font-size: 1.8em;
             font-family: "Inter";
             position: absolute;
             left: 40%;
@@ -467,11 +487,11 @@
 
             pointer-events: none;
 
-            border: 7px solid #282828;
+            /* border: 7px solid #282828;
             box-shadow: -4px -4px 10px rgba(67,67,67,0.5),
                 inset 4px 4px 10px rgba(0,0,0,0.5),
                 inset -4px -4px 10px rgba(67,67,67,0.5),
-                4px 4px 10px rgba(0,0,0,0.3);
+                4px 4px 10px rgba(0,0,0,0.3); */
         }
 
         /* center dot */

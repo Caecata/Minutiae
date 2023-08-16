@@ -69,21 +69,6 @@ function drawFace(ctx, radius, durations, colors) {
     var sliceAngle = (duration / 1440 ) * 2 * Math.PI;
     var endAngle = startAngle + sliceAngle;
 
-    /* var gradient = ctx.createRadialGradient(
-        0,
-        0,
-        radius * 0.75,
-        0,
-        0,
-        radius
-      );
-      gradient.addColorStop(0, adjustedColor); // Light color at the center
-      gradient.addColorStop(1, color); // Darker color at the outer edge */
-
-    // Calculate the adjusted start and end angles based on the start time
-    //var adjustedStartAngle = startAngle + (startTime / 1440) * 2 * Math.PI;
-    //var adjustedEndAngle = adjustedStartAngle + sliceAngle;
-
     ctx.beginPath();
     ctx.arc(0, 0, radius * 0.97, startAngle, endAngle);
     ctx.lineTo(0, 0);
@@ -96,7 +81,6 @@ function drawFace(ctx, radius, durations, colors) {
     // Add the drop shadow
     ctx.shadowBlur = shadowBlur;
     ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // You can adjust the shadow color and opacity here
-
 
     ctx.closePath();
     ctx.fillStyle = adjustedColor; /*clockBGColor*/

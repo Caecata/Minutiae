@@ -15,6 +15,7 @@ import { legendData } from './templates.js'
 import { formValidations, oneStepForm, formValidations2, finalCategoryOption } from './form.js'
 import { retrieveData, saveToDatabase, receiveLegendFromDatabase, receiveSettingsFromDatabase, saveLegendToDatabase, getRemoveArray, saveRemoveArray, receiveTagsFromDatabase, saveTagsToDatabase } from './firebase/dbHandler.js'
 import { createLog, updateLog } from './log.js'
+import { createLegend } from './legend.js'
 import { signOutUser } from './firebase/authentication.js'
 
 //enables signing out on this page
@@ -106,7 +107,6 @@ receiveLegendFromDatabase()
                             console.log("user has no saved settings");
                             formValidations2(legend, false, false, tags);
                             handsOfTheClock();
-                            //need to adjust parameters
                             traditionalClock();
                         }
 
@@ -120,8 +120,10 @@ receiveLegendFromDatabase()
                                 loadData()
                                     .then(() => {
                                         traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
-
                                         createLog(detailsArray2, current);
+
+                                        createLegend(detailsArray2);
+
                                         loadingScreen.style.display = "none";
                                     })
                             })
@@ -1052,6 +1054,7 @@ function settingCurrent(swipeEffect) {
                     document.getElementById('canvas-traditional').classList.add('slide-in-left');
 
                     updateLog(detailsArray2, current);
+                    createLegend(detailsArray2);
                     // Remove slide-in-left class after animation completes
                     setTimeout(() => {
                         document.getElementById('chartId').classList.remove('slide-in-left');
@@ -1096,6 +1099,7 @@ function settingCurrent(swipeEffect) {
                     document.getElementById('canvas-traditional').classList.add('slide-in-right');
 
                     updateLog(detailsArray2, current);
+                    createLegend(detailsArray2);
 
                     // Remove slide-in-right class after animation completes
                     setTimeout(() => {
@@ -1133,8 +1137,8 @@ function settingCurrent(swipeEffect) {
                 loadData()
                     .then(() => {
                         traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
-
                         updateLog(detailsArray2, current);
+                        createLegend(detailsArray2);
                     })
 
             });
@@ -1154,8 +1158,8 @@ function settingCurrent(swipeEffect) {
                 loadData()
                     .then(() => {
                         traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
-
                         updateLog(detailsArray2, current);
+                        createLegend(detailsArray2);
                     })
 
                 //console.log("detailsArray2 and beforeTimeArray:", detailsArray2, beforeTimeArray)
