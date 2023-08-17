@@ -34,10 +34,7 @@ export function checkDeviceWidth() {
             'canvas-minimal',
             'clock-face',
             'date', 
-            'dayOfWeek',
-            'log',
-            'one-step-form',
-            'multi-step-form'
+            'dayOfWeek'
         ];
 
         centeredElements.forEach((elementId) => {

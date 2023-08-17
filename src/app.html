@@ -72,6 +72,16 @@
             white-space: nowrap;
         }
 
+        /* CSS for close icons */
+        .close-icon {
+            position: absolute;
+            right: 0;
+            top: 0;
+
+            width: 32px;
+            height: 32px;
+        }
+
         /* CSS for log */
         #log {
             font-family: var(--font-family), sans-serif;
@@ -96,12 +106,18 @@
             z-index: 9;
         }
 
+        #log-name {
+            height: 20%;
+            font-size: 1.5em;
+            padding: 0.3em;
+        }
+
         .dark-mode #log {
             background-color: black;
         }
 
         .light-mode #log {
-            background-color: white;
+            background-color: #D9D9D9;;
         }
 
         /* CSS for log button */
@@ -126,8 +142,8 @@
             width: 100%;
 
             padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 5px;
+            /* margin-top: 5px; */
+            /* margin-bottom: 5px; */
         }
 
         .dark-mode .log-entry {
@@ -641,10 +657,20 @@
             }
 
             #log {
-                width: 70%;
+                width: 86%;
+                height: 26%;
+
+                top: 12.5%;
+                left: 50%;
+                transform: translateX(-50%);
             }
             #multi-step-form, #one-step-form {
-                width: 70%;
+                width: 86%;
+                height: 26%;
+
+                top: 40%;
+                left: 50%;
+                transform: translateX(-50%);
             } 
         }
 
@@ -804,7 +830,11 @@
     <button id="add-slice-button" class="button">Add</button> <!-- put "class="dark-mode" back -->
     
     <button id="view-log" class="button">Log</button> <!-- put "class="dark-mode" back -->
-    <div id="log" style="display:none;"></div>
+    <div id="log" style="display:none;">
+        <div id="log-name">Log</div>
+        <img src="./close.png" alt="Close Icon" class="close-icon">
+    </div>
+    <!-- <img src="/images/close.png" alt="Close Icon"> -->
 
     <!-- overlay -->
     <div id="overlay"></div>

@@ -5,10 +5,11 @@ import { deleteSlice } from './app.js'
 import { DateTime } from 'luxon';
 
 export function createLog(detailsArray2, current) {
+    const logBtn = document.getElementById("view-log");
+    const log = document.getElementById("log");
+
     if (detailsArray2.length === 1 && detailsArray2[0].name === "Remaining") {
     } else {
-        const logBtn = document.getElementById("view-log");
-        const log = document.getElementById("log");
         let logOpen = false;
 
         logBtn.addEventListener("click", function () {
@@ -147,7 +148,13 @@ export function createLog(detailsArray2, current) {
 export function updateLog(detailsArray2, current) {
     const log = document.getElementById("log");
 
-    log.innerHTML = '';
+    const childrenToRemove = Array.from(log.children).filter(child => {
+        return !(child.id === "log-name" || child.classList.contains("close-icon"));
+    });
+
+    childrenToRemove.forEach(child => {
+        log.removeChild(child);
+    })
 
     createLog(detailsArray2, current);
 }
