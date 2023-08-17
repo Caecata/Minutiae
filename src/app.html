@@ -161,7 +161,27 @@
         }
 
         .log-entry .log-label {
-            font-size: 1.2em;
+            font-size: 1em;
+        }
+
+        .overflow {
+            animation: scrollHorizontally 3s linear infinite;
+            display: inline-block;
+        }
+
+        .overflow-container {
+            width: 45%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        @keyframes scrollHorizontally {
+            0% {
+                transform: translateX(20%);
+            }   
+            100% {
+                transform: translateX(-60%);
+            }
         }
 
         .log-entry .log-time-label {

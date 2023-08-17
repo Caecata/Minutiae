@@ -46,6 +46,7 @@ export function createLog(detailsArray2, current) {
         //create elements
 
         for (let i = 0; i < detailsArray2.length; i++) {
+            let overflowBool = false;
             if (detailsArray2[i].name === "Remaining") {
 
             } else {
@@ -63,15 +64,17 @@ export function createLog(detailsArray2, current) {
                 const label = document.createElement("div");
                 label.classList.add("log-label");
                 label.textContent = detailsArray2[i].name;
-                //label.style.color = detailsArray2[i].color;
                 label.style.color = "black";
 
-                if (detailsArray2[i].name.length > 15) {
-                    label.style.fontSize = "0.8em";
-                }
+                const overflowContainer = document.createElement("div");
+                overflowContainer.classList.add("overflow-container");
 
-                if (detailsArray2[i].name.length > 30) {
-                    label.style.fontSize = "0.6em";
+                if (detailsArray2[i].name.length > 15) {
+                    overflowBool = true;
+
+                    label.classList.add("overflow");
+
+                    overflowContainer.appendChild(label);
                 }
 
                 const time = document.createElement("div");
@@ -131,7 +134,11 @@ export function createLog(detailsArray2, current) {
                 deleteMini.appendChild(icon2);
                 logEntry.appendChild(deleteMini);
 
-                coreDiv.appendChild(label);
+                if (overflowBool) {
+                    coreDiv.appendChild(overflowContainer);
+                } else {
+                    coreDiv.appendChild(label);
+                }
                 coreDiv.appendChild(time);
                 logEntry.appendChild(coreDiv);
                 logEntry.appendChild(description);
