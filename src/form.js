@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-export function formValidations() {
+/* export function formValidations() {
     console.log("formValidations()");
     var formSection = document.getElementById("form");
     var addSliceButton = document.getElementById('add-slice-button');
@@ -412,7 +412,7 @@ export function formValidations() {
         updateForm();
         //
     })
-}
+} */
 
 export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
     console.log("oneStepForm()");
@@ -442,7 +442,7 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
     if (tagsBool === true) {
         //creating tag dropdown
 
-        tagDropdownBtn.style.display = "block";
+        tagDropdownBtn.style.display = "inline-block";
 
         tags.sort((a, b) => {
             const nameA = a.tagName.toLowerCase();
@@ -476,7 +476,7 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
     if (descriptionBool === true) {
         //create description input
 
-        descriptionInput.style.display = "block";
+        descriptionInput.style.display = "inline-block";
 
         var textarea = document.createElement("textarea");
         textarea.name = "description";
@@ -484,12 +484,15 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
         textarea.id = "description-input-field";
         textarea.style.resize = "none";
         textarea.style.width = "100%";
-        textarea.style.display = "block";
+        textarea.style.border = "1px solid black";
+        textarea.style.display = "inline-block";
 
-        var label = document.createElement("label");
+        /* var label = document.createElement("label");
         label.textContent = "Description:";
+        label.style.display = "inline-block";
+        label.style.textIndent = "10px"; */
 
-        descriptionInput.appendChild(label);
+        /* descriptionInput.appendChild(label); */
         descriptionInput.appendChild(textarea);
         descriptionInput.appendChild(document.createElement("br"));
 
@@ -540,12 +543,12 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
 
         if (!isAddFunctionExecuted) {
             formSection.style.display = "block";
-            selectElement.style.display = "block";
-            startTimeInput.style.display = "block";
-            startTimeLabel.style.display = "block";
-            endTimeInput.style.display = "block";
-            endTimeLabel.style.display = "block";
-            submitInputs.style.display = "block";
+            selectElement.style.display = "inline-block";
+            startTimeInput.style.display = "inline-block";
+            startTimeLabel.style.display = "inline-block";
+            endTimeInput.style.display = "inline-block";
+            endTimeLabel.style.display = "inline-block";
+            submitInputs.style.display = "inline-block";
             
             isAddFunctionExecuted = true;
         } else {

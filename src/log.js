@@ -100,15 +100,18 @@ export function createLog(detailsArray2, current) {
                 }
 
                 const editMini = document.createElement("button");
+                editMini.style.display = "none";
                 editMini.classList.add("log-edit");
                 if (document.body.classList.contains("dark-mode")) {
                     editMini.classList.add("dark-mode");
                 } else if (document.body.classList.contains("light-mode")) {
                     editMini.classList.add("light-mode");
                 }
+                editMini.textContent = "Edit";
 
                 const icon = document.createElement("i");
                 icon.classList.add("fas", "fa-pen");
+                icon.style.margin = "0.2em";
 
                 const clickHandler = createClickHandler(detailsArray2[i], editBtn);
                 editMini.addEventListener('click', clickHandler);
@@ -117,21 +120,52 @@ export function createLog(detailsArray2, current) {
                 logEntry.appendChild(editMini);
 
                 const deleteMini = document.createElement("button");
+                deleteMini.style.display = "none";
                 deleteMini.classList.add("log-delete");
                 if (document.body.classList.contains("dark-mode")) {
                     deleteMini.classList.add("dark-mode");
                 } else if (document.body.classList.contains("light-mode")) {
                     deleteMini.classList.add("light-mode");
                 }
+                deleteMini.textContent = "Delete";
 
                 const icon2 = document.createElement("i");
                 icon2.classList.add("fas", "fa-delete-left");
+                icon2.style.margin = "0.2em";
 
                 const clickHandler2 = createClickHandler(detailsArray2[i], deleteBtn);
                 deleteMini.addEventListener('click', clickHandler2);
 
                 deleteMini.appendChild(icon2);
                 logEntry.appendChild(deleteMini);
+
+                const moreOptionsBtn = document.createElement("button");
+                moreOptionsBtn.classList.add("log-more-options");
+
+                const icon3 = document.createElement("i");
+                icon3.classList.add("fa-solid", "fa-circle-chevron-right");
+                icon3.style.color = "#000000";
+
+                let optionsOpen = false;
+                
+                moreOptionsBtn.addEventListener('click', function() {
+                    if (optionsOpen) {
+                        coreDiv.style.width = "90%";
+                        deleteMini.style.display = "none";
+                        editMini.style.display = "none";
+                        time.style.display = "block";
+                        optionsOpen = false;
+                    } else {
+                        coreDiv.style.width = "50%";
+                        deleteMini.style.display = "block";
+                        editMini.style.display = "block";
+                        time.style.display = "none";
+                        optionsOpen = true;
+                    }
+                });
+
+                moreOptionsBtn.appendChild(icon3);
+                logEntry.appendChild(moreOptionsBtn);
 
                 if (overflowBool) {
                     coreDiv.appendChild(overflowContainer);
@@ -181,6 +215,7 @@ const editBtn = (clickData) => {
 
 const deleteBtn = (clickData) => {
     deleteSlice(clickData);
-    //console.log('clickData:', clickData);
 }
+
+
 

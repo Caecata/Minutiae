@@ -72,7 +72,7 @@
             white-space: nowrap;
         }
 
-        /* CSS for close icons */
+        /* CSS for close icons and names of form/log/notes */
         .close-icon {
             position: absolute;
             right: 0;
@@ -80,6 +80,11 @@
 
             width: 32px;
             height: 32px;
+        }
+        #log-name, #form-name {
+            height: 20%;
+            font-size: 1.5em;
+            padding: 0.3em;
         }
 
         /* CSS for log */
@@ -96,20 +101,11 @@
             margin-right: 1em;
 
             overflow-y: auto;
-            /*max-height: 200px CHAT GPT */
-
-            /* overriding the button styles */
-            /* border-radius: 15px; */
+            
             cursor: auto;
             color: black;
 
             z-index: 9;
-        }
-
-        #log-name {
-            height: 20%;
-            font-size: 1.5em;
-            padding: 0.3em;
         }
 
         .dark-mode #log {
@@ -117,7 +113,8 @@
         }
 
         .light-mode #log {
-            background-color: #D9D9D9;;
+            background-color: #D9D9D9;
+            border: 2px solid black;
         }
 
         /* CSS for log button */
@@ -158,6 +155,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+
+            width: 90%;
         }
 
         .log-entry .log-label {
@@ -180,15 +179,14 @@
                 transform: translateX(20%);
             }   
             100% {
-                transform: translateX(-60%);
+                transform: translateX(-65%);
             }
         }
 
         .log-entry .log-time-label {
             font-size: 0.7em;
-            /* margin-right: 1.6em; */
             position: absolute;
-            left: 45%;
+            left: 55%;
         }
 
         .log-entry .log-description {
@@ -202,35 +200,48 @@
 
         .log-edit {
             font-family: var(--font-family), sans-serif;
-            font-size: 0.6em;
+            font-size: 0.7em;
 
             position: absolute;
-            right: 10%;
-            bottom: 3%;
+            right: 15%;
+            bottom: 19%;
 
-            padding: 0;
-            border: none;
+            padding: 0.3em;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 4px 0 #000000;
+            
             cursor: pointer;
         }
 
         .log-delete {
             font-family: var(--font-family), sans-serif;
-            font-size: 0.6em;
+            font-size: 0.7em;
 
             position: absolute;
-            right: 3%;
-            bottom: 3%;
+            right: 35%;
+            bottom: 19%;
 
-            padding: 0;
-            border: none;
+            padding: 0.3em;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 4px 0 #000000;
+            
             cursor: pointer;
+        }
+
+        .log-more-options {
+            font-size: 1em;
+            position: absolute;
+            right: 4%;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            background-color: transparent;
         }
 
         /* CSS for forms */
         #multi-step-form,
         #one-step-form {
             font-family: var(--font-family), sans-serif;
-            font-size: var(--font-size);
 
             width: 18vw;
             height: 40vh;
@@ -242,13 +253,16 @@
             margin-right: 1em;
 
             z-index: 9;
+
+            color: black;
         }
+
         .dark-mode #multi-step-form, .dark-mode #one-step-form {
             background-color: black;
             border: 2px solid white;
         }
         .light-mode #multi-step-form, .light-mode #one-step-form {
-            background-color: white;
+            background-color: #D9D9D9;
             border: 2px solid black;
         }
 
@@ -291,46 +305,114 @@
         }
 
         /* CSS for one-step-form */
-        /* one step form is manually shown and unshown */
+        .align-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .time-horizontal {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+
+            margin-bottom: 3%;
+        }
+
+        .category-horizontal {
+            display: flex;
+            align-items: center;
+            
+            width: 100%;
+
+            margin-bottom: 3%;
+        }
+
+        .description-horizontal {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+        }
+
+        .inline-label {
+            display: inline-block;  
+
+            font-size: 0.8em;
+
+            text-indent: 10px;
+
+            width: 80px;
+        }
+
+        #one-step-dropdown {
+            display: inline-block;
+            width: 70%;
+
+            font-size: 0.8em;
+        }
+
         #one-step-dropdown,
         #submit-inputs {
             display: none;
         }
 
-        #start-time-label-for-one-step-form,
-        #end-time-label-for-one-step-form {
-            position: absolute;
-            top: 25%;
-        }
+        #start-time-label-for-one-step-form {
+            font-size: 0.8em;
 
-        #end-time-input-for-one-step-form {
-            position: absolute;
-            right: 0%;
-        }
-
-        #start-time-input-for-one-step-form,
-        #end-time-input-for-one-step-form {
-            position: absolute;
-            top: 35%;
+            text-indent: 10px;
         }
 
         #end-time-label-for-one-step-form {
+            font-size: 0.8em;
+        } 
+
+        #start-time-input-for-one-step-form {
+            width: 22%;
+
+            border: 1px solid black;
+
+            font-size: 0.8em;
+        }
+
+        #end-time-input-for-one-step-form {
+            width: 22%;
+
+            border: 1px solid black;
+
+            font-size: 0.8em;
+        }
+
+        /* #end-time-label-for-one-step-form {
             position: absolute;
             right: 5%;
-        }
+        } */
 
         #description-input-for-one-step-form {
-            width: 100%;
-
-            position: absolute;
-            top: 50%;
+            width: 70%;
 
             resize: none;
+
+            font-size: 0.8em;
+        }
+
+        .last-line {
+            display: flex;
+            align-items: center;
         }
 
         #tag-dropdown-btn {
-            position: absolute;
-            top: 90%;
+            /* position: absolute;
+            top: 90%; */
+
+            margin-left: 10px;
+
+            padding: 0.3em;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 4px 0 #000000;
+            cursor: pointer;
+            font-size: 0.7em;
         }
 
         .tag-dropdown-content {
@@ -344,14 +426,14 @@
             border: 1px solid #ddd;
 
             position: absolute;
-            top: 100%;
-            left: 0%;
+            top: 70%;
+            left: 20%;
         }
 
         .tag-dropdown-content label {
             font-size: 14px;
 
-            display: block;
+            display: block; /*put inline-block if you want the options to be horizontal*/
 
             color: black;
 
@@ -363,9 +445,13 @@
         }
 
         #submit-inputs {
-            position: absolute;
-            right: 0%;
-            top: 90%;
+            margin-left: 60%;
+
+            padding: 0.3em;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 4px 0 #000000;
+            cursor: pointer;
+            font-size: 0.7em;
         }
 
         /* CSS for add button */
@@ -780,20 +866,43 @@
 
     <!-- FORM -->
     <form id="one-step-form" style="display: none;">
-        <label for="one-step-dropdown" id="one-step-dropdown-label">Categories:</label>
-        <select id="one-step-dropdown"></select>
-        <!--<label for="tag-dropdown" id="tag-dropdown-label">Tags:</label>-->
-        <div class="tag-div">
-            <button id="tag-dropdown-btn">Change Tags</button>
-            <div id="tag-dropdown-content" class="tag-dropdown-content">
+
+        <div id="form-name">Form</div>
+        <img src="./close.png" alt="Close Icon" class="close-icon">
+
+        <div class="align-vertical">
+            <div class="category-horizontal">
+                <label for="one-step-dropdown" id="one-step-dropdown-label" class="inline-label">Categories:</label>
+                <select id="one-step-dropdown" class="align-vert"></select>
             </div>
-            <div id="description-input-for-one-step-form"></div>
-            <label for="start-time-input-for-one-step-form" id="start-time-label-for-one-step-form">Start Time:</label>
-            <input type="time" id="start-time-input-for-one-step-form" name="start-time">
-            <label for="end-time-input-for-one-step-form" id="end-time-label-for-one-step-form">End Time:</label>
-            <input type="time" id="end-time-input-for-one-step-form" name="end-time">
+            
+            <div class="time-horizontal">
+                <label for="start-time-input-for-one-step-form" id="start-time-label-for-one-step-form" class="inline-label">Start Time:</label>
+                <input type="time" id="start-time-input-for-one-step-form" name="start-time" class="align-vert">
+                <label for="end-time-input-for-one-step-form" id="end-time-label-for-one-step-form" class="inline-label">End Time:</label>
+                <input type="time" id="end-time-input-for-one-step-form" name="end-time">
+            </div>
+
+            <div class="description-horizontal">
+                <label for="description-input-field" id="description-label" class="inline-label">Description:</label>
+                <div id="description-input-for-one-step-form" class="align-vert"></div>
+            </div>
+            
+        </div>
+
+        <div class="last-line">
+            <!--<label for="tag-dropdown" id="tag-dropdown-label">Tags:</label>-->
+            <div class="tag-div">
+                <button id="tag-dropdown-btn">Tags
+                    <i class="fa-solid fa-tag" style="color: #000000;"></i>
+                </button>
+                <div id="tag-dropdown-content" class="tag-dropdown-content"></div>
+            </div>
+
             <button id="submit-inputs">Submit</button>
         </div>
+        
+
     </form>
 
     <form id="multi-step-form" style="display: none;">
