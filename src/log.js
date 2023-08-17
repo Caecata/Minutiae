@@ -54,7 +54,6 @@ export function createLog(detailsArray2, current) {
                 logEntry.classList.add("log-entry");
                 logEntry.style.position = "relative";
                 logEntry.style.backgroundColor = detailsArray2[i].color;
-                //logEntry.style.width = "100%";
                 //logEntry.value = JSON.stringify(detailsArray2[i]);
 
                 const coreDiv = document.createElement("div");
