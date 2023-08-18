@@ -7,20 +7,62 @@ import { DateTime } from 'luxon';
 export function createLog(detailsArray2, current) {
     const logBtn = document.getElementById("view-log");
     const log = document.getElementById("log");
+    const blurredOverlay = document.getElementById("blurred-overlay");
+    const closeBtn = document.getElementById("close-log");
 
     if (detailsArray2.length === 1 && detailsArray2[0].name === "Remaining") {
     } else {
         let logOpen = false;
+        let formOpen = false;
 
         logBtn.addEventListener("click", function () {
             console.log("logBtn clicked");
 
             if (logOpen === false) {
+                logBtn.style.display = "none";
                 log.style.display = "block";
                 logOpen = true;
-            } else {
+            } 
+            
+            blurredOverlay.style.display = "block";
+
+            /* else {
                 log.style.display = "none";
                 logOpen = false;
+            }
+
+            if (form.style.display == "block") {
+                formOpen = true;
+            } else {
+                formOpen = false;
+            }
+
+            if (logOpen == true || formOpen == true) {
+                blurredOverlay.style.display = "block";
+            } else {
+                blurredOverlay.style.display = "none";
+            } */
+        })
+
+        closeBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            const form = document.getElementById("one-step-form");
+
+            logBtn.style.display = "block";
+            log.style.display = "none";
+            logOpen = false;
+
+            if (form.style.display == "block") {
+                formOpen = true;
+            } else {
+                formOpen = false;
+            }
+
+            if (logOpen == true || formOpen == true) {
+                blurredOverlay.style.display = "block";
+            } else {
+                blurredOverlay.style.display = "none";
             }
         })
 

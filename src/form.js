@@ -1,3 +1,4 @@
+import { event } from 'jquery';
 import { DateTime } from 'luxon'
 /* export function formValidations() {
     console.log("formValidations()");
@@ -428,7 +429,12 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
     const tagDropdownContent = document.getElementById("tag-dropdown-content");
     const descriptionInput = document.getElementById("description-input-for-one-step-form");
 
-    var isAddFunctionExecuted = false;
+    const blurredOverlay = document.getElementById("blurred-overlay");
+    const closeBtn = document.getElementById("close-form");
+    const formBtn = document.getElementById("add-slice-button");
+
+    var isAddFunctionExecuted = false; 
+    var logOpen = false;
 
     //tag checkbox dropdown
     tagDropdownBtn.addEventListener("click", function (event) {
@@ -541,7 +547,10 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
     document.getElementById("add-slice-button").addEventListener("click", function () {
         console.log("add-slice-button clicked");
 
+        const log = document.getElementById("log");
+
         if (!isAddFunctionExecuted) {
+            formBtn.style.display = "none";
             formSection.style.display = "block";
             selectElement.style.display = "inline-block";
             startTimeInput.style.display = "inline-block";
@@ -551,7 +560,12 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
             submitInputs.style.display = "inline-block";
             
             isAddFunctionExecuted = true;
-        } else {
+        } 
+        
+        blurredOverlay.style.display = "block";
+
+        /* else {
+            formBtn.style.display = "block";
             formSection.style.display = "none";
             selectElement.style.display = "none";
             startTimeInput.style.display = "none";
@@ -561,6 +575,47 @@ export function oneStepForm(legend, tagsBool, descriptionBool, tags) {
             submitInputs.style.display = "none";
 
             isAddFunctionExecuted = false;
+        } 
+
+        if (log.style.display == "block") {
+            logOpen = true;
+        } else {
+            logOpen = false;
+        }
+
+        if (isAddFunctionExecuted == true || logOpen == true) {
+            blurredOverlay.style.display = "block";
+        } else {
+            blurredOverlay.style.display = "none";
+        } */
+    })
+
+    closeBtn.addEventListener("click", function(event) {
+
+        event.preventDefault();
+        const log = document.getElementById("log");
+
+        formBtn.style.display = "block";
+        formSection.style.display = "none";
+        selectElement.style.display = "none";
+        startTimeInput.style.display = "none";
+        startTimeLabel.style.display = "none";
+        endTimeInput.style.display = "none";
+        endTimeLabel.style.display = "none";
+        submitInputs.style.display = "none";
+
+        isAddFunctionExecuted = false;
+
+        if (log.style.display == "block") {
+            logOpen = true;
+        } else {
+            logOpen = false;
+        }
+
+        if (isAddFunctionExecuted == true || logOpen == true) {
+            blurredOverlay.style.display = "block";
+        } else {
+            blurredOverlay.style.display = "none";
         }
     })
 

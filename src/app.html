@@ -24,6 +24,22 @@
 
             z-index: -1;
         }
+
+        /* CSS for blurred overlay - for when elements are opened */
+        #blurred-overlay {
+            width: 100%;
+            height: 90%;
+
+            position: absolute;
+            top: 10%;
+
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            
+            z-index: 8;
+            display: none;
+        }
+
         /* CSS for ellipsis - mobile is default */
         #ellipsis {
             font-size: 3em;
@@ -73,11 +89,16 @@
         }
 
         /* CSS for close icons and names of form/log/notes */
-        .close-icon {
+        #close-log, #close-form {
             position: absolute;
             right: 0;
             top: 0;
 
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+        .close-icon {
             width: 32px;
             height: 32px;
         }
@@ -868,7 +889,9 @@
     <form id="one-step-form" style="display: none;">
 
         <div id="form-name">Form</div>
-        <img src="./close.png" alt="Close Icon" class="close-icon">
+        <button id="close-form">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
 
         <div class="align-vertical">
             <div class="category-horizontal">
@@ -964,12 +987,17 @@
     <button id="view-log" class="button">Log</button> <!-- put "class="dark-mode" back -->
     <div id="log" style="display:none;">
         <div id="log-name">Log</div>
-        <img src="./close.png" alt="Close Icon" class="close-icon">
+        <button id="close-log">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
     </div>
     <!-- <img src="/images/close.png" alt="Close Icon"> -->
 
-    <!-- overlay -->
+    <!-- overlay for main elements on page -->
     <div id="overlay"></div>
+
+    <!-- blurred overlay when elements are opened -->
+    <div id="blurred-overlay"></div>
 
     <!-- ellipsis icon -->
     <div id="ellipsis">
