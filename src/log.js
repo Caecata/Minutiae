@@ -9,65 +9,47 @@ export function createLog(detailsArray2, current) {
     const log = document.getElementById("log");
     const blurredOverlay = document.getElementById("blurred-overlay");
     const closeBtn = document.getElementById("close-log");
+    let logOpen = false;
+    let formOpen = false;
+
+    logBtn.addEventListener("click", function () {
+        console.log("logBtn clicked");
+
+        if (logOpen === false) {
+            logBtn.style.display = "none";
+            log.style.display = "block";
+            logOpen = true;
+        } 
+        
+        blurredOverlay.style.display = "block";
+    })
+
+    closeBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        const form = document.getElementById("one-step-form");
+
+        logBtn.style.display = "block";
+        log.style.display = "none";
+        logOpen = false;
+
+        if (form.style.display == "block") {
+            formOpen = true;
+        } else {
+            formOpen = false;
+        }
+
+        if (logOpen == true || formOpen == true) {
+            blurredOverlay.style.display = "block";
+        } else {
+            blurredOverlay.style.display = "none";
+        }
+    }) 
 
     if (detailsArray2.length === 1 && detailsArray2[0].name === "Remaining") {
     } else {
-        let logOpen = false;
-        let formOpen = false;
-
-        logBtn.addEventListener("click", function () {
-            console.log("logBtn clicked");
-
-            if (logOpen === false) {
-                logBtn.style.display = "none";
-                log.style.display = "block";
-                logOpen = true;
-            } 
-            
-            blurredOverlay.style.display = "block";
-
-            /* else {
-                log.style.display = "none";
-                logOpen = false;
-            }
-
-            if (form.style.display == "block") {
-                formOpen = true;
-            } else {
-                formOpen = false;
-            }
-
-            if (logOpen == true || formOpen == true) {
-                blurredOverlay.style.display = "block";
-            } else {
-                blurredOverlay.style.display = "none";
-            } */
-        })
-
-        closeBtn.addEventListener("click", function(event) {
-            event.preventDefault();
-
-            const form = document.getElementById("one-step-form");
-
-            logBtn.style.display = "block";
-            log.style.display = "none";
-            logOpen = false;
-
-            if (form.style.display == "block") {
-                formOpen = true;
-            } else {
-                formOpen = false;
-            }
-
-            if (logOpen == true || formOpen == true) {
-                blurredOverlay.style.display = "block";
-            } else {
-                blurredOverlay.style.display = "none";
-            }
-        })
-
+        
         // Convert start and duration properties to readable times
-
         function convertMinutesToTime(minutes) {
             const hours = Math.floor(minutes / 60);
             const mins = minutes % 60;
@@ -223,7 +205,6 @@ export function createLog(detailsArray2, current) {
                 log.appendChild(logEntry);
             }
         }
-
     }
 }
 
@@ -231,7 +212,7 @@ export function updateLog(detailsArray2, current) {
     const log = document.getElementById("log");
 
     const childrenToRemove = Array.from(log.children).filter(child => {
-        return !(child.id === "log-name" || child.classList.contains("close-icon"));
+        return !(child.id === "log-name" || child.id === "close-log");
     });
 
     childrenToRemove.forEach(child => {

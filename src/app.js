@@ -119,7 +119,7 @@ receiveLegendFromDatabase()
                                 removeArray = receivedRemoveArray;
                                 loadData()
                                     .then(() => {
-                                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
+                                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
                                         createLog(detailsArray2, current);
 
                                         createLegend(detailsArray2);
@@ -140,15 +140,16 @@ function findRemaining(data) {
 
             blankObject.uniqueId = x.uniqueId;
             blankObject.name = x.name;
+            blankObject.color = x.color;
+            userObject.color = x.color;
 
-            if (x.color === "white" && document.body.classList.contains('light-mode')) {
+            /* if (x.color === "white" && document.body.classList.contains('light-mode')) {
                 blankObject.color = "black";
                 userObject.color = "black";
-                console.log("inside if statement");
             } else {
                 blankObject.color = x.color;
                 userObject.color = x.color;
-            }
+            } */
             console.log("blankObject:", blankObject);
             console.log("userObject:", userObject);
             return userObject, blankObject;
@@ -158,7 +159,7 @@ function findRemaining(data) {
         }
     }
 }
-function togglingSlices(pieData, whiteBool, blackBool) {
+/* function togglingSlices(pieData, whiteBool, blackBool) {
     for (let i = 0; i < pieData.labelName.length; i++) {
         let item = pieData.labelName[i];
         if (item === "Remaining") {
@@ -171,8 +172,8 @@ function togglingSlices(pieData, whiteBool, blackBool) {
             }
         }
     }
-}
-export function toggleRemaining() {
+} */
+/* export function toggleRemaining() {
     let turnToWhite = false;
     let turnToBlack = false;
     if (blankObject.color === "white") {
@@ -200,7 +201,7 @@ export function toggleRemaining() {
            chartId.data.datasets[1].borderColor = "black";
            chartId2.data.datasets[0].borderColor = "black";
            chartId3.data.datasets[0].borderColor = "black";
-       }  */
+       }  
 
         updateMainChartDataManually(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.labelName, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
 
@@ -218,7 +219,7 @@ export function toggleRemaining() {
             }
         }
     }
-}
+} */
 //change font based on settings
 function changeFontFamily(fontFamily) {
     document.documentElement.style.setProperty('--font-family', fontFamily);
@@ -413,11 +414,11 @@ async function loadData() {
     console.log("dressedData:", dressedData);
 
     //if light-mode is set as the default, toggle remaining slices that are white from the database to black
-    if (document.body.classList.contains('light-mode')) {
+    /* if (document.body.classList.contains('light-mode')) {
         togglingSlices(dressedData.leftChartData.pieData, false, true);
         togglingSlices(dressedData.rightChartData.pieData, false, true);
         togglingSlices(dressedData.mainChartData.pieData, false, true);
-    }
+    } */
 
     updateMainChartDataManually(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.labelName, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
 
@@ -555,7 +556,7 @@ beforeTimeArray = dressedData.mainChartData.reiterateData.beforeTimeArray;
 
 console.log("detailsArray2 and beforeTimeArray:", detailsArray2, beforeTimeArray);
 
-//multi-step form
+//multi-step form - going to DEPRECATE
 const submitButton = document.getElementById("submit-time-inputs");
 submitButton.addEventListener("click", function (event) {
     console.log("multi-step form submit btn");
@@ -691,8 +692,6 @@ submitBtn.addEventListener("click", function (event) {
 
 function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend) {
     userObject ??= blankObject;
-
-    //console.log("userObject:", userObject);
 
     startTimeMin ??= 0;
     if (endTimeMin == undefined) {
@@ -883,6 +882,10 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
 
     convertIndexToLegend(detailsArray, categoryColors, labelName);
 
+    console.log("durations:", durations);
+    console.log("labelName:", labelName);
+    console.log("categoryColors:", categoryColors);
+
     chartId.data.datasets[0].data = durations;
     chartId.data.labels = labelName;
     chartId.data.datasets[0].backgroundColor = categoryColors;
@@ -892,7 +895,8 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
     //chartId.data.datasets[1].backgroundColor = categoryColors;
 
     chartId.update();
-    traditionalClock(durations, categoryColors);
+    traditionalClock(durations, categoryColors, angles);
+    createLegend(detailsArray2);
 }
 
 function updateInstances(obj, delta) {
@@ -1037,7 +1041,7 @@ function settingCurrent(swipeEffect) {
                 dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
                 dayElement.innerHTML = dayOfWeekName;
                 loadData().then(() => {
-                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
+                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
 
                     // Remove slide-out-right class and add slide-in-left class after loading data
                     document.getElementById('chartId').classList.remove('slide-out-right');
@@ -1082,7 +1086,7 @@ function settingCurrent(swipeEffect) {
                 dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
                 dayElement.innerHTML = dayOfWeekName;
                 loadData().then(() => {
-                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
+                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
 
                     // Remove slide-out-left class and add slide-in-right class after loading data
                     document.getElementById('chartId').classList.remove('slide-out-left');
@@ -1136,7 +1140,7 @@ function settingCurrent(swipeEffect) {
 
                 loadData()
                     .then(() => {
-                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
+                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
                         updateLog(detailsArray2, current);
                         createLegend(detailsArray2);
                     })
@@ -1157,7 +1161,7 @@ function settingCurrent(swipeEffect) {
 
                 loadData()
                     .then(() => {
-                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors);
+                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
                         updateLog(detailsArray2, current);
                         createLegend(detailsArray2);
                     })
@@ -1250,7 +1254,7 @@ function updateMainChartDataManually(durations, labelName, categoryColors, angle
     chartId.data.datasets[0].data = durations;
     chartId.data.labels = labelName;
     chartId.data.datasets[0].backgroundColor = adjustedColors;
-    chartId.options.rotation = [0];
+    chartId.options.rotation = angles; //[0]
 
     //chartId.data.datasets[1].data = durations;
     //chartId.data.datasets[1].backgroundColor = categoryColors;

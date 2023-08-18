@@ -34,9 +34,9 @@ let centerX = 0;
 let centerY = 0;
 
 
-export function traditionalClock(durationsArray, colorsArray) { //PUT EXPORT IN LATER
+export function traditionalClock(durationsArray, colorsArray, angles) { //PUT EXPORT IN LATER
 
-    drawFace(ctx, radius, durationsArray, colorsArray);
+    drawFace(ctx, radius, durationsArray, colorsArray, angles);
     drawNumbers(ctx, radius);
     //drawNumbers2(ctx, radius);
     drawTicks(ctx, radius); //inside ticks
@@ -49,21 +49,19 @@ const clockNumberTextShadowLightColor = '#828282';
 const clockNumberTextShadowDarkColor = '#9c9c9c';
 
 //Draw the face of the clock
-function drawFace(ctx, radius, durations, colors) {    
+function drawFace(ctx, radius, durations, colors, angles) {  
+    
+    var angleOffset = -Math.PI / 2 + (angles * Math.PI / 180);
+    var startAngle = angleOffset; 
 
-    var angleOffset = -Math.PI / 2; // Offset to start the angles from the top
-    var startAngle = angleOffset;
-    //var startTimeArray = chartData.reiterateData.detailsArray2.map(slice => slice.start);
-
-    var borderWidth = 5; // You can adjust the border width as per your preference
-    var shadowBlur = 10; // You can adjust the shadow blur radius as per your preference
+    var borderWidth = 5; 
+    var shadowBlur = 10;
 
   
   for (var i = 0; i < durations.length; i++) {
 
     var duration = durations[i];
     var color = colors[i];
-    //var startTime = startTimeArray[i];
     var adjustedColor = adjustBrightness(color, 0);
     
     var sliceAngle = (duration / 1440 ) * 2 * Math.PI;
@@ -75,12 +73,12 @@ function drawFace(ctx, radius, durations, colors) {
 
     // Add the border
     ctx.lineWidth = borderWidth;
-    ctx.strokeStyle = "black"; // You can change the border color here
+    ctx.strokeStyle = "black"; 
     ctx.stroke();
 
     // Add the drop shadow
     ctx.shadowBlur = shadowBlur;
-    ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // You can adjust the shadow color and opacity here
+    ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; 
 
     ctx.closePath();
     ctx.fillStyle = adjustedColor; /*clockBGColor*/
