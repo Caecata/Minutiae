@@ -53,7 +53,7 @@ function prepopulateSettings(settings) {
     if (settings.analogStyle) {
         document.getElementById("analog-style").value = settings.analogStyle;
     }
-    if (settings.formType) {
+    /* if (settings.formType) {
         document.getElementById("form-type").value = settings.formType;
     }
     if (settings.tagsBool) {
@@ -61,7 +61,7 @@ function prepopulateSettings(settings) {
     }
     if (settings.descriptionBool) {
         document.getElementById("description").checked = settings.descriptionBool;
-    }
+    } */
 }
 
 //change font based on settings
@@ -86,21 +86,19 @@ document.getElementById("save-settings").addEventListener("click", function () {
     const darkLightMode = document.querySelector("#dark-light-mode").value;
 
     const font = document.querySelector("#font").value;
-    //Chivo, Roboto, Concert One, Oleo Script, Chewy, Lekton, Raleway, Amarante, Oregano, Combo, Rancho, Lacquer 
 
     const analogStyle = document.querySelector("#analog-style").value;
 
-    const formType = document.querySelector("#form-type").value;
-    console.log("formType:", formType);
-
+    /* const formType = document.querySelector("#form-type").value;
+    console.log("formType:", formType); 
     const tagsBool = document.querySelector("#tags").checked;
-    const descriptionBool = document.querySelector("#description").checked;
+    const descriptionBool = document.querySelector("#description").checked; 
+    formType: formType,
+    tagsBool: tagsBool,
+    descriptionBool: descriptionBool */
 
     const settingsObj = {
         analogStyle: analogStyle,
-        formType: formType,
-        tagsBool: tagsBool,
-        descriptionBool: descriptionBool,
         font: font,
         darkLightMode: darkLightMode
     };

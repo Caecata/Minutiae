@@ -1,5 +1,4 @@
 import Chart from 'chart.js/auto'
-
 import { DateTime } from 'luxon';
 import tinycolor from "tinycolor2";
 
@@ -12,7 +11,7 @@ import { minimalClock } from './minimalclock.js'
 import { modernClock } from './modernclock.js'
 
 import { legendData } from './templates.js'
-import { formValidations, oneStepForm, formValidations2, finalCategoryOption } from './form.js'
+import { oneStepForm, finalCategoryOption } from './form.js'
 import { retrieveData, saveToDatabase, receiveLegendFromDatabase, receiveSettingsFromDatabase, saveLegendToDatabase, getRemoveArray, saveRemoveArray, receiveTagsFromDatabase, saveTagsToDatabase } from './firebase/dbHandler.js'
 import { createLog, updateLog } from './log.js'
 import { createLegend } from './legend.js'
@@ -63,16 +62,13 @@ receiveLegendFromDatabase()
                         settings = receivedSettings;
                         console.log("settings:", settings);
                         if (settings !== null) {
-                            if (settings.formType === "multi-step") {
-                                console.log("legend:", legend);
-                                formValidations2(legend, settings.tagsBool, settings.descriptionBool, tags);
-                            } else if (settings.formType === "one-step") {
-                                oneStepForm(legend, settings.tagsBool, settings.descriptionBool, tags);
-                            }
+                            oneStepForm(legend, tags);
+            
                             if (settings.font !== "default") {
                                 const userFont = `${settings.font}, sans-serif`;
                                 changeFontFamily(userFont);
                             }
+
                             if (settings.analogStyle === "traditional") {
                                 handsOfTheClock();
                             } else if (settings.analogStyle === "minimal") {
@@ -87,6 +83,7 @@ receiveLegendFromDatabase()
                                 modernClock(mins, hour);
                                 modernStyle();
                             }
+
                             if (settings.darkLightMode === "dark-mode") {
                             } else if (settings.darkLightMode === "light-mode") {
                                 document.body.classList.remove("dark-mode");
@@ -105,7 +102,7 @@ receiveLegendFromDatabase()
                         } else {
                             //what the user will experience if they do not have any saved settings
                             console.log("user has no saved settings");
-                            formValidations2(legend, false, false, tags);
+                            oneStepForm(legend, tags);
                             handsOfTheClock();
                             traditionalClock();
                         }
@@ -121,7 +118,6 @@ receiveLegendFromDatabase()
                                     .then(() => {
                                         traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
                                         createLog(detailsArray2, current);
-
                                         createLegend(detailsArray2);
 
                                         loadingScreen.style.display = "none";
@@ -897,6 +893,16 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
     chartId.update();
     traditionalClock(durations, categoryColors, angles);
     createLegend(detailsArray2);
+    closeAllForms();
+}
+
+//close all forms when new slice is submitted
+function closeAllForms() {
+    document.getElementById("log").style.display = "none";
+    document.getElementById("one-step-form").style.display = "none";
+    document.getElementById("blurred-overlay").style.display = "none";
+    document.getElementById("view-log").style.display = "block";
+    document.getElementById("add-slice-button").style.display = "block";
 }
 
 function updateInstances(obj, delta) {

@@ -1,5 +1,5 @@
 import { useOneStepFormForEdit } from './form.js'
-import { receiveSettingsFromDatabase, receiveTagsFromDatabase } from './firebase/dbHandler.js'
+import { receiveSettingsFromDatabase, receiveTagsFromDatabase, receiveLegendFromDatabase } from './firebase/dbHandler.js'
 import { deleteSlice } from './app.js'
 
 import { DateTime } from 'luxon';
@@ -9,18 +9,14 @@ export function createLog(detailsArray2, current) {
     const log = document.getElementById("log");
     const blurredOverlay = document.getElementById("blurred-overlay");
     const closeBtn = document.getElementById("close-log");
-    let logOpen = false;
+    //let logOpen = false;
     let formOpen = false;
 
     logBtn.addEventListener("click", function () {
         console.log("logBtn clicked");
 
-        if (logOpen === false) {
-            logBtn.style.display = "none";
-            log.style.display = "block";
-            logOpen = true;
-        } 
-        
+        logBtn.style.display = "none";
+        log.style.display = "block";
         blurredOverlay.style.display = "block";
     })
 
@@ -31,7 +27,6 @@ export function createLog(detailsArray2, current) {
 
         logBtn.style.display = "block";
         log.style.display = "none";
-        logOpen = false;
 
         if (form.style.display == "block") {
             formOpen = true;
@@ -39,7 +34,9 @@ export function createLog(detailsArray2, current) {
             formOpen = false;
         }
 
-        if (logOpen == true || formOpen == true) {
+        console.log("formOpen:", formOpen);
+
+        if (formOpen == true) {
             blurredOverlay.style.display = "block";
         } else {
             blurredOverlay.style.display = "none";
@@ -223,17 +220,18 @@ export function updateLog(detailsArray2, current) {
 }
 const editBtn = (clickData) => {
     console.log("editBtn()");
-
     console.log("clickData:", clickData);
 
-    receiveSettingsFromDatabase()
-        .then((settings) => {
-            receiveTagsFromDatabase()
-                .then((tags) => {
-                    useOneStepFormForEdit(legend, settings.tagsBool, settings.descriptionBool, tags, clickData);
-                })
-
-        });
+    receiveLegendFromDatabase()
+        .then((receivedLegend) => {
+            receiveSettingsFromDatabase()
+            .then((settings) => {
+                receiveTagsFromDatabase()
+                    .then((tags) => {
+                        useOneStepFormForEdit(receivedLegend, clickData);
+                    })
+            });
+        })
 }
 
 const deleteBtn = (clickData) => {
