@@ -49,6 +49,27 @@
             z-index: 9;
         }
 
+        /* Hide vertical scrollbar */
+        ::-webkit-scrollbar {
+            width: 0;
+            background-color: transparent; /* Optional, makes the scrollbar area transparent */
+        }
+
+        /* Hide horizontal scrollbar */
+        ::-webkit-scrollbar-horizontal {
+            height: 0;
+        }
+
+        /* Hide scrollbar thumb */
+        ::-webkit-scrollbar-thumb {
+            display: none;
+        }
+
+        /* Hide scrollbar track */
+        ::-webkit-scrollbar-track {
+            display: none;
+        }
+        
         /* MEDIA QUERIES*/
 
         /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
@@ -61,10 +82,21 @@
 
             #calendar {
                 top: 15%;
-                width: 80%;
+                width: 90%; /*80%*/
                 height: 80%;
             }
 
+            /* Style the month and year header */
+            .fc-toolbar .fc-toolbar-title {
+                font-size: 18px;
+            }
+
+            /* Style the previous and next buttons 
+                .fc-button-prev, .fc-button-next {
+            }
+            /* Style the today button 
+            .fc-button-today {
+            } */
         }
 
         /*480px: This is the width of many mobile devices in landscape mode.*/
@@ -98,7 +130,7 @@
 
     <div class="menu">
         <!-- MENU -->
-        <button id="menu" class="dark-mode">
+        <button id="menu" class="button" class="dark-mode">
             <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>Menu
         </button>
 

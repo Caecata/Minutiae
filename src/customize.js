@@ -347,7 +347,7 @@ viewTreeBtn.addEventListener("click", function() {
   }
 })
 
-//CODE FOR REMAKING THE FOLDER SYSTEM
+//FOLDER SYSTEM
 var remakeDropdownContainer = document.getElementById("remake-dropdown-container");
 
 const chevronRightBtn = (clickData) => {

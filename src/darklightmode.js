@@ -1,4 +1,4 @@
-import {toggleRemaining} from './app.js'
+//import {toggleRemaining} from './app.js'
 
 export function initializeDarkLightMode() {
     //Script for Dark Mode and Light Mode
@@ -82,7 +82,7 @@ export function initializeDarkLightMode() {
         rightArrow.classList.toggle("light-mode");
 
         //enable dark and light mode to the chart's "remaining" slices
-        toggleRemaining();
+        //toggleRemaining();
         //a function from app.js that checks if remaining's slice is white or black. 
         //if so, it will run a loop for pie slice to check if it needs to be toggle to the other color
         //consider finding a way to distinguish between a slice that is purposefully black/white versus a default black/white

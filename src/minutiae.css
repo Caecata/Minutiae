@@ -261,13 +261,20 @@ select option {
 
     display: inline-block;
 
-    background-color: #e0e0e0;
-    color: #333;
-
     padding: 4px 6px;
     border-radius: 4px;
     margin-right: 8px;
     margin-bottom: 8px;
+}
+
+.dark-mode .tag {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.light-mode .tag {
+    background-color: #333;
+    color: #e0e0e0;
 }
 
 /* MEDIA QUERIES*/
