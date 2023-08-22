@@ -35,6 +35,8 @@
             display: flex;
             justify-content: center;
             margin-top: 6%;
+
+            z-index: 15;
         }
 
         #tags-label {
@@ -42,6 +44,8 @@
             display: flex;
             justify-content: center;
             margin-top: 90%;
+
+            z-index: 15;
         }
 
         #line1 {
@@ -62,6 +66,165 @@
             background-color: black;
         }
 
+        #blurred-overlay {
+            width: 88%;
+            height: 24%;
+
+            position: absolute;
+            top: 73%;
+            left: 6%;
+
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); /* For Safari and some versions of Chrome */
+            
+            z-index: 11;
+            display: none;
+        }
+
+        /* CSS for close icons and names of forms */
+        #close-add-category, #close-delete-category, #close-rename-category, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .close-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        #add-category-name, #delete-category-name, #rename-category-name, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag {
+            height: 15%;
+            font-size: 1em;
+            padding: 0.3em;
+        }
+
+        /* CSS for forms */
+        #categoryForm,
+        #deleteForm,
+        #renameForm,
+        #changeColorForm,
+        #addTagForm,
+        #deleteTagForm,
+        #renameTagForm {
+            font-family: var(--font-family);
+            display: none;
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.3em;
+            background-color: #D9D9D9;
+            border: 2px solid black;
+            z-index: 12;
+
+            width: 76%;
+        }
+
+        .inline-label {
+            display: inline-block;
+            font-size: 0.8em;
+            width: 40px;
+        }
+
+        .long-inline-label {
+            display: inline-block;
+            font-size: 0.8em;
+            width: 100px;
+        }
+
+        .block-label {
+            font-size: 0.8em;
+        }
+
+        .align-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 3%;
+            padding: 10px;
+        }
+
+        .name-horizontal {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+        }
+
+        .color-horizontal {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+        }
+
+        #options, #optionsForDelete, #optionsForRename, #optionsForChangeColor, #tagOptionsToDelete, #tagOptionsForRename {
+            width: 100%;
+        } 
+
+        #optionsForChangeColor {
+            margin-top: 10px;
+        }
+
+        .align-vertical > *:not(:last-child) {
+            margin-bottom: 7px; 
+        } 
+
+        #submit-category {
+            margin-left: 40%;
+        }
+
+        #colorInputForNewCategory, #textInput, #tagName {
+            margin-left: 2%;
+        }
+
+        #textInput, #renameValue, #tagRenameValue{
+            width: 105%;
+        }
+
+        #tagName {
+            width: 103%;
+        }
+
+        #submit-delete-category, #submit-add-tag, #submit-delete-tag {
+            margin-left: 80%;
+            margin-bottom: 10px;
+        }
+
+        #submit-rename-category, #submit-change-color, #submit-rename-tag {
+            margin-left: 79%;
+            margin-bottom: 10px;
+        }
+
+        #optionsForDelete, #tagOptionsToDelete {
+            margin-bottom: 10px;
+        }
+
+        /* CSS for submit buttons in forms */
+        #submit-category, #submit-delete-category, #submit-rename-category, #submit-change-color, #submit-add-tag, #submit-delete-tag, #submit-rename-tag {
+            font-family: var(--font-family), sans-serif;
+            font-size: 0.7em;
+
+            position: relative;
+
+            padding: 0.3em;
+
+            z-index: 9; /*9*/
+
+            cursor: pointer;
+            text-align: center;
+
+            color: black;
+            border: 0.1em solid #1b1b1b;
+            background-color: #F7F0F5; 
+            box-shadow: 0 4px 4px #000000; 
+        }
 
         /* CSS for buttons and their locations */
         #addCategoryButton,
@@ -80,7 +243,7 @@
             padding: 0.3em;
             margin: 1em;
 
-            z-index: 9;
+            z-index: 9; /*9*/
 
             cursor: pointer;
             text-align: center;
@@ -193,6 +356,7 @@
             background-color: #D9D9D9;
 
             overflow: auto;
+            white-space: nowrap;
 
             z-index: 1;
         }
@@ -266,22 +430,6 @@
         .light-mode #tree-backdrop {
             background-color: white;
             border: 2px solid black;
-        }
-
-        #categoryForm,
-        #deleteForm,
-        #renameForm,
-        #changeColorForm,
-        #addTagForm,
-        #deleteTagForm,
-        #renameTagForm {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 2px solid black;
-            z-index: 12;
         }
 
         #title {
@@ -469,6 +617,8 @@
         <div id="line2"></div>
     </div>
 
+    <div id="blurred-overlay"></div>
+
     <div class="menu">
         <!-- MENU -->
         <button id="menu" class="button" class="dark-mode">
@@ -518,74 +668,125 @@
     </div>
 
     <form id="categoryForm">
-        <label for="options">Select a parent for new category:</label>
-        <select id="options"></select>
+        <div id="add-category-name">Add Category</div>
+        <button id="close-add-category">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
 
-        <br>
-        <label for="textInput">Name:</label>
-        <input type="text" id="textInput" required>
-        <br>
+        <div class="align-vertical">
+            <label for="options"class="block-label">Select a parent for new category:</label>
+            <select id="options"></select>
 
-        <label for="colorInputForNewCategory">Select a color:</label>
-        <input type="color" id="colorInputForNewCategory" name="colorInputForNewCategory">
+            <div class="name-horizontal">
+                <label for="textInput" class="inline-label">Name:</label>
+                <input type="text" id="textInput" required>
+            </div>
 
-        <button type="submit">Submit</button>
+            <div class="color-horizontal">
+                <label for="colorInputForNewCategory" class="inline-label">Color:</label>
+                <input type="color" id="colorInputForNewCategory" name="colorInputForNewCategory">
+
+                <button type="submit" id="submit-category">Submit</button>
+            </div>
+        </div>
     </form>
 
     <form id="deleteForm">
-        <label for="options">Delete:</label>
+        <div id="delete-category-name">Delete Category</div>
+        <button id="close-delete-category">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
+
         <select id="optionsForDelete"></select>
 
-        <button type="submit">Submit</button>
+        <button type="submit" id="submit-delete-category">Submit</button>
     </form>
 
     <form id="renameForm">
-        <label for="optionsForRename">Rename:</label>
-        <select id="optionsForRename"></select>
+        <div id="rename-category-name">Rename Category</div>
+        <button id="close-rename-category">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
 
-        <br>
-        <label for="renameValue">Name:</label>
-        <input type="text" id="renameValue" required>
-        <br>
+        <div class="align-vertical">
+            <select id="optionsForRename"></select>
 
-        <button type="submit">Submit</button>
+            <div class="name-horizontal">
+                <label for="renameValue" class="inline-label">Name:</label>
+                <input type="text" id="renameValue" required>
+            </div>
+        </div>
+        
+        <button type="submit" id="submit-rename-category">Submit</button>
     </form>
 
     <form id="changeColorForm">
-        <label for="optionsForChangeColor">Change color of:</label>
-        <select id="optionsForChangeColor"></select>
+        <div id="change-color-name">Change Color</div>
+        <button id="close-change-color">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
 
-        <br>
+        <div class="align-vertical">
+            <select id="optionsForChangeColor"></select>
 
-        <label for="colorInputForChangeColor">Select a color:</label>
-        <input type="color" id="colorInputForChangeColor" name="colorInputForChangeColor">
+            <div class="color-horizontal">
+                <label for="colorInputForChangeColor" class="long-inline-label">Select a color:</label>
+                <input type="color" id="colorInputForChangeColor" name="colorInputForChangeColor">
+            </div>
+        </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" id="submit-change-color">Submit</button>
     </form>
 
     <form id="addTagForm">
-        <label for="tagName">Name:</label>
-        <input type="text" id="tagName" required>
-        <button type="submit">Submit</button>
+        <div id="add-tag-name">Add Tag</div>
+        <button id="close-add-tag">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
+
+        <br>
+
+        <div class="name-horizontal">
+            <label for="tagName" class="inline-label">Name:</label>
+            <input type="text" id="tagName" required>
+        </div>
+
+        <br> 
+
+        <button type="submit" id="submit-add-tag">Submit</button>
     </form>
 
     <form id="deleteTagForm">
-        <label for="deleteTagOptions">Delete:</label>
+        <div id="delete-tag-name">Delete Tag</div>
+        <button id="close-delete-tag">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
+
+        <br>
+
         <select id="tagOptionsToDelete"></select>
 
-        <button type="submit">Submit</button>
+        <button type="submit" id="submit-delete-tag">Submit</button>
     </form>
 
     <form id="renameTagForm">
-        <label for="tagOptionsForRename">Rename:</label>
-        <select id="tagOptionsForRename"></select>
+        <div id="renamge-tag-name">Rename Tag</div>
+        <button id="close-rename-tag">
+            <img src="./close.png" alt="Close Icon" class="close-icon">
+        </button>
 
         <br>
-        <label for="tagRenameValue">Name:</label>
-        <input type="text" id="tagRenameValue" required>
-        <br>
+        
+        <div class="align-vertical">
+            <select id="tagOptionsForRename"></select>
 
-        <button type="submit">Submit</button>
+            <div class="name-horizontal">
+                <label for="tagRenameValue" class="inline-label">Name:</label>
+                <input type="text" id="tagRenameValue" required>
+            </div>
+        </div>
+
+        <button type="submit" id="submit-rename-tag">Submit</button>
     </form>
 
     <!--<button id="addCategoryButton" class="dark-mode">Add Category</button> -->

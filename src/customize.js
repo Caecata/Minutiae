@@ -14,6 +14,49 @@ import { signOutUser } from './firebase/authentication.js'
 let signInBtn = document.getElementById("sign-in");
 signInBtn.addEventListener("click", signOutUser);
 
+//close button event listeners for the forms
+document.getElementById("close-add-category").addEventListener("click", function(event) {
+  event.preventDefault();
+  document.getElementById("categoryForm").style.display = "none";
+  document.getElementById("blurred-overlay").style.display = "none";
+})
+
+document.getElementById("close-delete-category").addEventListener("click", function(event) {
+  event.preventDefault();
+  document.getElementById("deleteForm").style.display = "none";
+  document.getElementById("blurred-overlay").style.display = "none";
+})
+
+document.getElementById("close-rename-category").addEventListener("click", function(event) {
+  event.preventDefault();
+  document.getElementById("renameForm").style.display = "none";
+  document.getElementById("blurred-overlay").style.display = "none";
+})
+
+document.getElementById("close-change-color").addEventListener("click", function(event) {
+  event.preventDefault();
+  document.getElementById("changeColorForm").style.display = "none";
+  document.getElementById("blurred-overlay").style.display = "none";
+})
+
+document.getElementById("close-add-tag").addEventListener("click", function(event) {
+  event.preventDefault();
+  document.getElementById("addTagForm").style.display = "none";
+  document.getElementById("blurred-overlay").style.display = "none";
+})
+
+document.getElementById("close-delete-tag").addEventListener("click", function(event) {
+  event.preventDefault();
+  document.getElementById("deleteTagForm").style.display = "none";
+  document.getElementById("blurred-overlay").style.display = "none";
+})
+
+document.getElementById("close-rename-tag").addEventListener("click", function(event) {
+  event.preventDefault();
+  document.getElementById("renameTagForm").style.display = "none";
+  document.getElementById("blurred-overlay").style.display = "none";
+})
+
 //loading screen
 const loadingScreen = document.getElementById('loading-screen');
 
@@ -565,7 +608,7 @@ function createElements(arrayParameter, parentDiv) {
 
     const folder = document.createElement('i');
     folder.setAttribute("class", "fa-solid fa-folder");
-    folder.style.fontSize = "1.2em";
+    folder.style.fontSize = "1em"; //1.2em
     folder.style.color = x.color;
 
     const text = document.createElement('span');
@@ -583,7 +626,7 @@ function createElements(arrayParameter, parentDiv) {
       if (match) {
         const depth = parseInt(match[1]) + 1;
         childDiv.classList.add(`depth-${depth}`);
-        childDiv.style.marginLeft = `${depth * 2.3}em`;
+        childDiv.style.marginLeft = "2.3em"; //marginLeft = `${depth * 2.3}em`;
         childDiv.style.display = "none";
       }
     }
@@ -700,6 +743,7 @@ function createNewSubcategory(parentFolder, addIconBool, newSubcategory) {
 
 var addCategoryButton = document.getElementById("addCategoryButton");
 var categoryForm = document.getElementById("categoryForm");
+var blurredOverlay = document.getElementById("blurred-overlay");
 var parentUid;
 var newCategoryName = "";
 var color = "";
@@ -714,6 +758,7 @@ addCategoryButton.addEventListener("click", function () {
     .then((legend) => {
 
       categoryForm.style.display = "block";
+      blurredOverlay.style.display = "block";
 
       var formSubmissionPromise = new Promise(function (resolve, reject) {
         categoryForm.addEventListener('submit', function (event) {
@@ -871,6 +916,7 @@ document.getElementById("deleteButton").addEventListener("click", function () {
     .then((legend) => {
 
       deleteForm.style.display = "block";
+      blurredOverlay.style.display = "block";
 
       var deleteFormSubmissionPromise = new Promise(function (resolve, reject) {
         deleteForm.addEventListener('submit', function (event) {
@@ -979,6 +1025,7 @@ document.getElementById("renameButton").addEventListener("click", function () {
     .then((legend) => {
 
       renameForm.style.display = "block";
+      blurredOverlay.style.display = "block";
 
       var renameFormSubmissionPromise = new Promise(function (resolve, reject) {
         renameForm.addEventListener('submit', function (event) {
@@ -1040,6 +1087,7 @@ document.getElementById("changeColorButton").addEventListener("click", function 
     .then((legend) => {
 
       changeColorForm.style.display = "block";
+      blurredOverlay.style.display = "block";
 
       var changeColorFormSubmissionPromise = new Promise(function (resolve, reject) {
         changeColorForm.addEventListener('submit', function (event) {
@@ -1103,6 +1151,7 @@ document.getElementById("addTag").addEventListener("click", function () {
     .then((tags) => {
 
       addTagForm.style.display = "block";
+      blurredOverlay.style.display = "block";
 
       var addTagFormSubmissionPromise = new Promise(function (resolve, reject) {
         addTagForm.addEventListener('submit', function (event) {
@@ -1144,6 +1193,7 @@ document.getElementById("deleteTag").addEventListener("click", function () {
   receiveTagsFromDatabase()
     .then((tags) => {
       deleteTagForm.style.display = "block";
+      blurredOverlay.style.display = "block";
       var deleteTagFormSubmissionPromise = new Promise(function (resolve, reject) {
         deleteTagForm.addEventListener("submit", function (event) {
           event.preventDefault();
@@ -1214,6 +1264,7 @@ document.getElementById("renameTag").addEventListener("click", function () {
     .then((tags) => {
 
       renameTagForm.style.display = "block";
+      blurredOverlay.style.display = "block";
 
       var renameTagFormSubmissionPromise = new Promise(function (resolve, reject) {
         renameTagForm.addEventListener('submit', function (event) {
