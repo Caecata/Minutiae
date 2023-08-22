@@ -25,7 +25,7 @@
     top: 0;
     left: 0;
 
-    background-color: rgba(0, 0, 0, 1);
+    background-color: #433633;
     /*rgba(0, 0, 0, 0.5)*/
 
     display: flex;
@@ -53,7 +53,7 @@
     font-size: 1em;
     letter-spacing: 2px;
 
-    color: black;
+    color: #F7F0F5;
     font-weight: bold;
 }
 
@@ -177,7 +177,7 @@ body.light-mode {
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
     transition: clip-path 0.5s ease-in-out;
 
-    z-index: 10;
+    z-index: 20;
 
     /* border-radius: 15px; */
 }

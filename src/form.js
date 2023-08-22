@@ -1,3 +1,10 @@
+import { tree, select, drag, selectAll } from 'd3'
+import * as d3 from 'd3'
+console.log(d3); 
+import { saveLegendToDatabase, receiveLegendFromDatabase, saveRemoveArray, getRemoveArray, receiveTagsFromDatabase, saveTagsToDatabase } from './firebase/dbHandler.js'
+
+import { closeLegendForms, updateVisualization, removeVisualization, viewTree, chevronRightBtn, angleDownBtn, createClickHandler, createElements, initializeFolders, removeFolders, myLegendBtnFunctions, updateTags } from './mylegendexperience.js' 
+
 import { event } from 'jquery';
 import { DateTime } from 'luxon'
 
@@ -112,6 +119,39 @@ export function oneStepForm(legend, tags) {
         }
     }
 
+    //If "Advanced Selection" is chosen, My Legend page appears.
+    selectElement.addEventListener("change", function() {
+        if (selectElement.value === "open") {
+            console.log("open my Legend");
+            //open My Legend
+            closeLegendForms();
+            viewTree();
+            myLegendBtnFunctions();
+            
+            document.getElementById("my-legend").style.display = "block";
+            document.getElementById("view-log").style.display = "none";
+            blurredOverlay.style.display = "block";
+
+            document.getElementById("close-legend").addEventListener("click", function(event) {
+                document.getElementById("my-legend").style.display = "none";
+                document.getElementById("view-log").style.display = "block";
+
+                //reset folders so it doesn't double up upon reopening
+                removeFolders();
+            })
+
+            receiveLegendFromDatabase()
+                .then((legend) => {
+                    updateVisualization(legend, "#tree-container");
+                    initializeFolders(legend); 
+                    receiveTagsFromDatabase()
+                        .then((tags) => {
+                        updateTags(tags);
+                    })
+                })
+        }
+    })
+
     //Triggers the add process
     document.getElementById("add-slice-button").addEventListener("click", function () {
         console.log("add-slice-button clicked");
@@ -169,6 +209,7 @@ export function oneStepForm(legend, tags) {
         }
     }
 }
+
 export let finalCategoryOption;
 
 export function useOneStepFormForEdit(legend, slice) {

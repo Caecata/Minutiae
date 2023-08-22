@@ -553,7 +553,7 @@ beforeTimeArray = dressedData.mainChartData.reiterateData.beforeTimeArray;
 console.log("detailsArray2 and beforeTimeArray:", detailsArray2, beforeTimeArray);
 
 //multi-step form - going to DEPRECATE
-const submitButton = document.getElementById("submit-time-inputs");
+/* const submitButton = document.getElementById("submit-time-inputs");
 submitButton.addEventListener("click", function (event) {
     console.log("multi-step form submit btn");
 
@@ -617,7 +617,7 @@ submitButton.addEventListener("click", function (event) {
     console.log("userObject:", userObject);
     console.log("beforeDetailsArray:", beforeDetailsArray);
     updateChartData(startTimeMin, endTimeMin, duration, userObject, legend);
-});
+}); */
 
 //one-step form
 const submitBtn = document.getElementById("submit-inputs");

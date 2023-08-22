@@ -17,7 +17,7 @@
 
     <style>
         /* CSS for overlay - mobile is default */
-        #overlay {
+        #overlay-legend {
             position: absolute;
             width: 88%;
             height: 85%;
@@ -27,7 +27,7 @@
             background-color: #FFFFFF;
             border: 2px solid #000000;
 
-            z-index: -1;
+            z-index: 9; /* - 1*/
         }
 
         #categories-label {
@@ -36,7 +36,7 @@
             justify-content: center;
             margin-top: 6%;
 
-            z-index: 15;
+            z-index: 25; /* 15*/
         }
 
         #tags-label {
@@ -45,7 +45,7 @@
             justify-content: center;
             margin-top: 90%;
 
-            z-index: 15;
+            z-index: 25;
         }
 
         #line1 {
@@ -66,7 +66,7 @@
             background-color: black;
         }
 
-        #blurred-overlay {
+        #blurred-overlay-legend {
             width: 88%;
             height: 24%;
 
@@ -78,12 +78,12 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px); /* For Safari and some versions of Chrome */
             
-            z-index: 11;
+            z-index: 21;
             display: none;
         }
 
         /* CSS for close icons and names of forms */
-        #close-add-category, #close-delete-category, #close-rename-category, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag {
+        #close-add-category, #close-delete-category, #close-rename-category, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag, #close-tree {
             position: absolute;
             top: 0;
             right: 0;
@@ -98,7 +98,7 @@
             height: 32px;
         }
 
-        #add-category-name, #delete-category-name, #rename-category-name, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag {
+        #add-category-name, #delete-category-name, #rename-category-name, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag, #close-tree {
             height: 15%;
             font-size: 1em;
             padding: 0.3em;
@@ -121,12 +121,12 @@
             padding: 0.3em;
             background-color: #D9D9D9;
             border: 2px solid black;
-            z-index: 12;
+            z-index: 22;
 
             width: 76%;
         }
 
-        .inline-label {
+        .inline-label-legend {
             display: inline-block;
             font-size: 0.8em;
             width: 40px;
@@ -142,7 +142,7 @@
             font-size: 0.8em;
         }
 
-        .align-vertical {
+        .align-vertical-legend {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -172,7 +172,7 @@
             margin-top: 10px;
         }
 
-        .align-vertical > *:not(:last-child) {
+        .align-vertical-legend > *:not(:last-child) {
             margin-bottom: 7px; 
         } 
 
@@ -215,7 +215,7 @@
 
             padding: 0.3em;
 
-            z-index: 9; /*9*/
+            z-index: 19; /*9*/
 
             cursor: pointer;
             text-align: center;
@@ -243,7 +243,7 @@
             padding: 0.3em;
             margin: 1em;
 
-            z-index: 9; /*9*/
+            z-index: 19; /*9*/
 
             cursor: pointer;
             text-align: center;
@@ -358,7 +358,7 @@
             overflow: auto;
             white-space: nowrap;
 
-            z-index: 1;
+            z-index: 11;
         }
 
         .dark-mode #folder-container {
@@ -400,7 +400,7 @@
             margin: 1em;
 
             z-index: 1;
-        } */
+        }  */
 
         /* backdrop */
         #tree-backdrop {
@@ -408,18 +408,21 @@
             letter-spacing: 1px;
             word-spacing: 2px;
 
-            width: 40%;
+            width: 40%; 
             height: 60%;
+
+            width: 100%;
+            height: 90%;
 
             position: absolute;
             right: 1%;
-            top: 26%;
+            top: 26%; 
 
             display: none;
 
             overflow: auto;
 
-            z-index: 10;
+            z-index: 20;
         }
 
         .dark-mode #tree-backdrop {
@@ -450,7 +453,7 @@
             right: 0%;
 
             display: none;
-            z-index: 30;
+            z-index: 40;
 
             cursor: pointer;
         }
@@ -460,7 +463,7 @@
             font-family: var(--font-family);
             font-size: 3em;
             display: none;
-            z-index: 30;
+            z-index: 40;
 
             cursor: pointer;
         }
@@ -563,17 +566,20 @@
 
                 align-items: flex-start;
 
+                z-index: 10;
+
                 /*overflow: auto;*/
             }
             .tag {
                 font-size: 0.7em;
             }
             #tree-backdrop {
-                width: 70%;
+                width: 88%;
                 left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
+                top: 12%;
+                transform: translateX(-50%);
+                height: 61.5%;
+            } 
             /* #view-log,
             #add-slice-button {
                 z-index: 11;
@@ -610,14 +616,14 @@
     <h2 id="title">Legend Customization</h2>
 
     <!-- overlay for main elements on page -->
-    <div id="overlay">
-        <div id="categories-label">Categories:</div>
-        <div id="tags-label">Tags:</div>
+    <div id="overlay-legend">
+        <label id="categories-label">Categories:</label>
+        <label id="tags-label">Tags:</label>
         <div id="line1"></div>
         <div id="line2"></div>
     </div>
 
-    <div id="blurred-overlay"></div>
+    <div id="blurred-overlay-legend"></div> 
 
     <div class="menu">
         <!-- MENU -->
@@ -653,6 +659,7 @@
 
     <!--<div id="dropdown-container"></div> -->
 
+    <!-- <div id="tree-background"> </div> -->
     <div id="tree-backdrop">
         <svg id="tree-container" width="800" height="700"></svg>
     </div>
@@ -673,17 +680,17 @@
             <img src="./close.png" alt="Close Icon" class="close-icon">
         </button>
 
-        <div class="align-vertical">
+        <div class="align-vertical-legend">
             <label for="options"class="block-label">Select a parent for new category:</label>
             <select id="options"></select>
 
             <div class="name-horizontal">
-                <label for="textInput" class="inline-label">Name:</label>
+                <label for="textInput" class="inline-label-legend">Name:</label>
                 <input type="text" id="textInput" required>
             </div>
 
             <div class="color-horizontal">
-                <label for="colorInputForNewCategory" class="inline-label">Color:</label>
+                <label for="colorInputForNewCategory" class="inline-label-legend">Color:</label>
                 <input type="color" id="colorInputForNewCategory" name="colorInputForNewCategory">
 
                 <button type="submit" id="submit-category">Submit</button>
@@ -708,11 +715,11 @@
             <img src="./close.png" alt="Close Icon" class="close-icon">
         </button>
 
-        <div class="align-vertical">
+        <div class="align-vertical-legend">
             <select id="optionsForRename"></select>
 
             <div class="name-horizontal">
-                <label for="renameValue" class="inline-label">Name:</label>
+                <label for="renameValue" class="inline-label-legend">Name:</label>
                 <input type="text" id="renameValue" required>
             </div>
         </div>
@@ -726,7 +733,7 @@
             <img src="./close.png" alt="Close Icon" class="close-icon">
         </button>
 
-        <div class="align-vertical">
+        <div class="align-vertical-legend">
             <select id="optionsForChangeColor"></select>
 
             <div class="color-horizontal">
@@ -747,7 +754,7 @@
         <br>
 
         <div class="name-horizontal">
-            <label for="tagName" class="inline-label">Name:</label>
+            <label for="tagName" class="inline-label-legend">Name:</label>
             <input type="text" id="tagName" required>
         </div>
 
@@ -770,18 +777,18 @@
     </form>
 
     <form id="renameTagForm">
-        <div id="renamge-tag-name">Rename Tag</div>
+        <div id="rename-tag-name">Rename Tag</div>
         <button id="close-rename-tag">
             <img src="./close.png" alt="Close Icon" class="close-icon">
         </button>
 
         <br>
-        
-        <div class="align-vertical">
+
+        <div class="align-vertical-legend">
             <select id="tagOptionsForRename"></select>
 
             <div class="name-horizontal">
-                <label for="tagRenameValue" class="inline-label">Name:</label>
+                <label for="tagRenameValue" class="inline-label-legend">Name:</label>
                 <input type="text" id="tagRenameValue" required>
             </div>
         </div>
