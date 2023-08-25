@@ -315,6 +315,17 @@ export function removeFolders() {
 
 export function myLegendBtnFunctions() {
     var remakeDropdownContainer = document.getElementById("remake-dropdown-container");
+
+    var addCategoryButton = document.getElementById("addCategoryButton");
+    var categoryForm = document.getElementById("categoryForm");
+    var blurredOverlayLegend = document.getElementById("blurred-overlay-legend");
+    var parentUid;
+    var newCategoryName = "";
+    var color = "";
+    const arrayOfCategories = [];
+    
+    var deleteForm = document.getElementById("deleteForm");
+    const renameForm = document.getElementById("renameForm");
   
   //ADD BUTTONS code
   function createNewCategory(data) {
@@ -356,6 +367,11 @@ export function myLegendBtnFunctions() {
   
     const parentFolderName = parentFolder.name;
     const parentDiv = document.getElementById(`category-${parentFolderName}`);
+
+    //this section sets up the new subcategory to be "block" or "none" based on whether the parent folder is uncollapsed or collapsed
+    const parentDropdownIcon = parentDiv.querySelector("i");
+    console.log("parentDropdownIcon:", parentDropdownIcon);
+    const isParentCollapsed = parentDropdownIcon.classList.contains("fa-chevron-right");
   
     const childDiv = document.createElement('div');
   
@@ -394,7 +410,7 @@ export function myLegendBtnFunctions() {
       const depth = parseInt(match[1]) + 1;
       childDiv.classList.add(`depth-${depth}`);
       childDiv.style.marginLeft = "2.3em";
-      childDiv.style.display = "none";
+      childDiv.style.display = isParentCollapsed ? "none" : "block";
     }
   
     childDiv.appendChild(iconForChild);
@@ -403,16 +419,6 @@ export function myLegendBtnFunctions() {
   
     parentDiv.appendChild(childDiv);
   }
-  
-  var addCategoryButton = document.getElementById("addCategoryButton");
-  var categoryForm = document.getElementById("categoryForm");
-  var blurredOverlayLegend = document.getElementById("blurred-overlay-legend");
-  var parentUid;
-  var newCategoryName = "";
-  var color = "";
-  const arrayOfCategories = [];
-  
-  var deleteForm = document.getElementById("deleteForm");
   
   addCategoryButton.addEventListener("click", function () {
     console.log("addCategoryButton()")
@@ -444,6 +450,7 @@ export function myLegendBtnFunctions() {
             console.log('Entered color:', color);
   
             categoryForm.style.display = "none";
+            blurredOverlayLegend.style.display = "none";
   
             resolve({
               parentUid: parentUid,
@@ -613,6 +620,7 @@ export function myLegendBtnFunctions() {
         deleteFormSubmissionPromise.then(function (formValues) {
   
           deleteForm.style.display = "none";
+          blurredOverlayLegend.style.display = "none";
   
           var newData = { //tree to delete
             name: formValues.deleteOption,
@@ -663,7 +671,6 @@ export function myLegendBtnFunctions() {
   }
   
   //RENAME BUTTON code
-  
   function findDataPointToRenameOrChangeColor(legend, targetName) {
     console.log("findDataPointToRenameOrChangeColor");
     for (const x of legend) {
@@ -678,9 +685,7 @@ export function myLegendBtnFunctions() {
       }
     }
   }
-  
-  const renameForm = document.getElementById("renameForm");
-  
+    
   document.getElementById("renameButton").addEventListener("click", function () {
     console.log("renameButton");
   

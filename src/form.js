@@ -134,9 +134,18 @@ export function oneStepForm(legend, tags) {
             document.getElementById("view-log").style.display = "none";
             blurredOverlay.style.display = "block";
 
+            let logOpen = false;
+            let log = document.getElementById("log");
+            if (log.style.display == "block") {
+                logOpen = true;
+            }
+
             document.getElementById("close-legend").addEventListener("click", function(event) {
                 document.getElementById("my-legend").style.display = "none";
-                document.getElementById("view-log").style.display = "block";
+
+                if (!logOpen) {
+                    document.getElementById("view-log").style.display = "block";
+                }
 
                 //reset folders so it doesn't double up upon reopening
                 removeFolders();

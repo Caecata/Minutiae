@@ -845,7 +845,6 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
         case "fillComplete":
             console.log("fillComplete switchCase");
             detailsArray2.splice(k, count + 1, userObject);
-            //fillComplete = false; COMMENTED THIS OUT ON 8/24/23 because it caused an error and also did not know what the purpose of this line is
             for (let i = 0; i < count + 1; i++) {
                 updateInstances(beforeDetailsArray[k + i], -1);
             }
