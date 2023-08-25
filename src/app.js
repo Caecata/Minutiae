@@ -845,7 +845,7 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
         case "fillComplete":
             console.log("fillComplete switchCase");
             detailsArray2.splice(k, count + 1, userObject);
-            fillComplete = false;
+            //fillComplete = false; COMMENTED THIS OUT ON 8/24/23 because it caused an error and also did not know what the purpose of this line is
             for (let i = 0; i < count + 1; i++) {
                 updateInstances(beforeDetailsArray[k + i], -1);
             }
@@ -1097,13 +1097,11 @@ export function handleTouchEnd(event) {
 }
 
 export function disableSwipeOnApp() {
-    console.log("disabled swipe");
     document.removeEventListener('touchstart', handleTouchStart);
     document.removeEventListener('touchend', handleTouchEnd);
 }
 
 export function enableSwipeOnApp() {
-    console.log("enabled swipe");
     document.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchend', handleTouchEnd);
 }
@@ -1382,7 +1380,6 @@ function createVariables(parsedData, durations, startTimeArray, detailsArray2, a
     return { pieData, reiterateData };
 }
 
-
 function adjustBrightness(color, brightness) {
     /* const adjustedColor = tinycolor(color).brighten(brightness * 100).toString();
     return adjustedColor; */
@@ -1449,5 +1446,4 @@ export function deleteSlice(slice) {
     beforeDetailsArray = detailsArray2.slice();
 
     updateChartData(slice.start, slice.start + slice.duration, deleteDuration, blankObject, legend);
-
 }
