@@ -46,7 +46,13 @@ const loadingScreen = document.getElementById('loading-screen');
 
 receiveLegendFromDatabase()
     .then((receivedLegend) => {
-        settingCurrent(isMobile);
+        /* loadingScreen.innerHTML = "Loading..."; */
+        current = settingCurrent();
+        console.log("current after settingCurrent 8/24/23:", current);
+
+        settingYesterdayAndTomorrow(isMobile, current);
+        //settingYesterdayAndTomorrow(isMobile) (take off isMobile as a parameter to settingCurrent)
+
         console.log("receivedLegend:", receivedLegend);
         if (receivedLegend !== null) {
             legend = receivedLegend;
@@ -977,11 +983,131 @@ function appendDurationsAndStartTimes(startTimeArray, durations, detailsArray) {
     }
 }
 
-function settingCurrent(swipeEffect) {
+//experiment to put the drag event listeners on the outside of this function to make them exportable and accessible to other js files\
+function handleSwipe() {
+    const dateElement = document.getElementById('date');
+    var dayElement = document.getElementById("dayOfWeek");
 
+    const difference = touchEndX - touchStartX;
+    const swipeThreshold = 50; // Adjust this value to control the swipe sensitivity
+
+    if (difference > swipeThreshold) {
+        // Swiped right (go back one day)
+        // Add slide-out-right class to the elements
+        document.getElementById('chartId').classList.add('slide-out-right');
+        document.getElementById('clock-face').classList.add('slide-out-right');
+        document.getElementById('canvas-modern').classList.add('slide-out-right');
+        document.getElementById('canvas-minimal').classList.add('slide-out-right');
+        document.getElementById('canvas-traditional').classList.add('slide-out-right');  
+
+        var yesterday = current.minus({ days: 1 });
+        current = yesterday;
+        var formattedDate = yesterday.toFormat('M/d/yy');
+        dateElement.innerHTML = formattedDate;
+        var dayOfWeekName = current.weekdayLong;
+        dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+        dayElement.innerHTML = dayOfWeekName;
+        loadData().then(() => {
+            traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
+
+            // Remove slide-out-right class and add slide-in-left class after loading data
+            document.getElementById('chartId').classList.remove('slide-out-right');
+            document.getElementById('clock-face').classList.remove('slide-out-right');
+            document.getElementById('canvas-modern').classList.remove('slide-out-right');
+            document.getElementById('canvas-minimal').classList.remove('slide-out-right');
+            document.getElementById('canvas-traditional').classList.remove('slide-out-right');
+
+            // Add slide-in-left class
+            document.getElementById('chartId').classList.add('slide-in-left');
+            document.getElementById('clock-face').classList.add('slide-in-left');
+            document.getElementById('canvas-modern').classList.add('slide-in-left');
+            document.getElementById('canvas-minimal').classList.add('slide-in-left');
+            document.getElementById('canvas-traditional').classList.add('slide-in-left');
+
+            updateLog(detailsArray2, current);
+            createLegend(detailsArray2);
+            // Remove slide-in-left class after animation completes
+            setTimeout(() => {
+                document.getElementById('chartId').classList.remove('slide-in-left');
+                document.getElementById('clock-face').classList.remove('slide-in-left');
+                document.getElementById('canvas-modern').classList.remove('slide-in-left');
+                document.getElementById('canvas-minimal').classList.remove('slide-in-left');
+                document.getElementById('canvas-traditional').classList.remove('slide-in-left');
+            }, 500); // Adjust the time to match the animation duration
+
+        });
+    } else if (difference < -swipeThreshold) {
+        // Swiped left (go forward one day)
+        // Add slide-out-left class to the elements
+        document.getElementById('chartId').classList.add('slide-out-left');
+        document.getElementById('clock-face').classList.add('slide-out-left');
+        document.getElementById('canvas-modern').classList.add('slide-out-left');
+        document.getElementById('canvas-minimal').classList.add('slide-out-left');
+        document.getElementById('canvas-traditional').classList.add('slide-out-left');
+
+        var tomorrow = current.plus({ days: 1 });
+        current = tomorrow;
+        formattedDate = tomorrow.toFormat('M/d/yy');
+        dateElement.innerHTML = formattedDate;
+        var dayOfWeekName = current.weekdayLong;
+        dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+        dayElement.innerHTML = dayOfWeekName;
+        loadData().then(() => {
+            traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
+
+            // Remove slide-out-left class and add slide-in-right class after loading data
+            document.getElementById('chartId').classList.remove('slide-out-left');
+            document.getElementById('clock-face').classList.remove('slide-out-left');
+            document.getElementById('canvas-modern').classList.remove('slide-out-left');
+            document.getElementById('canvas-minimal').classList.remove('slide-out-left');
+            document.getElementById('canvas-traditional').classList.remove('slide-out-left');
+
+            // Add slide-in-right class
+            document.getElementById('chartId').classList.add('slide-in-right');
+            document.getElementById('clock-face').classList.add('slide-in-right');
+            document.getElementById('canvas-modern').classList.add('slide-in-right');
+            document.getElementById('canvas-minimal').classList.add('slide-in-right');
+            document.getElementById('canvas-traditional').classList.add('slide-in-right');
+
+            updateLog(detailsArray2, current);
+            createLegend(detailsArray2);
+
+            // Remove slide-in-right class after animation completes
+            setTimeout(() => {
+                document.getElementById('chartId').classList.remove('slide-in-right');
+                document.getElementById('clock-face').classList.remove('slide-in-right');
+                document.getElementById('canvas-modern').classList.remove('slide-in-right');
+                document.getElementById('canvas-minimal').classList.remove('slide-in-right');
+                document.getElementById('canvas-traditional').classList.remove('slide-in-right');
+            }, 500); // Adjust the time to match the animation duration
+        });
+    }
+}
+
+export function handleTouchStart(event) {
+    touchStartX = event.touches[0].clientX;
+}
+
+export function handleTouchEnd(event) {
+    touchEndX = event.changedTouches[0].clientX;
+    handleSwipe();
+}
+
+export function disableSwipeOnApp() {
+    console.log("disabled swipe");
+    document.removeEventListener('touchstart', handleTouchStart);
+    document.removeEventListener('touchend', handleTouchEnd);
+}
+
+export function enableSwipeOnApp() {
+    console.log("enabled swipe");
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchend', handleTouchEnd);
+}
+
+function settingCurrent() {
     var dateElement = document.getElementById("date");
     var dayElement = document.getElementById("dayOfWeek");
-    var formattedDate;
 
     let urlParams = new URLSearchParams(window.location.search);
     let dateParam = urlParams.get('date');
@@ -992,7 +1118,7 @@ function settingCurrent(swipeEffect) {
         //sets the date parameter to null so that the calendar gives a one-time-pass to a specified date
         history.replaceState(null, '', 'app.html');
 
-        formattedDate = now.toFormat('M/d/yy');
+        var formattedDate = now.toFormat('M/d/yy');
         dateElement.innerHTML = formattedDate;
 
         var dayOfWeekName = now.weekdayLong;
@@ -1003,140 +1129,157 @@ function settingCurrent(swipeEffect) {
         var now = DateTime.local();
         var today = now.toISODate();
 
-        formattedDate = now.toFormat('M/d/yy');
+        var formattedDate = now.toFormat('M/d/yy');
         dateElement.innerHTML = formattedDate;
 
         var dayOfWeekName = now.weekdayLong;
         dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
         dayElement.innerHTML = dayOfWeekName;
     }
-    var yesterday;
-    var tomorrow;
+    /* var yesterday;
+    var tomorrow; */
 
     current = now;
     console.log("current in settingCurrent:", current);
 
-    handleSwipeEffect(swipeEffect);
+    return current;
+    //put an end to this function to start a new one
+}
 
-    function handleSwipeEffect(swipeEffect) {
+function settingYesterdayAndTomorrow(swipeEffect, current) {
+    console.log("current in settingYesterdayAndTomorrow:", current);
+
+    var yesterday;
+    var tomorrow;
+
+    handleSwipeEffect(swipeEffect, current);
+
+    function handleSwipeEffect(swipeEffect, current) {
         const goBackOneDayBtn = document.getElementById('day-back');
         const goForwardOneDayBtn = document.getElementById('day-forward');
         const dateElement = document.getElementById('date');
-        let touchStartX = 0;
-        let touchEndX = 0;
+        var dayElement = document.getElementById("dayOfWeek");
 
-        // Function to handle the swipe logic
-        function handleSwipe() {
-            const difference = touchEndX - touchStartX;
-            const swipeThreshold = 50; // Adjust this value to control the swipe sensitivity
+//        let touchStartX = 0;
+//        let touchEndX = 0;
 
-            if (difference > swipeThreshold) {
-                // Swiped right (go back one day)
-                // Add slide-out-right class to the elements
-                document.getElementById('chartId').classList.add('slide-out-right');
-                document.getElementById('clock-face').classList.add('slide-out-right');
-                document.getElementById('canvas-modern').classList.add('slide-out-right');
-                document.getElementById('canvas-minimal').classList.add('slide-out-right');
-                document.getElementById('canvas-traditional').classList.add('slide-out-right');
-
-                yesterday = current.minus({ days: 1 });
-                current = yesterday;
-                formattedDate = yesterday.toFormat('M/d/yy');
-                dateElement.innerHTML = formattedDate;
-                var dayOfWeekName = current.weekdayLong;
-                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
-                dayElement.innerHTML = dayOfWeekName;
-                loadData().then(() => {
-                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
-
-                    // Remove slide-out-right class and add slide-in-left class after loading data
-                    document.getElementById('chartId').classList.remove('slide-out-right');
-                    document.getElementById('clock-face').classList.remove('slide-out-right');
-                    document.getElementById('canvas-modern').classList.remove('slide-out-right');
-                    document.getElementById('canvas-minimal').classList.remove('slide-out-right');
-                    document.getElementById('canvas-traditional').classList.remove('slide-out-right');
-
-                    // Add slide-in-left class
-                    document.getElementById('chartId').classList.add('slide-in-left');
-                    document.getElementById('clock-face').classList.add('slide-in-left');
-                    document.getElementById('canvas-modern').classList.add('slide-in-left');
-                    document.getElementById('canvas-minimal').classList.add('slide-in-left');
-                    document.getElementById('canvas-traditional').classList.add('slide-in-left');
-
-                    updateLog(detailsArray2, current);
-                    createLegend(detailsArray2);
-                    // Remove slide-in-left class after animation completes
-                    setTimeout(() => {
-                        document.getElementById('chartId').classList.remove('slide-in-left');
-                        document.getElementById('clock-face').classList.remove('slide-in-left');
-                        document.getElementById('canvas-modern').classList.remove('slide-in-left');
-                        document.getElementById('canvas-minimal').classList.remove('slide-in-left');
-                        document.getElementById('canvas-traditional').classList.remove('slide-in-left');
-                    }, 500); // Adjust the time to match the animation duration
-
-                });
-            } else if (difference < -swipeThreshold) {
-                // Swiped left (go forward one day)
-                // Add slide-out-left class to the elements
-                document.getElementById('chartId').classList.add('slide-out-left');
-                document.getElementById('clock-face').classList.add('slide-out-left');
-                document.getElementById('canvas-modern').classList.add('slide-out-left');
-                document.getElementById('canvas-minimal').classList.add('slide-out-left');
-                document.getElementById('canvas-traditional').classList.add('slide-out-left');
-
-                tomorrow = current.plus({ days: 1 });
-                current = tomorrow;
-                formattedDate = tomorrow.toFormat('M/d/yy');
-                dateElement.innerHTML = formattedDate;
-                var dayOfWeekName = current.weekdayLong;
-                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
-                dayElement.innerHTML = dayOfWeekName;
-                loadData().then(() => {
-                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
-
-                    // Remove slide-out-left class and add slide-in-right class after loading data
-                    document.getElementById('chartId').classList.remove('slide-out-left');
-                    document.getElementById('clock-face').classList.remove('slide-out-left');
-                    document.getElementById('canvas-modern').classList.remove('slide-out-left');
-                    document.getElementById('canvas-minimal').classList.remove('slide-out-left');
-                    document.getElementById('canvas-traditional').classList.remove('slide-out-left');
-
-                    // Add slide-in-right class
-                    document.getElementById('chartId').classList.add('slide-in-right');
-                    document.getElementById('clock-face').classList.add('slide-in-right');
-                    document.getElementById('canvas-modern').classList.add('slide-in-right');
-                    document.getElementById('canvas-minimal').classList.add('slide-in-right');
-                    document.getElementById('canvas-traditional').classList.add('slide-in-right');
-
-                    updateLog(detailsArray2, current);
-                    createLegend(detailsArray2);
-
-                    // Remove slide-in-right class after animation completes
-                    setTimeout(() => {
-                        document.getElementById('chartId').classList.remove('slide-in-right');
-                        document.getElementById('clock-face').classList.remove('slide-in-right');
-                        document.getElementById('canvas-modern').classList.remove('slide-in-right');
-                        document.getElementById('canvas-minimal').classList.remove('slide-in-right');
-                        document.getElementById('canvas-traditional').classList.remove('slide-in-right');
-                    }, 500); // Adjust the time to match the animation duration
-                });
-            }
-        }
+//        // Function to handle the swipe logic
+//         function handleSwipe() {
+//            const difference = touchEndX - touchStartX;
+//            const swipeThreshold = 50; // Adjust this value to control the swipe sensitivity
+//
+//            if (difference > swipeThreshold) {
+//                // Swiped right (go back one day)
+//                // Add slide-out-right class to the elements
+//                document.getElementById('chartId').classList.add('slide-out-right');
+//                document.getElementById('clock-face').classList.add('slide-out-right');
+//                document.getElementById('canvas-modern').classList.add('slide-out-right');
+//                document.getElementById('canvas-minimal').classList.add('slide-out-right');
+//                document.getElementById('canvas-traditional').classList.add('slide-out-right');
+//
+//                yesterday = current.minus({ days: 1 });
+//                current = yesterday;
+//                formattedDate = yesterday.toFormat('M/d/yy');
+//                dateElement.innerHTML = formattedDate;
+//                var dayOfWeekName = current.weekdayLong;
+//                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+//                dayElement.innerHTML = dayOfWeekName;
+//                loadData().then(() => {
+//                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
+//
+//                    // Remove slide-out-right class and add slide-in-left class after loading data
+//                    document.getElementById('chartId').classList.remove('slide-out-right');
+//                    document.getElementById('clock-face').classList.remove('slide-out-right');
+//                    document.getElementById('canvas-modern').classList.remove('slide-out-right');
+//                    document.getElementById('canvas-minimal').classList.remove('slide-out-right');
+//                    document.getElementById('canvas-traditional').classList.remove('slide-out-right');
+//
+//                    // Add slide-in-left class
+//                    document.getElementById('chartId').classList.add('slide-in-left');
+//                    document.getElementById('clock-face').classList.add('slide-in-left');
+//                    document.getElementById('canvas-modern').classList.add('slide-in-left');
+//                    document.getElementById('canvas-minimal').classList.add('slide-in-left');
+//                    document.getElementById('canvas-traditional').classList.add('slide-in-left');
+//
+//                    updateLog(detailsArray2, current);
+//                    createLegend(detailsArray2);
+//                    // Remove slide-in-left class after animation completes
+//                    setTimeout(() => {
+//                        document.getElementById('chartId').classList.remove('slide-in-left');
+//                        document.getElementById('clock-face').classList.remove('slide-in-left');
+//                        document.getElementById('canvas-modern').classList.remove('slide-in-left');
+//                        document.getElementById('canvas-minimal').classList.remove('slide-in-left');
+//                        document.getElementById('canvas-traditional').classList.remove('slide-in-left');
+//                    }, 500); // Adjust the time to match the animation duration
+//
+//                });
+//            } else if (difference < -swipeThreshold) {
+//                // Swiped left (go forward one day)
+//                // Add slide-out-left class to the elements
+//                document.getElementById('chartId').classList.add('slide-out-left');
+//                document.getElementById('clock-face').classList.add('slide-out-left');
+//                document.getElementById('canvas-modern').classList.add('slide-out-left');
+//                document.getElementById('canvas-minimal').classList.add('slide-out-left');
+//                document.getElementById('canvas-traditional').classList.add('slide-out-left');
+//
+//                tomorrow = current.plus({ days: 1 });
+//                current = tomorrow;
+//                formattedDate = tomorrow.toFormat('M/d/yy');
+//                dateElement.innerHTML = formattedDate;
+//                var dayOfWeekName = current.weekdayLong;
+//                dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
+//                dayElement.innerHTML = dayOfWeekName;
+//                loadData().then(() => {
+//                    traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
+//
+//                    // Remove slide-out-left class and add slide-in-right class after loading data
+//                    document.getElementById('chartId').classList.remove('slide-out-left');
+//                    document.getElementById('clock-face').classList.remove('slide-out-left');
+//                    document.getElementById('canvas-modern').classList.remove('slide-out-left');
+//                    document.getElementById('canvas-minimal').classList.remove('slide-out-left');
+//                    document.getElementById('canvas-traditional').classList.remove('slide-out-left');
+//
+//                    // Add slide-in-right class
+//                    document.getElementById('chartId').classList.add('slide-in-right');
+//                    document.getElementById('clock-face').classList.add('slide-in-right');
+//                    document.getElementById('canvas-modern').classList.add('slide-in-right');
+//                    document.getElementById('canvas-minimal').classList.add('slide-in-right');
+//                    document.getElementById('canvas-traditional').classList.add('slide-in-right');
+//
+//                    updateLog(detailsArray2, current);
+//                    createLegend(detailsArray2);
+//
+//                    // Remove slide-in-right class after animation completes
+//                    setTimeout(() => {
+//                        document.getElementById('chartId').classList.remove('slide-in-right');
+//                        document.getElementById('clock-face').classList.remove('slide-in-right');
+//                        document.getElementById('canvas-modern').classList.remove('slide-in-right');
+//                        document.getElementById('canvas-minimal').classList.remove('slide-in-right');
+//                        document.getElementById('canvas-traditional').classList.remove('slide-in-right');
+//                    }, 500); // Adjust the time to match the animation duration
+//                });
+//            }
+//        } 
+//
+//        if (swipeEffect) {
+//            document.addEventListener('touchstart', function (event) {
+//                touchStartX = event.touches[0].clientX;
+//            });
+//
+//            document.addEventListener('touchend', function (event) {
+//                touchEndX = event.changedTouches[0].clientX;
+//                handleSwipe();
+//            });  
+//
         if (swipeEffect) {
-            document.addEventListener('touchstart', function (event) {
-                touchStartX = event.touches[0].clientX;
-            });
-
-            document.addEventListener('touchend', function (event) {
-                touchEndX = event.changedTouches[0].clientX;
-                handleSwipe();
-            });
+            document.addEventListener('touchstart', handleTouchStart);
+            document.addEventListener('touchend', handleTouchEnd);
         } else {
             goBackOneDayBtn.addEventListener("click", function (event) {
                 event.preventDefault();
                 yesterday = current.minus({ days: 1 });
                 current = yesterday;
-                formattedDate = yesterday.toFormat('M/d/yy');
+                var formattedDate = yesterday.toFormat('M/d/yy');
                 dateElement.innerHTML = formattedDate;
                 var dayOfWeekName = current.weekdayLong;
                 dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
@@ -1157,7 +1300,7 @@ function settingCurrent(swipeEffect) {
                 event.preventDefault();
                 tomorrow = current.plus({ days: 1 });
                 current = tomorrow;
-                formattedDate = tomorrow.toFormat('M/d/yy');
+                var formattedDate = tomorrow.toFormat('M/d/yy');
                 dateElement.innerHTML = formattedDate;
                 var dayOfWeekName = current.weekdayLong;
                 dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
@@ -1176,7 +1319,7 @@ function settingCurrent(swipeEffect) {
             });
         }
     }
-};
+}
 
 function turnStoredDataToVariables() {
     console.log(parsedData)

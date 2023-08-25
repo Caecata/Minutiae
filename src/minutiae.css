@@ -26,7 +26,6 @@
     left: 0;
 
     background-color: #433633;
-    /*rgba(0, 0, 0, 0.5)*/
 
     display: flex;
     justify-content: center;
@@ -36,8 +35,9 @@
 }
 
 /* .loader { 
-            //for animation styles
-        } */
+        //for animation styles
+    } 
+*/
 
 .dark-mode #loading-screen p {
     font-family: var(--font-family);
@@ -59,29 +59,19 @@
 
 /* CSS for dark/light mode */
 .dark-mode {
-    color: #F7F0F5; /*white, black*/
-    background-color: #1b1b1b; /*1b1b1b OR #5C5552*/
+    color: #F7F0F5; 
+    background-color: #1b1b1b; 
 }
 
 .light-mode {
-    color: #433633; /*black, white 433633*/
-    background-color: #D9D9D9; /*8DA7BE F7F0F5*/
+    color: #433633; 
+    background-color: #D9D9D9; 
 }
+
 body.light-mode {
-    color: #433633; /*black, white*/
-    background-color: #D9D9D9; /*8DA7BE */
+    color: #433633; 
+    background-color: #D9D9D9; 
 }
-/* body.light-mode::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #9dc5c3;
-    background-image: linear-gradient(315deg, #9dc5c3 0%, #5e5c5c 74%);
-    z-index: -1;
-} */
 
 .dark-icon,
 .light-icon {
@@ -107,54 +97,46 @@ body.light-mode {
 
     position: absolute;
     top: 1em;
-    /* top 0 */
     left: 8%;
 
     padding: 0.3em;
     margin: 0;
 
     z-index: 2;
-
-    /*background-color: #222121; */
-
-    /* outline: none;
-    border: none; */
 }
 
+/* CSS for scrollbars */
 ::-webkit-scrollbar {
     width: 5px; /* Set the width of the scrollbar */
-  }
+}
   
   /* Style the scrollbar thumb (the draggable handle) */
-  ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: #888; /* Set the color of the scrollbar thumb */
     border-radius: 50px; /* Set the same border-radius as your element */
-  }
+}
 
-  .button {
+/* CSS for buttons */
+.button {
     display: inline-block;
-    padding: 15px 25px;
-    font-size: 24px;
-    cursor: pointer;
-    text-align: center;
-    /*text-decoration: none;
-    outline: none;*/
-    color: #433633; /*fff*/
-    border: 0.1em solid #1b1b1b;
-    background-color: #F7F0F5; /*#4CAF50*/
-    /* border-radius: 15px; */
-    box-shadow: 0 4px 4px #000000; /*999 9px*/
 
+    font-size: 24px;
     font-weight: bold;
-  }
+    text-align: center;
+    
+    color: #433633; 
+    background-color: #F7F0F5; 
+
+    padding: 15px 25px;
+    border: 0.1em solid #1b1b1b;
+    box-shadow: 0 4px 4px #000000; 
+    cursor: pointer;
+}
   
-  /* .button:hover {background-color: #8F857D}*/
-  
-  .button:active {
-    /* background-color: #cfbeaf; */
+.button:active {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
-  }
+}
 
 .menu-icon {
     font-size: 1em;
@@ -171,15 +153,12 @@ body.light-mode {
     left: 8%;
 
     margin: 0;
-    /* border: 0.2em solid white; */
     padding: 0;
 
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
     transition: clip-path 0.5s ease-in-out;
 
     z-index: 20;
-
-    /* border-radius: 15px; */
 }
 
 #navigationbar.active {
@@ -187,9 +166,10 @@ body.light-mode {
 }
 
 #navigationbar a {
+    display: block;
+
     font-family: var(--font-family), sans-serif;
     padding: 0.5em;
-    display: block;
 
     text-decoration: none;
 
@@ -197,40 +177,43 @@ body.light-mode {
 }
 
 .nav-link-colors li a {
-    color: white; /* white */
+    color: white;
 }
 
 .light-mode .nav-link-colors li a {
-    color: black; /* black */
+    color: black; 
 }
 
 #navigationbar a:visited {
-    color: white; /* white */
+    color: white; 
 }
 
 .light-mode #navigationbar a:visited {
-    color: black; /* black */
+    color: black; 
 }
 
 #navigationbar a:link {
-    color: white; /* white */
+    color: white; 
 }
 
 .light-mode #navigationbar a:link {
-    color: black; /* black */
+    color: black; 
 }
 
 .light-mode #navigationbar {
     border: 0.2em solid black;
 }
 
-/* CSS for button links */
+/* CSS for button links - Sign In/Out and Dark/Light Mode */
 .button-link {
-    font-family: var(--font-family), sans-serif;
-    padding: 0.5em;
     display: block;
-    text-decoration: none;
+
+    font-family: var(--font-family), sans-serif;
+
     color: white;
+
+    padding: 0.5em;
+    text-decoration: none;
 }
 
 .light-mode .button-link {
@@ -245,7 +228,6 @@ select {
     color: black;
 
     border: 1px solid black;
-    /* border-radius: 4px; */
 }
 
 select option {

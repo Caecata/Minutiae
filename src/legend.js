@@ -6,9 +6,9 @@ export function createLegend(detailsArray2) {
 
     legend.innerHTML = "";
 
-    //for loop with each slice in detailsArray2, create a color icon + description for each new item and add
-    //to a local array which will be checked before creating any new items
-    //<i class="fa-solid fa-chart-pie"></i>
+    //for loop looping through each unique slice in detailsArray2 
+    //create a pie chart icon + label for each new item
+    //add uniqueId to a local array to prevent duplicate entries
 
     for (let i = 0; i < detailsArray2.length; i++) {
         if (!legendArray.includes(detailsArray2[i].uniqueId)) {

@@ -1,4 +1,4 @@
-import { updateVisualization, removeVisualization } from './customize.js'
+import { updateVisualization, removeVisualization } from './mylegendexperience.js'
 import { receiveLegendFromDatabase } from './firebase/dbHandler.js'
 
 export function initializeDarkLightMode() {

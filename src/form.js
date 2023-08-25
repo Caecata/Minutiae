@@ -5,6 +5,8 @@ import { saveLegendToDatabase, receiveLegendFromDatabase, saveRemoveArray, getRe
 
 import { closeLegendForms, updateVisualization, removeVisualization, viewTree, chevronRightBtn, angleDownBtn, createClickHandler, createElements, initializeFolders, removeFolders, myLegendBtnFunctions, updateTags } from './mylegendexperience.js' 
 
+import { handleTouchStart, handleTouchEnd, disableSwipeOnApp, enableSwipeOnApp } from './app.js'
+
 import { event } from 'jquery';
 import { DateTime } from 'luxon'
 
@@ -122,8 +124,8 @@ export function oneStepForm(legend, tags) {
     //If "Advanced Selection" is chosen, My Legend page appears.
     selectElement.addEventListener("change", function() {
         if (selectElement.value === "open") {
-            console.log("open my Legend");
-            //open My Legend
+            console.log("mylegendexperience");
+            
             closeLegendForms();
             viewTree();
             myLegendBtnFunctions();
@@ -166,6 +168,7 @@ export function oneStepForm(legend, tags) {
         submitInputs.style.display = "inline-block";
         
         blurredOverlay.style.display = "block";
+        disableSwipeOnApp();
     })
 
     closeBtn.addEventListener("click", function(event) {
@@ -191,6 +194,7 @@ export function oneStepForm(legend, tags) {
             blurredOverlay.style.display = "block";
         } else {
             blurredOverlay.style.display = "none";
+            enableSwipeOnApp();
         } 
     })
 
@@ -350,7 +354,7 @@ export function useOneStepFormForEdit(legend, slice) {
 
 
 
-
+/* 
 
 export function formValidations2(legend, tagsBool, descriptionBool, tags) {
     console.log("formValidations2()");
@@ -665,7 +669,7 @@ export function formValidations2(legend, tagsBool, descriptionBool, tags) {
         }
         /* }
         console.log("childrenBool:", childrenBool);
-        if (childrenBool) { */
+        if (childrenBool) { 
 
     });
     subcategorySection.addEventListener("change", function () {
@@ -751,4 +755,4 @@ export function formValidations2(legend, tagsBool, descriptionBool, tags) {
         currentStep = 4;
         updateForm();
     })
-}
+} */

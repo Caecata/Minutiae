@@ -1,6 +1,7 @@
 import { useOneStepFormForEdit } from './form.js'
 import { receiveSettingsFromDatabase, receiveTagsFromDatabase, receiveLegendFromDatabase } from './firebase/dbHandler.js'
 import { deleteSlice } from './app.js'
+import { handleTouchStart, handleTouchEnd, disableSwipeOnApp, enableSwipeOnApp } from './app.js'
 
 import { DateTime } from 'luxon';
 
@@ -18,6 +19,7 @@ export function createLog(detailsArray2, current) {
         logBtn.style.display = "none";
         log.style.display = "block";
         blurredOverlay.style.display = "block";
+        disableSwipeOnApp();
     })
 
     closeBtn.addEventListener("click", function(event) {
@@ -40,6 +42,7 @@ export function createLog(detailsArray2, current) {
             blurredOverlay.style.display = "block";
         } else {
             blurredOverlay.style.display = "none";
+            enableSwipeOnApp();
         }
     }) 
 

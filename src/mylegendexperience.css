@@ -1,0 +1,473 @@
+#my-legend {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.close-icon {
+    width: 32px;
+    height: 32px;
+}
+
+#close-legend {
+    z-index: 10;
+}
+
+#overlay-legend {
+    position: absolute;
+    width: 88%;
+    height: 85%;
+    top: 12%;
+    left: 6%;
+
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
+
+    z-index: 9;
+}
+
+#categories-label {
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+    margin-top: 6%;
+
+    z-index: 25;
+}
+
+#tags-label {
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+    margin-top: 90%;
+
+    z-index: 25;
+}
+
+#line1 {
+    content: "";
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    background-color: black;
+}
+
+#line2 {
+    content: "";
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 72%;
+    background-color: black;
+}
+
+#blurred-overlay-legend {
+    width: 88%;
+    height: 24%;
+
+    position: absolute;
+    top: 73%;
+    left: 6%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* For Safari and some versions of Chrome */
+    
+    z-index: 21;
+    display: none;
+}
+
+#close-add-category, #close-delete-category, #close-rename-category, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag, #close-tree, #close-legend {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#add-category-name, #delete-category-name, #rename-category-name, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag, #close-tree {
+    height: 15%;
+    font-size: 1em;
+    padding: 0.3em;
+}
+
+#close-legend {
+    font-size: 1em;
+    padding: 0.3em;
+}
+
+#categoryForm,
+#deleteForm,
+#renameForm,
+#changeColorForm,
+#addTagForm,
+#deleteTagForm,
+#renameTagForm {
+    font-family: var(--font-family);
+    display: none;
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.3em;
+    background-color: #D9D9D9;
+    border: 2px solid black;
+    z-index: 22;
+
+    width: 76%;
+}
+
+.inline-label-legend {
+    display: inline-block;
+    font-size: 0.8em;
+    width: 40px;
+}
+
+.long-inline-label {
+    display: inline-block;
+    font-size: 0.8em;
+    width: 100px;
+}
+
+.block-label {
+    font-size: 0.8em;
+}
+
+.align-vertical-legend {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 3%;
+    padding: 10px;
+}
+
+.name-horizontal {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+}
+
+.color-horizontal {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+}
+
+#options, #optionsForDelete, #optionsForRename, #optionsForChangeColor, #tagOptionsToDelete, #tagOptionsForRename {
+    width: 100%;
+} 
+
+#optionsForChangeColor {
+    margin-top: 10px;
+}
+
+.align-vertical-legend > *:not(:last-child) {
+    margin-bottom: 7px; 
+} 
+
+#submit-category {
+    margin-left: 40%;
+}
+
+#colorInputForNewCategory, #textInput, #tagName {
+    margin-left: 2%;
+}
+
+#textInput, #renameValue, #tagRenameValue{
+    width: 105%;
+}
+
+#tagName {
+    width: 103%;
+}
+
+#submit-delete-category, #submit-add-tag, #submit-delete-tag {
+    margin-left: 80%;
+    margin-bottom: 10px;
+}
+
+#submit-rename-category, #submit-change-color, #submit-rename-tag {
+    margin-left: 79%;
+    margin-bottom: 10px;
+}
+
+#optionsForDelete, #tagOptionsToDelete {
+    margin-bottom: 10px;
+}
+
+#submit-category, #submit-delete-category, #submit-rename-category, #submit-change-color, #submit-add-tag, #submit-delete-tag, #submit-rename-tag {
+    font-family: var(--font-family), sans-serif;
+    font-size: 0.7em;
+
+    position: relative;
+
+    padding: 0.3em;
+
+    z-index: 19; 
+
+    cursor: pointer;
+    text-align: center;
+
+    color: black;
+    border: 0.1em solid #1b1b1b;
+    background-color: #F7F0F5; 
+    box-shadow: 0 4px 4px #000000; 
+}
+
+#addCategoryButton,
+#deleteButton,
+#renameButton,
+#changeColorButton,
+#addTag,
+#deleteTag,
+#renameTag,
+#viewTree {
+    font-family: var(--font-family), sans-serif;
+    font-size: 0.7em;
+
+    position: relative;
+
+    padding: 0.3em;
+    margin: 1em;
+
+    z-index: 19; /*9*/
+
+    cursor: pointer;
+    text-align: center;
+
+    color: black;
+    border: 0.1em solid #1b1b1b;
+    background-color: #F7F0F5; 
+    box-shadow: 0 4px 4px #000000; 
+}
+
+#addCategoryButton {
+    position: absolute;
+    left: 24%;
+    top: 75%;
+}
+
+#deleteButton {
+    position: absolute;
+    left: 24%;
+    top: 80%;
+}
+
+#renameButton {
+    position: absolute;
+    left: 24%;
+    top: 85%;
+}
+
+#changeColorButton {
+    position: absolute;
+    left: 24%;
+    top: 90%;
+}
+
+#addTag {
+    position: absolute;
+    left: 30%;
+    top: 75%;
+}
+
+#deleteTag {
+    position: absolute;
+    left: 30%;
+    top: 80%;
+}
+
+#renameTag {
+    position: absolute;
+    left: 30%;
+    top: 85%;
+}
+
+#viewTree {
+    position: absolute;
+    left: 30%;
+    top: 90%;
+}
+
+.dark-mode #addCategoryButton,
+.dark-mode #deleteButton,
+.dark-mode #renameButton,
+.dark-mode #changeColorButton,
+.dark-mode #addTag,
+.dark-mode #deleteTag,
+.dark-mode #renameTag,
+.dark-mode #viewTree {
+    border: 0.2em solid white;
+}
+
+.light-mode #addCategoryButton,
+.light-mode #deleteButton,
+.light-mode #renameButton,
+.light-mode #changeColorButton,
+.light-mode #addTag,
+.light-mode #deleteTag,
+.light-mode #renameTag,
+.light-mode #viewTree {
+    border: 0.2em solid black;
+}
+
+#folder-container {
+    height: 60%;
+    width: 50%;
+
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border: 2px solid black;
+    background-color: #D9D9D9;
+
+    overflow: auto;
+    white-space: nowrap;
+
+    z-index: 11;
+}
+
+.dark-mode #folder-container {
+    border: 2px solid white;
+}
+
+.light-mode #folder-container {
+    border: 2px solid black;
+}
+
+.fa-solid.fa-chevron-right {
+    margin: 0.3em;
+}
+
+.fa-solid.fa-angle-down {
+    margin: 0.3em;
+}
+
+.fa-solid.fa-folder {
+    margin: 0.3em;
+}
+
+#tree-backdrop {
+    font-family: var(--font-family);
+    letter-spacing: 1px;
+    word-spacing: 2px;
+
+    width: 40%; 
+    height: 60%;
+
+    width: 100%;
+    height: 90%;
+
+    position: absolute;
+    right: 1%;
+    top: 26%; 
+
+    display: none;
+
+    overflow: auto;
+
+    z-index: 20;
+}
+
+.dark-mode #tree-backdrop {
+    background-color: black;
+    border: 2px solid white;
+}
+
+.light-mode #tree-backdrop {
+    background-color: white;
+    border: 2px solid black;
+}
+
+#tags-section {
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+
+    width: 35%;
+    height: 25%;
+
+    position: absolute;
+    top: 75%;
+    left: 40%;
+
+    background-color: #D9D9D9;
+
+    overflow: auto;
+
+    z-index: 10;
+}
+
+#tag-container {
+    margin: 0.3em;
+}
+
+/* MEDIA QUERIES*/
+
+/* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
+320px: This is the width of many mobile devices in portrait mode. */
+
+@media (max-width: 480px) {
+    #folder-container {
+        top: 20%;
+        width: 76%;
+        height: 32%;
+    }
+
+    /* .dark-mode #folder-container, .light-mode #folder-container {
+        border: none;
+    } */
+
+    #addCategoryButton, #deleteButton, #renameButton, #changeColorButton {
+        left: 20%;
+    }
+
+    #addTag, #deleteTag, #renameTag, #viewTree {
+        left: 50%;
+    }
+
+    #tags-section {
+        width: 76%; 
+        height: 12%;
+
+        top: 59%;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        border: 2px solid black;
+
+        align-items: flex-start;
+
+        /*overflow: auto;*/
+    }
+
+    .tag {
+        font-size: 0.7em;
+    }
+
+    #tree-backdrop {
+        width: 88%;
+        left: 50%;
+        top: 12%;
+        transform: translateX(-50%);
+        height: 61.5%;
+    } 
+}
+
+/*480px: This is the width of many mobile devices in landscape mode.*/
+@media (min-width: 480px) and (max-width: 768px) {}
+
+/*768px: This is the width of most tablets in portrait mode.*/
+@media (min-width: 768px) and (max-width:992px) {}
+
+/*992px: This is the width of most tablets in landscape mode, and the minimum width for many desktop screens. */
+@media (min-width: 992px) and (max-width: 1200px) {}
+
+/*1200px: This is the width of many larger desktop screens.*/
+@media (min-width: 1200px) {}
