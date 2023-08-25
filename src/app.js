@@ -984,6 +984,9 @@ function appendDurationsAndStartTimes(startTimeArray, durations, detailsArray) {
 }
 
 //experiment to put the drag event listeners on the outside of this function to make them exportable and accessible to other js files\
+let touchStartX = 0;
+let touchEndX = 0;
+
 function handleSwipe() {
     const dateElement = document.getElementById('date');
     var dayElement = document.getElementById("dayOfWeek");
