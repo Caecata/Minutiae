@@ -187,8 +187,8 @@ export function viewTree() {
 
 export const chevronRightBtn = (clickData) => {
     console.log("Click event occurred with data:", clickData);
-    const parentFolderName = clickData.name;
-    console.log("parentFolderName:", parentFolderName);
+    const parentFolderUid = clickData.uniqueId; //setting it to its uniqueId instead of name
+    console.log("parentFolderUid:", parentFolderUid);
   
     console.log("event", event.target);
   
@@ -200,7 +200,7 @@ export const chevronRightBtn = (clickData) => {
     const clickHandler = createClickHandler(clickData, angleDownBtn);
     icon.addEventListener("click", clickHandler);
   
-    const parentDiv = document.getElementById(`category-${parentFolderName}`);
+    const parentDiv = document.getElementById(`category-${parentFolderUid}`);
   
     const elementsToReveal = parentDiv.children;
     for (let i = 0; i < elementsToReveal.length; i++) {
@@ -212,8 +212,8 @@ export const chevronRightBtn = (clickData) => {
   
 export const angleDownBtn = (clickData) => {
 console.log("Angle down button clicked with data:", clickData);
-const parentFolderName = clickData.name;
-console.log("parentFolderName:", parentFolderName);
+const parentFolderUid = clickData.uniqueId; //setting it to its uniqueId instead of name
+console.log("parentFolderUid:", parentFolderUid);
 
 console.log("event", event.target);
 
@@ -225,7 +225,7 @@ icon.removeEventListener("click", angleDownBtn);
 const clickHandler = createClickHandler(clickData, chevronRightBtn);
 icon.addEventListener("click", clickHandler);
 
-const parentDiv = document.getElementById(`category-${parentFolderName}`);
+const parentDiv = document.getElementById(`category-${parentFolderUid}`);
 
 const elementsToReveal = parentDiv.children;
 for (let i = 0; i < elementsToReveal.length; i++) {
@@ -243,7 +243,6 @@ return function () {
 
 export function createElements(arrayParameter, parentDiv) {
     var remakeDropdownContainer = document.getElementById("remake-dropdown-container");
-  
   
     console.log("creatingElements for ", arrayParameter, " and appending to ", parentDiv);
     for (const x of arrayParameter) {
@@ -273,7 +272,7 @@ export function createElements(arrayParameter, parentDiv) {
       text.style.fontFamily = "var(--font-family)";
   
       childDiv.setAttribute("class", "category");
-      childDiv.setAttribute("id", `category-${x.name}`);
+      childDiv.setAttribute("id", `category-${x.uniqueId}`); //setting it to its uniqueId instead of name
   
       if (parentDiv == remakeDropdownContainer) {
         childDiv.classList.add("depth-0");
@@ -284,7 +283,7 @@ export function createElements(arrayParameter, parentDiv) {
           const depth = parseInt(match[1]) + 1;
           childDiv.classList.add(`depth-${depth}`);
           childDiv.style.marginLeft = "2.3em"; //marginLeft = `${depth * 2.3}em`;
-          childDiv.style.display = "none";
+          childDiv.style.display = "none"; 
         }
       }
   
@@ -297,13 +296,13 @@ export function createElements(arrayParameter, parentDiv) {
       if (x.children !== undefined) { //if (x.children.length !== 0)
         const childArray = x.children;
         createElements(childArray, childDiv);
-      }
+      } 
     }
   }
   
 export function initializeFolders(data) {
     var remakeDropdownContainer = document.getElementById("remake-dropdown-container");
-  
+
     console.log("initializeFolders() with", data);
     createElements(data, remakeDropdownContainer);
   }
@@ -315,17 +314,23 @@ export function removeFolders() {
 
 export function myLegendBtnFunctions() {
     var remakeDropdownContainer = document.getElementById("remake-dropdown-container");
+    var blurredOverlayLegend = document.getElementById("blurred-overlay-legend");
 
     var addCategoryButton = document.getElementById("addCategoryButton");
-    var categoryForm = document.getElementById("categoryForm");
-    var blurredOverlayLegend = document.getElementById("blurred-overlay-legend");
     var parentUid;
     var newCategoryName = "";
     var color = "";
     const arrayOfCategories = [];
-    
+
+    var categoryForm = document.getElementById("categoryForm");
     var deleteForm = document.getElementById("deleteForm");
     const renameForm = document.getElementById("renameForm");
+    const changeColorForm = document.getElementById("changeColorForm");
+    const addTagForm = document.getElementById("addTagForm");
+    const tagContainer = document.getElementById("tag-container");
+    const deleteTagForm = document.getElementById("deleteTagForm");
+    const renameTagForm = document.getElementById("renameTagForm"); 
+
   
   //ADD BUTTONS code
   function createNewCategory(data) {
@@ -349,7 +354,7 @@ export function myLegendBtnFunctions() {
     text.style.fontFamily = "var(--font-family)";
   
     parentDiv.setAttribute("class", "category");
-    parentDiv.setAttribute("id", `category-${data[data.length - 1].name}`)
+    parentDiv.setAttribute("id", `category-${data[data.length - 1].uniqueId}`) //setting it to its uniqueId instead of name
     parentDiv.classList.add("depth-0");
   
     parentDiv.appendChild(icon);
@@ -365,8 +370,8 @@ export function myLegendBtnFunctions() {
     console.log("addIconBool:", addIconBool);
     console.log("newSubcategory:", newSubcategory);
   
-    const parentFolderName = parentFolder.name;
-    const parentDiv = document.getElementById(`category-${parentFolderName}`);
+    const parentFolderUid = parentFolder.uniqueId; //setting it to its uniqueId instead of name
+    const parentDiv = document.getElementById(`category-${parentFolderUid}`); ////setting it to its uniqueId instead of name
 
     //this section sets up the new subcategory to be "block" or "none" based on whether the parent folder is uncollapsed or collapsed
     const parentDropdownIcon = parentDiv.querySelector("i");
@@ -402,7 +407,7 @@ export function myLegendBtnFunctions() {
     text.style.fontFamily = "var(--font-family)";
   
     childDiv.setAttribute("class", "category");
-    childDiv.setAttribute("id", `category-${newSubcategory.name}`);
+    childDiv.setAttribute("id", `category-${newSubcategory.uniqueId}`); //setting it to its uniqueId instead of name
   
     const classParent = parentDiv.getAttribute("class");
     const match = classParent.match(/depth-(\d+)/);
@@ -648,14 +653,24 @@ export function myLegendBtnFunctions() {
           saveLegendToDatabase(legend);
           removeVisualization("#tree-container")
           updateVisualization(legend, "#tree-container");
-          removeFolders();
-          initializeFolders(legend);
+
+          const idToFind = `category-${removedItem.uniqueId}`;
+          const elementToRemove = document.getElementById(idToFind);
+
+          if (elementToRemove) {
+            elementToRemove.remove();
+          } else {
+            console.log("Folder element to delete could not be found");
+          }
+          //removeFolders();
+          //initializeFolders(legend);
         })
       })
   })
   
   function findDataPointToDelete(legend, deleteName, newData) {
     for (let i = 0; i < legend.length; i++) {
+      let removedItem;
       if (legend[i].name === deleteName) {
         removedItem = legend.splice(i, 1);
         console.log("removedItem in findDataPointToDelete:", removedItem);
@@ -707,6 +722,7 @@ export function myLegendBtnFunctions() {
             console.log('Entered text:', renameValue);
   
             renameForm.style.display = "none";
+            blurredOverlayLegend.style.display = "none";
   
             resolve({
               targetName: targetName,
@@ -734,18 +750,31 @@ export function myLegendBtnFunctions() {
   
           const objFromLegend = findDataPointToRenameOrChangeColor(legend, formValues.targetName);
           objFromLegend.name = formValues.renameValue;
-  
+
+          console.log("objFromLegend:", objFromLegend);
+
           removeVisualization("#tree-container");
           updateVisualization(legend, "#tree-container");
-          removeFolders();
-          initializeFolders(legend);
+
+          const idToFind = `category-${objFromLegend.uniqueId}`;
+          const elementToRename = document.getElementById(idToFind);
+
+          if (elementToRename) {
+            const spanElement = elementToRename.querySelector('span');
+            if (spanElement) {
+              spanElement.textContent = formValues.renameValue;
+            }
+          } else {
+            console.log("Folder element to rename could not be found or span element inside folder element could not be found");
+          }
+  
+          //removeFolders();
+          //initializeFolders(legend);
           saveLegendToDatabase(legend);
         })
       })
   })
-  
-  const changeColorForm = document.getElementById("changeColorForm");
-  
+    
   //CHANGE COLOR BUTTON code
   
   document.getElementById("changeColorButton").addEventListener("click", function () {
@@ -769,6 +798,7 @@ export function myLegendBtnFunctions() {
             console.log('Entered color:', colorValue);
   
             changeColorForm.style.display = "none";
+            blurredOverlayLegend.style.display = "none";
   
             resolve({
               targetName: targetName,
@@ -800,18 +830,28 @@ export function myLegendBtnFunctions() {
           console.log("objFromLegend:", objFromLegend);
           removeVisualization("#tree-container");
           updateVisualization(legend, "#tree-container");
-          removeFolders();
-          initializeFolders(legend);
+
+          const idToFind = `category-${objFromLegend.uniqueId}`;
+          const elementToChangeColor = document.getElementById(idToFind);
+
+          if (elementToChangeColor) {
+            //folder icon is the second icon of every folder element; the first one is the dropdown icon (chevron-right, angle-down, or empty)
+            const folderIcon = elementToChangeColor.querySelectorAll('i')[1];
+            if (folderIcon) {
+              folderIcon.style.color = formValues.colorValue;
+            }
+          } else {
+            console.log("Folder element to change color could not be found or folder icon inside folder element could not be found");
+          }
+
+          //removeFolders();
+          //initializeFolders(legend);
           saveLegendToDatabase(legend);
         })
       })
   })
   
   //ADD and DELETE and RENAME tags code
-  const addTagForm = document.getElementById("addTagForm");
-  const tagContainer = document.getElementById("tag-container");
-  const deleteTagForm = document.getElementById("deleteTagForm");
-  const renameTagForm = document.getElementById("renameTagForm"); 
   
   document.getElementById("addTag").addEventListener("click", function () {
   
@@ -827,11 +867,13 @@ export function myLegendBtnFunctions() {
             console.log("form submitted");
   
             const tagName = document.querySelector('#tagName').value;
+            console.log("tagName:", tagName);
   
             const now = DateTime.now();
             const uniqueId = now.toFormat('yyyyMMddHHmmssSSS');
   
             addTagForm.style.display = "none";
+            blurredOverlayLegend.style.display = "none";
   
             resolve({
               tagName: tagName,
@@ -860,8 +902,10 @@ export function myLegendBtnFunctions() {
   
     receiveTagsFromDatabase()
       .then((tags) => {
+
         deleteTagForm.style.display = "block";
         blurredOverlayLegend.style.display = "block";
+
         var deleteTagFormSubmissionPromise = new Promise(function (resolve, reject) {
           deleteTagForm.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -869,6 +913,9 @@ export function myLegendBtnFunctions() {
   
             const deleteOption = document.querySelector("#tagOptionsToDelete").value;
             console.log("deleteOption:", deleteOption);
+
+            deleteTagForm.style.display = "none";
+            blurredOverlayLegend.style.display = "none";
   
             resolve({
               deleteOption: deleteOption
@@ -898,7 +945,6 @@ export function myLegendBtnFunctions() {
         }
   
         deleteTagFormSubmissionPromise.then((formValues) => {
-          deleteTagForm.style.display = "none";
   
           let removedTag = {};
           
@@ -946,7 +992,8 @@ export function myLegendBtnFunctions() {
             console.log('Entered text:', renameValue);
   
             renameTagForm.style.display = "none";
-  
+            blurredOverlayLegend.style.display = "none";
+
             resolve({
               targetUid: targetUid,
               renameValue: renameValue
@@ -988,7 +1035,6 @@ export function myLegendBtnFunctions() {
         })
       })
   })
-  
   }
 
 //commented out some settings (dark/light mode code in below function)
@@ -1003,6 +1049,8 @@ export function updateTags(tags) {
   
       tagElement.textContent = tag.tagName;
       tagElement.classList.add('tag');
+      tagElement.setAttribute("id", `tag-${tag.uniqueId}`);
+
       /* if (settings.darkLightMode === "dark-mode") {
         tagElement.classList.add("dark-mode");
       } else if (settings.darkLightMode === "light-mode") {
