@@ -1,0 +1,65 @@
+#overlay {
+    position: absolute;
+    width: 88%;
+    height: 80%;
+    top: 12%;
+    left: 6%;
+}
+
+#blurred-overlay {
+    width: 100%;
+    height: 90%;
+
+    position: absolute;
+    top: 10%;
+}
+
+#ellipsis {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 70%;
+}
+
+#legend {
+    background-color: #D9D9D9;
+    border: 2px solid #000000;
+
+    width: 78%;
+    height: 14%;
+    position: absolute;
+    left: 11%;
+    top: 76%;
+}
+
+#view-log {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+#add-slice-button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+#log {
+    position: absolute;
+    width: 86%;
+    height: 26%;
+
+    top: 12.5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#one-step-form {
+    position: absolute;
+    width: 86%;
+    height: 26%;
+
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+}

@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { modernClock } from './modernclock.js'
 
 //Script for Clock
-export function updateClock() {
+/* export function updateClock() {
     const now = new Date();
 
     //Arrays for months and days of the weeks since JavaScript starts on 0
@@ -49,7 +49,7 @@ export function updateClock() {
 
 //This updates the clock each second or 1000 milliseconds
 updateClock();
-setInterval(updateClock, 1000);
+setInterval(updateClock, 1000); */
 
 export function handsOfTheClock() {
     const minsHand = document.getElementById('min-hand');

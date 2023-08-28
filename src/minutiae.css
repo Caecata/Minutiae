@@ -85,7 +85,7 @@ body.light-mode {
 
     position: absolute;
     top: 0%;
-
+    
     /* border: 2px solid white;  */
     /*Keep this to troubleshoot responsiveness*/
 }
@@ -96,8 +96,11 @@ body.light-mode {
     font-size: var(--font-size);
 
     position: absolute;
-    top: 1em;
-    left: 8%;
+    top: 10%;
+    left: 8%; 
+
+    /* height: 20%; */
+    /* top: 1em */
 
     padding: 0.3em;
     margin: 0;
@@ -119,6 +122,8 @@ body.light-mode {
 /* CSS for buttons */
 .button {
     display: inline-block;
+
+    white-space: nowrap; 
 
     font-size: 24px;
     font-weight: bold;
@@ -148,9 +153,13 @@ body.light-mode {
     font-size: 0.8em;
     list-style-type: none;
 
-    position: absolute;
-    top: 32%;
-    left: 8%;
+    white-space: nowrap;
+
+    position: absolute; 
+    top: calc(10% + 50px);
+    left: 8%;  
+
+    /* top: 32%; */
 
     margin: 0;
     padding: 0;

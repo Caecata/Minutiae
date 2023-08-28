@@ -11,20 +11,22 @@ export function checkDeviceWidth() {
     if (isMobile === true && currentPage === '/app.html') {
         console.log("condition met");
 
-        document.getElementById('chartId').width = 250; //250
-        document.getElementById('chartId').height = 250; //250
+        //these styles have been verified that they must be done via JavaScript here
+        document.getElementById('chartId').width = 250; 
+        document.getElementById('chartId').height = 250; 
 
         document.getElementById('canvas-modern').width = 300;
         document.getElementById('canvas-modern').height = 300;
 
+        //style is hard coded in traditionalclock.js
         //document.getElementById('canvas-traditional').width = 300; //300
         //document.getElementById('canvas-traditional').height = 300; //300
 
         document.getElementById('canvas-minimal').width = 300;
         document.getElementById('canvas-minimal').height = 300;
 
-        document.getElementById('clock-face').style.width = '300px'; //300px
-        document.getElementById('clock-face').style.height = '300px'; //300px
+        document.getElementById('clock-face').style.width = '300px'; 
+        document.getElementById('clock-face').style.height = '300px'; 
 
         // Center the elements
         const centeredElements = [
@@ -33,7 +35,7 @@ export function checkDeviceWidth() {
             'canvas-traditional',
             'canvas-minimal',
             'clock-face',
-            'date', 
+            'date',
             'dayOfWeek'
         ];
 
@@ -43,10 +45,10 @@ export function checkDeviceWidth() {
             element.style.left = '50%';
             element.style.top = '50%';
             element.style.transform = 'translate(-50%, -50%)';
-        });
+        });  
 
         // Set display to "none" for the specified elements
-        const elementsToHide = ['day-back', 'day-forward', 'chartLeft', 'chartRight', 'clock'];
+        const elementsToHide = ['day-back', 'day-forward', 'chartLeft', 'chartRight'];
 
         elementsToHide.forEach((elementId) => {
             const element = document.getElementById(elementId);
@@ -57,6 +59,7 @@ export function checkDeviceWidth() {
         document.getElementById("dayOfWeek").style.top = '25%';
 
     }
+
     if (isMobile === true && currentPage === '/data.html') {
         //document.getElementById('dropdownForCategory').style.fontSize = '1em';
         //document.getElementById('dropdownForTimeUnit').style.fontSize = '1em';

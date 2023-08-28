@@ -18,8 +18,8 @@ if (isMobile) {
 canvas.style.width = '300px';
 canvas.style.height = '300px';
 } else {
-canvas.style.width = '500px';
-canvas.style.height = '500px';
+canvas.style.width = '300px'; //500px
+canvas.style.height = '300px'; //500px
 }
 
 // Adjust the drawing scale to account for the higher resolution
