@@ -140,7 +140,18 @@ export function oneStepForm(legend, tags) {
                 logOpen = true;
             }
 
-            document.getElementById("close-legend").addEventListener("click", function(event) {
+            document.getElementById("close-legend-mobile").addEventListener("click", function(event) {
+                document.getElementById("my-legend").style.display = "none";
+
+                if (!logOpen) {
+                    document.getElementById("view-log").style.display = "block";
+                }
+
+                //reset folders so it doesn't double up upon reopening
+                removeFolders();
+            })
+
+            document.getElementById("close-legend-desktop").addEventListener("click", function(event) {
                 document.getElementById("my-legend").style.display = "none";
 
                 if (!logOpen) {

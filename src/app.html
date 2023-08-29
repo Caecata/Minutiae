@@ -14,12 +14,36 @@
 
     <script src="https://kit.fontawesome.com/bd7b8bc6e4.js" crossorigin="anonymous"></script>
     <style>
+        /* CSS for action box which will be transferred over to minutiae.css to have common styles among multiple pages - for forms/logs which require actions */
+        .action-box.light-mode{
+            color: black;
+            background-color: #D9D9D9;
+            border: 2px solid black;
+        }
+
+        .action-box.dark-mode {
+            color: #f7f0f5;
+            background-color: #1b1b1b;
+            border: 2px solid #f7f0f5;
+
+        }
+
         /* CSS for overlay */
         #overlay {
+            z-index: -1;
+            /* background-color: #f7f0f5;
+            border: 2px solid #000000; */
+        }
+
+        /* #overlay.light-mode {
             background-color: #f7f0f5;
             border: 2px solid #000000;
-            z-index: -1;
         }
+
+        #overlay.dark-mode {
+            background-color: #1b1b1b;
+            border: 2px solid #000000;
+        } */
 
         /* CSS for blurred overlay - for when elements are opened */
         #blurred-overlay {
@@ -90,18 +114,8 @@
             overflow-y: auto;
             
             cursor: auto;
-            color: black;
 
             z-index: 9;
-        }
-
-        .dark-mode #log {
-            background-color: black;
-        }
-
-        .light-mode #log {
-            background-color: #D9D9D9;
-            border: 2px solid black;
         }
 
         /* CSS for log button */
@@ -227,28 +241,6 @@
             font-family: var(--font-family), sans-serif;
 
             z-index: 9;
-
-            color: black;
-        }
-
-        .dark-mode #one-step-form {
-            background-color: black;
-            border: 2px solid white;
-        }
-
-        .light-mode #one-step-form {
-            background-color: #D9D9D9;
-            border: 2px solid black;
-        }
-        
-        .dark-mode #one-step-form,
-        .dark-mode #log {
-            border: 2px solid white;
-        }
-
-        .light-mode #one-step-form,
-        .light-mode #log {
-            border: 2px solid black;
         }
 
         /* CSS for one-step-form */
@@ -405,40 +397,6 @@
             margin: 0.5em; /* 1em */
         }
 
-        /* CSS for all form buttons (LOOKING TO PHASE OUT)
-        #skip,
-        #back-button,
-        #add-category,
-        #next,
-        #add-subcategory,
-        #add-tag,
-        #next-in-tag,
-        #submit-description,
-        #start-time-input,
-        #end-time-input,
-        #submit-time-inputs,
-        #submit-inputs,
-        #start-time-input-for-one-step-form,
-        #end-time-input-for-one-step-form,
-        #tag-dropdown-btn {
-            font-family: var(--font-family), sans-serif;
-        }
-
-        /* CSS for clock
-        .clock {
-            font-family: var(--font-family), sans-serif;
-            font-size: 2em;
-            line-height: 1.5em;
-
-            position: absolute;
-            top: 0;
-            right: 0;
-
-            padding: 0.3em;
-
-            z-index: 1;
-        } */
-
         /* CSS for dark/light mode icons */
         .hidden {
             display: none;
@@ -457,19 +415,19 @@
             /*color: rgba(0, 0, 0, 0.5);
 
             text-shadow: 0px 0px 5px #333532; */    
-
-            background-color: transparent;
         }
         #dayOfWeek {
             font-size: 1.8em;
             font-family: "Inter";
-
-            background-color: transparent;
         }
         #long-date-day {
             font-size: 1.8em;
             font-family: "Inter";
 
+            background-color: transparent;
+        }
+
+        #date.dark-mode, #date.light-mode, #dayOfWeek.dark-mode, #dayOfWeek.light-mode {
             background-color: transparent;
         }
 
@@ -657,24 +615,6 @@
             #view-log, #add-slice-button {
                 z-index: 11;
             }
-
-            /* #log {
-                width: 86%;
-                height: 26%;
-
-                top: 12.5%;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            #one-step-form {
-                width: 86%;
-                height: 26%;
-
-                top: 40%;
-                left: 50%;
-                transform: translateX(-50%);
-            }  */
         }
 
         /*480px: This is the width of many mobile devices in landscape mode.*/
@@ -728,7 +668,7 @@
     </div>
 
     <!-- OVERLAY for analog clock, chart, centered date, legend, ellipsis -->
-    <div id="overlay"></div>
+    <div id="overlay" class="dark-mode"></div>
 
     <!-- CHART -->
     <canvas id="chartId" aria-label="chart"></canvas>
@@ -773,7 +713,7 @@
     <div id="blurred-overlay"></div>
 
     <!-- FORM -->
-    <form id="one-step-form" style="display: none;">
+    <form id="one-step-form" class="action-box dark-mode" style="display: none;">
 
         <div id="form-name">Form</div>
         <button id="close-form">
@@ -997,7 +937,7 @@
     </div>
     
     <!-- LOG -->
-    <div id="log" style="display:none;">
+    <div id="log" class="action-box dark-mode" style="display:none;">
         <div id="log-name">Log</div>
         <button id="close-log">
             <img src="./close.png" alt="Close Icon" class="close-icon">

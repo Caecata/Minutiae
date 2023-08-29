@@ -103,6 +103,7 @@ export function createLog(detailsArray2, current) {
                 const time = document.createElement("div");
                 time.classList.add("log-time-label");
                 time.textContent = convertedDataPoints[i].start + " - " + convertedDataPoints[i].end;
+                time.style.color = "black";
 
                 const description = document.createElement("div");
                 description.classList.add("log-description");

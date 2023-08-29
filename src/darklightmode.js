@@ -13,8 +13,10 @@ export function initializeDarkLightMode() {
     const addBtn = document.getElementById('add-slice-button');
     const today = document.getElementById('date');
     const dayOfWeek = document.getElementById('dayOfWeek');
+    const longDateDay = document.getElementById('long-date-day');
     const leftArrow = document.getElementById('day-back');
     const rightArrow = document.getElementById('day-forward');
+    const overlay = document.getElementById("overlay");
     
 
     modeSwitcherBtn.addEventListener("click", function () {
@@ -69,11 +71,25 @@ export function initializeDarkLightMode() {
             button.classList.toggle('light-mode');
         })
 
+        //This applies dark mode and light mode to each action box (the log, the form)
+        const actionBoxes = document.querySelectorAll('.action-box');
+
+        actionBoxes.forEach((box) => {
+            box.classList.toggle('dark-mode');
+            box.classList.toggle('light-mode');
+        })
+
+        //This applies dark mode and light mode to the overlay 
+        overlay.classList.toggle("dark-mode");
+        overlay.classList.toggle("light-mode");
+
         //This applies dark mode and light mode to the date above the clock
         today.classList.toggle("dark-mode");
         today.classList.toggle("light-mode");
         dayOfWeek.classList.toggle("dark-mode");
         dayOfWeek.classList.toggle("light-mode");
+        longDateDay.classList.toggle("dark-mode");
+        longDateDay.classList.toggle("light-mode");
 
         //This applies dark mode and light mode to the arrows
         leftArrow.classList.toggle("dark-mode");
