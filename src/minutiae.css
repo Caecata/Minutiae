@@ -11,7 +11,7 @@
 }
 
 :root {
-    --font-family: "Comic Neue", sans-serif;
+    --font-family: "Inter", sans-serif; /*Comic Neue*/
     --font-family-clock: 'Pacifico', sans-serif;
     --font-size: 1.3em;
 }
@@ -39,16 +39,7 @@
     } 
 */
 
-.dark-mode #loading-screen p {
-    font-family: var(--font-family);
-    font-size: 1em;
-    letter-spacing: 2px;
-
-    color: white;
-    font-weight: bold;
-}
-
-.light-mode #loading-screen p {
+#loading-screen p {
     font-family: var(--font-family);
     font-size: 1em;
     letter-spacing: 2px;
@@ -56,6 +47,7 @@
     color: #F7F0F5;
     font-weight: bold;
 }
+
 
 /* CSS for dark/light mode */
 .dark-mode {
@@ -68,10 +60,16 @@
     background-color: #D9D9D9; 
 }
 
+/* not sure why this was here
 body.light-mode {
     color: #433633; 
     background-color: #D9D9D9; 
 }
+
+body.dark-mode {
+    color: #F7F0F5; 
+    background-color: #1b1b1b; 
+}  */
 
 .dark-icon,
 .light-icon {
@@ -137,6 +135,10 @@ body.light-mode {
     box-shadow: 0 4px 4px #000000; 
     cursor: pointer;
 }
+
+/* .dark-mode .button {
+    to consider
+}     */
   
 .button:active {
     box-shadow: 0 5px #666;
@@ -182,35 +184,35 @@ body.light-mode {
 
     text-decoration: none;
 
-    border-top: 1px solid black;
+    border-top: 1px solid #433633;
 }
 
 .nav-link-colors li a {
-    color: white;
+    color: #F7F0F5;
 }
 
 .light-mode .nav-link-colors li a {
-    color: black; 
+    color: #433633; 
 }
 
 #navigationbar a:visited {
-    color: white; 
+    color: #F7F0F5; 
 }
 
 .light-mode #navigationbar a:visited {
-    color: black; 
+    color: #433633; 
 }
 
 #navigationbar a:link {
-    color: white; 
+    color: #F7F0F5; 
 }
 
 .light-mode #navigationbar a:link {
-    color: black; 
+    color: #433633; 
 }
 
 .light-mode #navigationbar {
-    border: 0.2em solid black;
+    border: 0.2em solid #433633;
 }
 
 /* CSS for button links - Sign In/Out and Dark/Light Mode */
@@ -219,14 +221,14 @@ body.light-mode {
 
     font-family: var(--font-family), sans-serif;
 
-    color: white;
+    color: #F7F0F5;
 
     padding: 0.5em;
     text-decoration: none;
 }
 
 .light-mode .button-link {
-    color: black;
+    color: #433633;
 }
 
 /* CSS for <select> elements and tags */

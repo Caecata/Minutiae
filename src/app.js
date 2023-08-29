@@ -120,7 +120,8 @@ receiveLegendFromDatabase()
                         getRemoveArray()
                             .then((receivedRemoveArray) => {
                                 removeArray = receivedRemoveArray;
-                                loadData()
+                                console.log("current before loadData inside top code:", current);
+                                loadData(current)
                                     .then(() => {
                                         traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
                                         createLog(detailsArray2, current);
@@ -402,7 +403,7 @@ var chartId3 = new Chart(chrt3, {
 
 var parsedData;
 
-async function loadData() {
+async function loadData(current) {
 
     parsedData = await retrieveData(current);
     console.log('parsedData', parsedData);
@@ -1009,7 +1010,7 @@ function handleSwipe() {
         var dayOfWeekName = current.weekdayLong;
         dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
         dayElement.innerHTML = dayOfWeekName;
-        loadData().then(() => {
+        loadData(current).then(() => {
             traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
 
             // Remove slide-out-right class and add slide-in-left class after loading data
@@ -1054,7 +1055,7 @@ function handleSwipe() {
         var dayOfWeekName = current.weekdayLong;
         dayOfWeekName = dayOfWeekName.substr(0, 1).toUpperCase() + dayOfWeekName.substr(1);
         dayElement.innerHTML = dayOfWeekName;
-        loadData().then(() => {
+        loadData(current).then(() => {
             traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
 
             // Remove slide-out-left class and add slide-in-right class after loading data
@@ -1186,7 +1187,7 @@ function settingYesterdayAndTomorrow(swipeEffect, current) {
 
                 console.log("current after changing value:", current);
 
-                loadData()
+                loadData(current)
                     .then(() => {
                         traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
                         updateLog(detailsArray2, current);
@@ -1209,8 +1210,10 @@ function settingYesterdayAndTomorrow(swipeEffect, current) {
 
                 console.log("current after changing value:", current);
 
-                loadData()
+                loadData(current)
                     .then(() => {
+                        console.log("loadData is done");
+                        console.log("dressedData:", dressedData);
                         traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
                         updateLog(detailsArray2, current);
                         createLegend(detailsArray2);

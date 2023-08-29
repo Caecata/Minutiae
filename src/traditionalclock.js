@@ -50,6 +50,8 @@ const clockNumberTextShadowDarkColor = '#9c9c9c';
 
 //Draw the face of the clock
 function drawFace(ctx, radius, durations, colors, angles) {  
+
+    console.log("durations:", durations);
     
     var angleOffset = -Math.PI / 2 + (angles * Math.PI / 180);
     var startAngle = angleOffset; 
@@ -57,35 +59,36 @@ function drawFace(ctx, radius, durations, colors, angles) {
     var borderWidth = 5; 
     var shadowBlur = 10;
 
-  
-  for (var i = 0; i < durations.length; i++) {
+  if (durations !== undefined) {
+    for (var i = 0; i < durations.length; i++) {
 
-    var duration = durations[i];
-    var color = colors[i];
-    var adjustedColor = adjustBrightness(color, 0);
+        var duration = durations[i];
+        var color = colors[i];
+        var adjustedColor = adjustBrightness(color, 0);
+        
+        var sliceAngle = (duration / 1440 ) * 2 * Math.PI;
+        var endAngle = startAngle + sliceAngle;
     
-    var sliceAngle = (duration / 1440 ) * 2 * Math.PI;
-    var endAngle = startAngle + sliceAngle;
-
-    ctx.beginPath();
-    ctx.arc(0, 0, radius * 0.97, startAngle, endAngle);
-    ctx.lineTo(0, 0);
-
-    // Add the border
-    ctx.lineWidth = borderWidth;
-    ctx.strokeStyle = "black"; 
-    ctx.stroke();
-
-    // Add the drop shadow
-    ctx.shadowBlur = shadowBlur;
-    ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; 
-
-    ctx.closePath();
-    ctx.fillStyle = adjustedColor; /*clockBGColor*/
-    ctx.fill();
-
-    // Update the start angle for the next slice
-    startAngle = endAngle;
+        ctx.beginPath();
+        ctx.arc(0, 0, radius * 0.97, startAngle, endAngle);
+        ctx.lineTo(0, 0);
+    
+        // Add the border
+        ctx.lineWidth = borderWidth;
+        ctx.strokeStyle = "black"; 
+        ctx.stroke();
+    
+        // Add the drop shadow
+        ctx.shadowBlur = shadowBlur;
+        ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; 
+    
+        ctx.closePath();
+        ctx.fillStyle = adjustedColor; /*clockBGColor*/
+        ctx.fill();
+    
+        // Update the start angle for the next slice
+        startAngle = endAngle;
+      }
   }
 }
 
