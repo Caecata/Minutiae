@@ -9,7 +9,13 @@
     height: 32px;
 }
 
-#close-legend {
+#close-legend-desktop {
+    z-index: 15;
+    font-size: 1em;
+    padding: 0.3em;
+}
+
+#close-legend-mobile {
     z-index: 15;
 }
 
@@ -24,6 +30,14 @@
     border: 2px solid #000000;
 
     z-index: 14;
+}
+
+#categories-label-desktop, #tags-label-desktop {
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+
+    z-index: 30;
 }
 
 #categories-label {
@@ -78,7 +92,7 @@
     display: none;
 }
 
-#close-add-category, #close-delete-category, #close-rename-category, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag, #close-tree, #close-legend {
+#close-add-category, #close-delete-category, #close-rename-category, #close-change-color, #close-add-tag, #close-delete-tag, #close-rename-tag, #close-tree, #close-legend-mobile, #close-legend-desktop {
     position: absolute;
     top: 0;
     right: 0;
@@ -94,7 +108,7 @@
     padding: 0.3em;
 }
 
-#close-legend {
+#close-legend-mobile {
     font-size: 1em;
     padding: 0.3em;
 }
@@ -246,54 +260,6 @@
     box-shadow: 0 4px 4px #000000; 
 }
 
-#addCategoryButton {
-    position: absolute;
-    left: 24%;
-    top: 75%;
-}
-
-#deleteButton {
-    position: absolute;
-    left: 24%;
-    top: 80%;
-}
-
-#renameButton {
-    position: absolute;
-    left: 24%;
-    top: 85%;
-}
-
-#changeColorButton {
-    position: absolute;
-    left: 24%;
-    top: 90%;
-}
-
-#addTag {
-    position: absolute;
-    left: 30%;
-    top: 75%;
-}
-
-#deleteTag {
-    position: absolute;
-    left: 30%;
-    top: 80%;
-}
-
-#renameTag {
-    position: absolute;
-    left: 30%;
-    top: 85%;
-}
-
-#viewTree {
-    position: absolute;
-    left: 30%;
-    top: 90%;
-}
-
 .dark-mode #addCategoryButton,
 .dark-mode #deleteButton,
 .dark-mode #renameButton,
@@ -317,15 +283,6 @@
 }
 
 #folder-container {
-    height: 60%;
-    width: 50%;
-
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-
-    border: 2px solid black;
     background-color: #D9D9D9;
 
     overflow: auto;
@@ -359,16 +316,6 @@
     letter-spacing: 1px;
     word-spacing: 2px;
 
-    width: 40%; 
-    height: 60%;
-
-    width: 100%;
-    height: 90%;
-
-    position: absolute;
-    right: 1%;
-    top: 26%; 
-
     display: none;
 
     overflow: auto;
@@ -390,13 +337,6 @@
     font-family: var(--font-family);
     font-size: var(--font-size);
 
-    width: 35%;
-    height: 25%;
-
-    position: absolute;
-    top: 75%;
-    left: 40%;
-
     background-color: #D9D9D9;
 
     overflow: auto;
@@ -414,28 +354,26 @@
 320px: This is the width of many mobile devices in portrait mode. */
 
 @media (max-width: 480px) {
+    #category-overlay, #tags-overlay, #button-overlay {
+        display: none;
+    }
+
     #folder-container {
+        position: absolute;
         top: 20%;
         width: 76%;
         height: 32%;
-    }
-
-    /* .dark-mode #folder-container, .light-mode #folder-container {
-        border: none;
-    } */
-
-    #addCategoryButton, #deleteButton, #renameButton, #changeColorButton {
-        left: 20%;
-    }
-
-    #addTag, #deleteTag, #renameTag, #viewTree {
         left: 50%;
+        transform: translateX(-50%);
+
+        border: 2px solid black;
     }
 
     #tags-section {
         width: 76%; 
         height: 12%;
 
+        position: absolute;
         top: 59%;
         left: 50%;
         transform: translateX(-50%);
@@ -452,12 +390,188 @@
     }
 
     #tree-backdrop {
+        position: absolute;
         width: 88%;
         left: 50%;
         top: 12%;
         transform: translateX(-50%);
         height: 61.5%;
     } 
+
+    #addCategoryButton {
+        position: absolute;
+        left: 20%;
+        top: 75%;
+    }
+    
+    #deleteButton {
+        position: absolute;
+        left: 20%;
+        top: 80%;
+    }
+    
+    #renameButton {
+        position: absolute;
+        left: 20%;
+        top: 85%;
+    }
+    
+    #changeColorButton {
+        position: absolute;
+        left: 20%;
+        top: 90%;
+    }
+    
+    #addTag {
+        position: absolute;
+        left: 50%;
+        top: 75%;
+    }
+    
+    #deleteTag {
+        position: absolute;
+        left: 50%;
+        top: 80%;
+    }
+    
+    #renameTag {
+        position: absolute;
+        left: 50%;
+        top: 85%;
+    }
+    
+    #viewTree {
+        position: absolute;
+        left: 50%;
+        top: 90%;
+    }
+}
+
+@media (min-width: 769px) {  /* for it to be consistent with app page ; these styles are for the desktop */
+    #overlay-legend {
+        display: none;
+    }
+    
+    #folder-container {
+        position: absolute;
+        top: 45%;
+        width: 50%;
+        height: 50%;
+        left: 11%;
+
+        border: 2px solid #000000;
+    }
+
+    #category-overlay, #tags-overlay, #button-overlay {
+        display: block;
+    }
+
+    #category-overlay {
+        position: absolute;
+        width: 50%;
+        height: 55%;
+        top: 40%;
+        left: 11%;
+
+        background-color: #FFFFFF;
+        border: 2px solid #000000;
+
+        z-index: 14;
+    }
+
+    #tag-overlay {
+        position: absolute;
+        width: 25%;
+        height: 55%;
+        top: 40%;
+        left: 64%;
+
+        background-color: #FFFFFF;
+        border: 2px solid #000000;
+
+        z-index: 14;
+    }
+
+    #tags-section {
+        width: 25%;
+        height: 50%;
+    
+        position: absolute;
+        top: 45%;
+        left: 64%;
+
+        border: 2px solid #000000;
+    }
+
+    #button-overlay {
+        position: absolute;
+        width: 78%;
+        height: 20%;
+        top: 15%;
+        left: 11%;
+
+        background-color: #FFFFFF;
+        border: 2px solid #000000;
+
+        z-index: 14;
+    }
+
+    #addCategoryButton {
+        position: absolute;
+        left: 13%;
+        top: 17%;
+    }
+    
+    #deleteButton {
+        position: absolute;
+        left: 13%;
+        top: 23%;
+    }
+    
+    #renameButton {
+        position: absolute;
+        left: 23%;
+        top: 17%;
+    }
+    
+    #changeColorButton {
+        position: absolute;
+        left: 23%;
+        top: 23%;
+    }
+    
+    #addTag {
+        position: absolute;
+        left: 33%;
+        top: 17%;
+    }
+    
+    #deleteTag {
+        position: absolute;
+        left: 33%;
+        top: 23%;
+    }
+    
+    #renameTag {
+        position: absolute;
+        left: 43%;
+        top: 17%;
+    }
+    
+    #viewTree {
+        position: absolute;
+        left: 43%;
+        top: 23%;
+    }
+
+    #tree-backdrop {
+        width: 78%; 
+        height: 60%;
+
+        position: absolute;
+        left: 11%;
+        top: 40%; 
+    }
 }
 
 /*480px: This is the width of many mobile devices in landscape mode.*/
