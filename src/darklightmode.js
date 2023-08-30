@@ -1,4 +1,6 @@
 //import {toggleRemaining} from './app.js'
+import { updateVisualization, removeVisualization } from './mylegendexperience.js'
+import { receiveLegendFromDatabase } from './firebase/dbHandler.js'
 
 export function initializeDarkLightMode() {
     //Script for Dark Mode and Light Mode
@@ -17,94 +19,104 @@ export function initializeDarkLightMode() {
     const leftArrow = document.getElementById('day-back');
     const rightArrow = document.getElementById('day-forward');
     const overlay = document.getElementById("overlay");
+    const overlayLegend = document.getElementById("overlay-legend");
     
 
     modeSwitcherBtn.addEventListener("click", function () {
-        document.body.classList.toggle("light-mode"); //This toggles the body between light mode and dark mode
-        document.body.classList.toggle("dark-mode");
 
-        //modeSwitcherBtn.classList.toggle('dark-mode'); //This toggles the dark and light mode icons 
-        //modeSwitcherBtn.classList.toggle('light-mode');
-
-        const darkIcon = modeSwitcherBtn.querySelector('.dark-icon'); //This defines the dark and light mode icons
-        const lightIcon = modeSwitcherBtn.querySelector('.light-icon');
-
-        //This applies dark mode and light mode to the menu button
-        menuBtn.classList.toggle("dark-mode");
-        menuBtn.classList.toggle("light-mode");
-
-        //This applies dark mode and light mode to the navigation bar and its links
-        navBar.classList.toggle("dark-mode");
-        navBar.classList.toggle("light-mode");
-        navBar.classList.toggle("nav-link-colors");
-
-        //This alternates between the dark and light mode icons and text as the button is pressed
-        if (navBar.classList.contains('dark-mode')) {
-            darkIcon.classList.remove('hidden');
-            lightIcon.classList.add('hidden');
-            modeText.textContent = 'Dark Mode';
-        } else {
-            darkIcon.classList.add('hidden');
-            lightIcon.classList.remove('hidden');
-            modeText.textContent = 'Light Mode';
-        }
-
-        //APP.JS SPECIFIC 
-        //This applies dark mode and light mode to the add button
-        addBtn.classList.toggle("dark-mode");
-        addBtn.classList.toggle("light-mode");
-
-        //This applies dark mode and light mode to the log button
-        logBtn.classList.toggle("dark-mode");
-        logBtn.classList.toggle("light-mode");
-
-        //This applies dark mode and light mode to each edit button in the log
-        const logEditButtons = document.querySelectorAll('.log-edit');
-        const logDeleteButtons = document.querySelectorAll('.log-delete');
-
-        logEditButtons.forEach((button) => {
-            button.classList.toggle('dark-mode');
-            button.classList.toggle('light-mode');
-          });
-        logDeleteButtons.forEach((button) => {
-            button.classList.toggle('dark-mode');
-            button.classList.toggle('light-mode');
-        })
-
-        //This applies dark mode and light mode to each action box (the log, the form)
-        const actionBoxes = document.querySelectorAll('.action-box');
-
-        actionBoxes.forEach((box) => {
-            box.classList.toggle('dark-mode');
-            box.classList.toggle('light-mode');
-        })
-
-        //This applies dark mode and light mode to the overlay 
-        overlay.classList.toggle("dark-mode");
-        overlay.classList.toggle("light-mode");
-
-        //This applies dark mode and light mode to the date above the clock
-        today.classList.toggle("dark-mode");
-        today.classList.toggle("light-mode");
-        dayOfWeek.classList.toggle("dark-mode");
-        dayOfWeek.classList.toggle("light-mode");
-        longDateDay.classList.toggle("dark-mode");
-        longDateDay.classList.toggle("light-mode");
-
-        //This applies dark mode and light mode to the arrows
-        leftArrow.classList.toggle("dark-mode");
-        leftArrow.classList.toggle("light-mode");
-        rightArrow.classList.toggle("dark-mode");
-        rightArrow.classList.toggle("light-mode");
-
-        //enable dark and light mode to the chart's "remaining" slices
-        //toggleRemaining();
-        //a function from app.js that checks if remaining's slice is white or black. 
-        //if so, it will run a loop for pie slice to check if it needs to be toggle to the other color
-        //consider finding a way to distinguish between a slice that is purposefully black/white versus a default black/white
-
-        //a function to toggle light and dark mode for the hands of the clock
-
+        receiveLegendFromDatabase()
+            .then((legend) => {
+                document.body.classList.toggle("light-mode"); //This toggles the body between light mode and dark mode
+                document.body.classList.toggle("dark-mode");
+        
+                //modeSwitcherBtn.classList.toggle('dark-mode'); //This toggles the dark and light mode icons 
+                //modeSwitcherBtn.classList.toggle('light-mode');
+        
+                const darkIcon = modeSwitcherBtn.querySelector('.dark-icon'); //This defines the dark and light mode icons
+                const lightIcon = modeSwitcherBtn.querySelector('.light-icon');
+        
+                //This applies dark mode and light mode to the menu button
+                menuBtn.classList.toggle("dark-mode");
+                menuBtn.classList.toggle("light-mode");
+        
+                //This applies dark mode and light mode to the navigation bar and its links
+                navBar.classList.toggle("dark-mode");
+                navBar.classList.toggle("light-mode");
+                navBar.classList.toggle("nav-link-colors");
+        
+                //This alternates between the dark and light mode icons and text as the button is pressed
+                if (navBar.classList.contains('dark-mode')) {
+                    darkIcon.classList.remove('hidden');
+                    lightIcon.classList.add('hidden');
+                    modeText.textContent = 'Dark Mode';
+                } else {
+                    darkIcon.classList.add('hidden');
+                    lightIcon.classList.remove('hidden');
+                    modeText.textContent = 'Light Mode';
+                }
+        
+                //APP.JS SPECIFIC 
+                //This applies dark mode and light mode to the add button
+                addBtn.classList.toggle("dark-mode");
+                addBtn.classList.toggle("light-mode");
+        
+                //This applies dark mode and light mode to the log button
+                logBtn.classList.toggle("dark-mode");
+                logBtn.classList.toggle("light-mode");
+        
+                //This applies dark mode and light mode to each edit button in the log
+                const logEditButtons = document.querySelectorAll('.log-edit');
+                const logDeleteButtons = document.querySelectorAll('.log-delete');
+        
+                logEditButtons.forEach((button) => {
+                    button.classList.toggle('dark-mode');
+                    button.classList.toggle('light-mode');
+                  });
+                logDeleteButtons.forEach((button) => {
+                    button.classList.toggle('dark-mode');
+                    button.classList.toggle('light-mode');
+                })
+        
+                //This applies dark mode and light mode to each action box (the log, the form)
+                const actionBoxes = document.querySelectorAll('.action-box');
+        
+                actionBoxes.forEach((box) => {
+                    box.classList.toggle('dark-mode');
+                    box.classList.toggle('light-mode');
+                })
+        
+                //This applies dark mode and light mode to the overlay and overlay for mylegend when advanced selection is opened
+                overlay.classList.toggle("dark-mode");
+                overlay.classList.toggle("light-mode");
+                overlayLegend.classList.toggle("dark-mode");
+                overlayLegend.classList.toggle("light-mode");
+        
+                //This applies dark mode and light mode to the date above the clock
+                today.classList.toggle("dark-mode");
+                today.classList.toggle("light-mode");
+                dayOfWeek.classList.toggle("dark-mode");
+                dayOfWeek.classList.toggle("light-mode");
+                longDateDay.classList.toggle("dark-mode");
+                longDateDay.classList.toggle("light-mode");
+        
+                //This applies dark mode and light mode to the arrows
+                leftArrow.classList.toggle("dark-mode");
+                leftArrow.classList.toggle("light-mode");
+                rightArrow.classList.toggle("dark-mode");
+                rightArrow.classList.toggle("light-mode");
+        
+                //tree layout text is re-rendered every time it is toggled between dark and light mode
+                removeVisualization("#tree-container");
+                updateVisualization(legend, "#tree-container");
+        
+                //enable dark and light mode to the chart's "remaining" slices
+                //toggleRemaining();
+                //a function from app.js that checks if remaining's slice is white or black. 
+                //if so, it will run a loop for pie slice to check if it needs to be toggle to the other color
+                //consider finding a way to distinguish between a slice that is purposefully black/white versus a default black/white
+        
+                //a function to toggle light and dark mode for the hands of the clock
+            })
     });    
 
     //When the menu button is clicked, the navigation bar is animated into view

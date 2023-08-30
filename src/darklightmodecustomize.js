@@ -18,6 +18,7 @@ export function initializeDarkLightMode() {
     const renameTagBtn = document.getElementById("renameTag");
 
     const viewTreeBtn = document.getElementById("viewTree");
+    const overlayLegend = document.getElementById("overlay-legend");
 
     modeSwitcherBtn.addEventListener("click", function () {
 
@@ -59,6 +60,10 @@ export function initializeDarkLightMode() {
                 //This applies dark mode and light mode to the view tree button
                 viewTreeBtn.classList.toggle("dark-mode");
                 viewTreeBtn.classList.toggle("light-mode");
+
+                //This applies dark mode and light mode to the overlay-legend
+                overlayLegend.classList.toggle("dark-mode");
+                overlayLegend.classList.toggle("light-mode");
 
                 //This applies dark mode and light mode to 8 buttons 
                 addCategoryBtn.classList.toggle("dark-mode");

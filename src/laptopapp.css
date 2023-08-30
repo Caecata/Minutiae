@@ -14,7 +14,7 @@
 }
 
 #overlay.dark-mode {
-    background-color: #f7f0f5;
+    background-color: #d9d9d9; /*#f7f0f5*/
     border: 2px solid #000000;
 }
 

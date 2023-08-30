@@ -131,8 +131,9 @@ export function oneStepForm(legend, tags) {
             myLegendBtnFunctions();
             
             document.getElementById("my-legend").style.display = "block";
-            document.getElementById("view-log").style.display = "none";
             blurredOverlay.style.display = "block";
+
+            document.getElementById("view-log").style.display = "none";
 
             let logOpen = false;
             let log = document.getElementById("log");
@@ -140,12 +141,21 @@ export function oneStepForm(legend, tags) {
                 logOpen = true;
             }
 
+            document.getElementById("one-step-form").style.display = "none";
+            document.getElementById("log").style.display = "none";
+
             document.getElementById("close-legend-mobile").addEventListener("click", function(event) {
                 document.getElementById("my-legend").style.display = "none";
 
                 if (!logOpen) {
                     document.getElementById("view-log").style.display = "block";
+                    document.getElementById("log").style.display = "none";
+                } else {
+                    document.getElementById("view-log").style.display = "none";
+                    document.getElementById("log").style.display = "block";
                 }
+                    
+                document.getElementById("one-step-form").style.display = "block";
 
                 //reset folders so it doesn't double up upon reopening
                 removeFolders();
@@ -156,7 +166,14 @@ export function oneStepForm(legend, tags) {
 
                 if (!logOpen) {
                     document.getElementById("view-log").style.display = "block";
+                    document.getElementById("log").style.display = "none";
+                } else {
+                    document.getElementById("view-log").style.display = "none";
+                    document.getElementById("log").style.display = "block";
                 }
+                    
+                document.getElementById("one-step-form").style.display = "block";
+                
 
                 //reset folders so it doesn't double up upon reopening
                 removeFolders();

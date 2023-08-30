@@ -146,14 +146,14 @@ const classBody = document.body.getAttribute("class");
 if (classBody === "dark-mode") {
     nodes.style("font-size", "12px")
     .attr("fill", "white");
-    nodes.style("stroke", "white");
+    nodes.style("stroke", "#f7f0f5");
     nodes.style("stroke-width", 0.3)
 } else {
     nodes.style("font-size", "12px")
     .attr("fill", "black");
-    nodes.style("stroke", "black");
+    nodes.style("stroke", "#1b1b1b");
     nodes.style("stroke-width", 1);
-}
+} 
 } 
 
 export function removeVisualization(svgLocation) {
@@ -1040,23 +1040,26 @@ export function myLegendBtnFunctions() {
 //commented out some settings (dark/light mode code in below function)
 export function updateTags(tags) {
 
-    const tagContainer = document.getElementById("tag-container");
+    receiveSettingsFromDatabase() 
+      .then((settings) => {
+        const tagContainer = document.getElementById("tag-container");
 
-    tagContainer.innerHTML = "";
-  
-    for (const tag of tags) {
-      const tagElement = document.createElement("span");
-  
-      tagElement.textContent = tag.tagName;
-      tagElement.classList.add('tag');
-      tagElement.setAttribute("id", `tag-${tag.uniqueId}`);
-
-      /* if (settings.darkLightMode === "dark-mode") {
-        tagElement.classList.add("dark-mode");
-      } else if (settings.darkLightMode === "light-mode") {
-        tagElement.classList.add('light-mode');
-      } */
-  
-      tagContainer.appendChild(tagElement);
-    }
+        tagContainer.innerHTML = "";
+      
+        for (const tag of tags) {
+          const tagElement = document.createElement("span");
+      
+          tagElement.textContent = tag.tagName;
+          tagElement.classList.add('tag');
+          tagElement.setAttribute("id", `tag-${tag.uniqueId}`);
+    
+          if (settings.darkLightMode === "dark-mode") {
+            tagElement.classList.add("dark-mode");
+          } else if (settings.darkLightMode === "light-mode") {
+            tagElement.classList.add('light-mode');
+          } 
+      
+          tagContainer.appendChild(tagElement);
+        }
+      })
   }
