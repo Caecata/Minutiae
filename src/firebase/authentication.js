@@ -13,7 +13,7 @@ import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, receiveLege
 //console.log("anonymousUser:", anonymousUser);
 
 const auth = getAuth(app);
-var ui = new firebaseui.auth.AuthUI(getAuth(app));
+var ui = new firebaseui.auth.AuthUI(getAuth(app)); 
 //var ui = new firebaseui.auth.AuthUI(firebase.auth(app));
 
 var uiConfig = {
@@ -21,6 +21,7 @@ var uiConfig = {
 
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+      console.log("signInSuccessWithAuthResult");
       console.log('authResult:', authResult);
       console.log('redirectUrl:', redirectUrl);
       // User successfully signed in.
@@ -32,6 +33,21 @@ var uiConfig = {
       // The widget is rendered.
       // Hide the loader.
       document.getElementById('loader').style.display = 'none';
+
+      // Add a custom event listener to the "Continue as guest" button
+      var continueAsGuestButton = document.querySelector('[data-provider-id="anonymous"]');
+      continueAsGuestButton.addEventListener('click', function () {
+        // Trigger signInAnonymously when "Continue as guest" is clicked
+        signInAnonymously(getAuth(app))
+          .then(() => {
+            // Handle the successful anonymous sign-in
+            console.log("signInAnonymously success");
+            // Add your logic for handling anonymous sign-in here
+          })
+          .catch((error) => {
+            console.log("error in signing in anonymously:", error);
+          });
+        })
     }
   },
   // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
@@ -40,8 +56,8 @@ var uiConfig = {
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     //firebase.auth.PhoneAuthProvider.PROVIDER_ID
     //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     //firebase.auth.GithubAuthProvider.PROVIDER_ID,
@@ -61,6 +77,7 @@ if (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-
 const initApp = function () {
   getAuth(app).onAuthStateChanged(function (user) {
     if (user) {
+      console.log("user present");
       // User is signed in.
       var displayName = user.displayName;
       var email = user.email;
@@ -139,7 +156,7 @@ const initApp = function () {
   }, function (error) {
     console.log(error);
   });
-};
+}; 
 
 window.addEventListener('load', function () {
   initApp()

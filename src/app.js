@@ -721,7 +721,7 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
     var switchCaseDetermined = false;
     //var firstCase = false; what was this for? 
     if (startTimeMin === 0 && endTimeMin === 1440) {
-        firstCase = true;
+        let firstCase = true;
     }
 
     for (const num of uniqueStartTimeArray) {
