@@ -176,13 +176,13 @@ const initApp = function () {
                   saveTutorialState(tutorialState);
                 }
 
-                /* receiveLegendFromDatabase()
+                receiveLegendFromDatabase()
                   .then((legend) => {
                     if (legend === null && (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E" || currentPage === "/")) {
                       //initializeFirstUserExperience();
                       updateMenuElements("myLegend");
                     }
-                  }) */
+                  }) 
                 if (!userIdExists) {
                   saveNewUser(uid);
                   getTutorialState()
