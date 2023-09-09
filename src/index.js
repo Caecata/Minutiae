@@ -50,35 +50,35 @@ if (userId !== "null") {
             })
         }
     })
+} else {
+    let customizeUrl = document.getElementById("customize-url");
+    let appUrl = document.getElementById("app-url");
+    let calendarUrl = document.getElementById("calendar-url");
+    let dataUrl = document.getElementById("data-url");
+    let settingsUrl = document.getElementById("settings-url");
+    
+    customizeUrl.classList.add("deactivated-link");
+    const customizeClickListener = customizeUrl.onclick;
+    customizeUrl.removeEventListener("click", customizeClickListener);
+    
+    appUrl.classList.add("deactivated-link");
+    const appClickListener = appUrl.onclick;
+    appUrl.removeEventListener("click", appClickListener);
+    
+    calendarUrl.classList.add("deactivated-link");
+    const calendarClickListener = calendarUrl.onclick;
+    calendarUrl.removeEventListener("click", calendarClickListener);
+    
+    dataUrl.classList.add("deactivated-link");
+    const dataClickListener = dataUrl.onclick;
+    dataUrl.removeEventListener("click", dataClickListener);
+    
+    settingsUrl.classList.add("deactivated-link");
+    const settingsClickListener = settingsUrl.onclick;
+    settingsUrl.removeEventListener("click", settingsClickListener);
+    
+    loadingScreen.style.display = "none";    
 }
-let customizeUrl = document.getElementById("customize-url");
-let appUrl = document.getElementById("app-url");
-let calendarUrl = document.getElementById("calendar-url");
-let dataUrl = document.getElementById("data-url");
-let settingsUrl = document.getElementById("settings-url");
-
-customizeUrl.classList.add("deactivated-link");
-const customizeClickListener = customizeUrl.onclick;
-customizeUrl.removeEventListener("click", customizeClickListener);
-
-appUrl.classList.add("deactivated-link");
-const appClickListener = appUrl.onclick;
-appUrl.removeEventListener("click", appClickListener);
-
-calendarUrl.classList.add("deactivated-link");
-const calendarClickListener = calendarUrl.onclick;
-calendarUrl.removeEventListener("click", calendarClickListener);
-
-dataUrl.classList.add("deactivated-link");
-const dataClickListener = dataUrl.onclick;
-dataUrl.removeEventListener("click", dataClickListener);
-
-settingsUrl.classList.add("deactivated-link");
-const settingsClickListener = settingsUrl.onclick;
-settingsUrl.removeEventListener("click", settingsClickListener);
-
-loadingScreen.style.display = "none";
-
 
 
 //change font based on settings
