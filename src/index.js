@@ -1,7 +1,7 @@
 import { receiveSettingsFromDatabase } from './firebase/dbHandler.js'
 import { uiConfig } from './firebase/authentication.js'
 import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, getTutorialState, saveTutorialState } from './firebase/dbHandler.js'
-import { updateTutorial, tutorialDialogue, deactivateElement } from './tutorial.js'
+import { updateTutorial, tutorialDialogue } from './tutorial.js'
 
 //loading screen
 const loadingScreen = document.getElementById('loading-screen');
@@ -51,11 +51,31 @@ if (userId !== "null") {
         }
     })
 }
-deactivateElement("customize-url");
-deactivateElement("app-url");
-deactivateElement("calendar-url");
-deactivateElement("data-url");
-deactivateElement("settings-url");
+let customizeUrl = document.getElementById("customize-url");
+let appUrl = document.getElementById("app-url");
+let calendarUrl = document.getElementById("calendar-url");
+let dataUrl = document.getElementById("data-url");
+let settingsUrl = document.getElementById("settings-url");
+
+customizeUrl.classList.add("deactivated-link");
+const customizeClickListener = customizeUrl.onclick;
+customizeUrl.removeEventListener("click", customizeClickListener);
+
+appUrl.classList.add("deactivated-link");
+const appClickListener = appUrl.onclick;
+appUrl.removeEventListener("click", appClickListener);
+
+calendarUrl.classList.add("deactivated-link");
+const calendarClickListener = calendarUrl.onclick;
+calendarUrl.removeEventListener("click", calendarClickListener);
+
+dataUrl.classList.add("deactivated-link");
+const dataClickListener = dataUrl.onclick;
+dataUrl.removeEventListener("click", dataClickListener);
+
+settingsUrl.classList.add("deactivated-link");
+const settingsClickListener = settingsUrl.onclick;
+settingsUrl.removeEventListener("click", settingsClickListener);
 
 loadingScreen.style.display = "none";
 
