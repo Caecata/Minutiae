@@ -4,7 +4,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, receiveLegendFromDatabase, getTutorialState } from './dbHandler.js'
+import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, receiveLegendFromDatabase, getTutorialState, saveTutorialState } from './dbHandler.js'
 import { initializeFirstUserExperience, updateMenuElements, updateTutorial } from '../../src/tutorial.js'
 
 //Temp variable to hold the anonymous user data if needed.
@@ -128,6 +128,53 @@ const initApp = function () {
             checkUserIdExists(uid)
               .then((userIdExists) => {
                 console.log("User ID exists:", userIdExists);
+
+                if (uid === "gcL5lX1avOO2eY228ymBEZCfbC22") {
+                  //this is my account
+                  let tutorialState =
+                        {
+                          clickMyLegend: true,
+                          folderSystem: true,
+                          makeYourChoice: true,
+                          choice: true,
+                          addNewCategories: true,
+                          deleteUnwantedCategories: true,
+                          modifyCategoriesWithColorAndName: true,
+                          introducingTags: true,
+                          yourJourneyYourRules: true,
+                          firstStepCompleted: true,
+                          clickToday: true,
+                          welcomeToday: true,
+                          formButton: true,
+                          slice: true,
+                          TwentyFourHourClockAndPieChart: true,
+                          legendBeneathTheClock: true,
+                          logButton: true,
+                          deleteAndModify: true,
+                          navigateToPreviousFutureDays: true,
+                          upload: true,
+                          concludeToday: true,
+                          secondStepCompleted: true,
+                          clickCalendar: true,
+                          chooseADate: true,
+                          calendarUsed: true,
+                          thirdStepCompleted: true,
+                          clickAnalytics: true,
+                          welcomeAnalytics: true,
+                          craftingYourCustomReport: true,
+                          dailyBreakdown: true,
+                          activityFrequency: true,
+                          timeAllocation: true,
+                          categoryShare: true,
+                          weekMonthAndYear: true,
+                          examineTheData: true,
+                          startingAfresh: true,
+                          reset: true,
+                          embraceTheInsights: true,
+                          finalMessage: true
+                        }
+                  saveTutorialState(tutorialState);
+                }
 
                 receiveLegendFromDatabase()
                   .then((legend) => {

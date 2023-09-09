@@ -1,6 +1,6 @@
 import { updateVisualization, initializeFolders, removeVisualization, removeFolders, updateTags } from "./mylegendexperience";
 import { getTutorialState, saveTutorialState, saveLegendToDatabase, receiveLegendFromDatabase, receiveTagsFromDatabase, saveToDatabase } from './firebase/dbHandler.js'
-import { connected } from "process";
+//import { connected } from "process";
 import { DateTime } from 'luxon';
 
 
