@@ -67,34 +67,6 @@
             z-index: 1;
         }
 
-        /* CSS for deactivated links */
-        .deactivated-link {
-            cursor: not-allowed;
-            color: #999999;
-            text-decoration: line-through;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        /*blinking animation*/
-        @keyframes blink {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .blinking {
-            animation: blink 1s infinite;
-        }
-
         /* MEDIA QUERIES*/
 
         /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
@@ -157,7 +129,7 @@
     <div id="sign-in-status"></div>
     <pre id="account-details"></pre>
 
-    <!-- where menu WAS-->
+    <!-- MENU -->
     <div class="menu">
         <!-- MENU -->
         <button id="menu" class="button dark-mode">
@@ -181,8 +153,31 @@
             <li><a href="#" id="sign-in" class="button-link">Sign In</a></li>
         </ul>      
     </div>
-    
 
+    <!-- TUTORIAL DIALOGUE -->
+    <div id="tutorial-blurred-overlay"></div>
+    <div id="mainheader-box">Exploring Insights with Minutiae Analytics</div>
+    <div id="dialogue-box">
+        <div id="subheader-box">⏮️⏭️ Navigate to Previous/Future Days</div>
+        <div id="description-box">Click on the template option (A or B) that resonates with you the most.</div>
+        <!-- for endAction -->
+        <div id="icon-dialogue">
+            <i class="fa-solid fa-angle-right" style="color: #433138;"></i>
+        </div>
+        <!-- for looping through dialogueArray -->
+        <div id="icon-dialogue2">
+            <i class="fa-solid fa-angle-right" style="color: #433138;"></i>
+        </div>
+    </div>
+
+    <!-- TUTORIAL PROGRESS BAR -->
+    <div class="progress-bar-container">
+        <h2>Minutiae Tutorial</h2>
+        <div class="progress-bar">
+            <div class="minutiae-tutorial"><span>0%</span></div>
+        </div>
+    </div> 
+    
     <script src='index.js' type="module"></script>
     <script>
         //Script for Dark Mode and Light Mode

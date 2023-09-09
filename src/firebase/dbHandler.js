@@ -3,9 +3,44 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, onValue, set, get, query, orderByChild, equalTo, update, push, once } from "firebase/database";
 import { app } from './firebase.js'
+import { tutorialStateInitialization } from "../../src/tutorial.js"
 
 const analytics = getAnalytics(app);
 const database = getDatabase(app);
+
+export function getTutorialState() {
+    console.log("getTutorialState()");
+
+    return new Promise((resolve, reject) => {
+        const key = "minutiaeUid";
+        const userId = window.localStorage.getItem(key);
+
+        const tutorialStateRef = ref(database, `users/userid-${userId}/tutorialState`);
+
+        get(tutorialStateRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const tutorialState = snapshot.val();
+                    resolve(tutorialState);
+                } else {
+                    const tutorialState = tutorialStateInitialization;
+                    resolve(tutorialState);
+                }
+            })
+    })
+}
+
+export function saveTutorialState(tutorialState) {
+    console.log("saveTutorialState");
+    const key = "minutiaeUid";
+    const userId = window.localStorage.getItem(key);
+
+    const newData = {};
+
+    newData.tutorialState = tutorialState;
+
+    update(ref(database, `users/userid-${userId}`), newData);
+}
 
 export function saveTagsToDatabase(tagArray) {
     console.log("saveTagsToDatabase()");
@@ -50,7 +85,6 @@ export function saveRemoveArray(removeArray) {
     newData.removeArray = removeArray;
 
     update(ref(database, `users/userid-${userId}`), newData);
-
 }
 
 export function getRemoveArray() {
@@ -85,6 +119,8 @@ export function saveLegendToDatabase(data) {
 
     update(ref(database, 'users/' + `userid-${userId}`), newData);
 }
+
+//TRYING TO MAKE DEFUNCT
 export function setPlaceholderToFalse() {
     const key = "minutiaeUid";
     const userId = window.localStorage.getItem(key);
@@ -135,6 +171,7 @@ export async function receiveLegendFromDatabase() {
     })
 }
 
+//TRYING TO MAKE DEFUNCT
 export function checkDatabaseForFirstTime() {
 
     return new Promise((resolve, reject) => {
@@ -170,7 +207,8 @@ export async function ensureUsersReferenceExists(userId) {
         if (!snapshot.exists()) {
             console.log("users ref does not exist");
 
-            const firstUserData = { placeholder: true };
+            //const firstUserData = { placeholder: true };
+            const firstUserData = {tutorialState: tutorialStateInitialization};
 
             const saveState = `userid-${userId}`;
 
@@ -190,7 +228,8 @@ export async function ensureUsersReferenceExists(userId) {
 export function saveNewUser(userId) {
     console.log("saveNewUser()");
 
-    const firstUserData = { placeholder: true };
+    //const firstUserData = { placeholder: true };
+    const firstUserData = {tutorialState: tutorialStateInitialization};
     const saveState = `userid-${userId}`;
 
     const userRef = ref(database, 'users/' + saveState);

@@ -12,10 +12,11 @@ import { modernClock } from './modernclock.js'
 
 import { legendData } from './templates.js'
 import { oneStepForm, finalCategoryOption } from './form.js'
-import { retrieveData, saveToDatabase, receiveLegendFromDatabase, receiveSettingsFromDatabase, saveLegendToDatabase, getRemoveArray, saveRemoveArray, receiveTagsFromDatabase, saveTagsToDatabase } from './firebase/dbHandler.js'
+import { retrieveData, saveToDatabase, receiveLegendFromDatabase, receiveSettingsFromDatabase, saveLegendToDatabase, getRemoveArray, saveRemoveArray, receiveTagsFromDatabase, saveTagsToDatabase, getTutorialState, saveTutorialState } from './firebase/dbHandler.js'
 import { createLog, updateLog } from './log.js'
 import { createLegend } from './legend.js'
 import { signOutUser } from './firebase/authentication.js'
+import { updateTutorial, outputTutorialDialogue, functions } from './tutorial.js'
 
 //enables signing out on this page
 let signInBtn = document.getElementById("sign-in");
@@ -37,6 +38,7 @@ let legend = {};
 let removeArray = [];
 let tags = [];
 let settings = {};
+let tutorialState = {};
 
 //for keeping track of which dateTime is at the center
 var current;
@@ -44,96 +46,105 @@ var current;
 //loading screen
 const loadingScreen = document.getElementById('loading-screen');
 
-receiveLegendFromDatabase()
-    .then((receivedLegend) => {
-        /* loadingScreen.innerHTML = "Loading..."; */
-        current = settingCurrent();
-        console.log("current after settingCurrent 8/24/23:", current);
-
-        settingYesterdayAndTomorrow(isMobile, current);
-        //settingYesterdayAndTomorrow(isMobile) (take off isMobile as a parameter to settingCurrent)
-
-        console.log("receivedLegend:", receivedLegend);
-        if (receivedLegend !== null) {
-            legend = receivedLegend;
-        } else {
-            legend = legendData;
+getTutorialState()
+    .then((receivedTutorialState) => {
+        tutorialState = receivedTutorialState;
+        if (tutorialState.finalMessage === false) {
+            updateTutorial(tutorialState);
         }
-        receiveTagsFromDatabase()
-            .then((receivedTags) => {
-                console.log("receivedTags:", receivedTags);
-                tags = receivedTags;
-                receiveSettingsFromDatabase()
-                    .then((receivedSettings) => {
-                        settings = receivedSettings;
-                        console.log("settings:", settings);
-                        if (settings !== null) {
-                            oneStepForm(legend, tags);
-            
-                            if (settings.font !== "default") {
-                                const userFont = `${settings.font}, sans-serif`;
-                                changeFontFamily(userFont);
-                            }
+        receiveLegendFromDatabase()
+        .then((receivedLegend) => {
+            /* loadingScreen.innerHTML = "Loading..."; */
+            current = settingCurrent();
+            console.log("current after settingCurrent 8/24/23:", current);
 
-                            if (settings.analogStyle === "traditional") {
+            settingYesterdayAndTomorrow(isMobile); //current
+            //settingYesterdayAndTomorrow(isMobile) (take off isMobile as a parameter to settingCurrent)
+
+            console.log("receivedLegend:", receivedLegend);
+            if (receivedLegend !== null) {
+                legend = receivedLegend;
+            } else {
+                legend = legendData;
+            }
+            receiveTagsFromDatabase()
+                .then((receivedTags) => {
+                    console.log("receivedTags:", receivedTags);
+                    tags = receivedTags;
+                    receiveSettingsFromDatabase()
+                        .then((receivedSettings) => {
+                            settings = receivedSettings;
+                            console.log("settings:", settings);
+                            if (settings !== null) {
+                                oneStepForm(legend, tags);
+                
+                                if (settings.font !== "default") {
+                                    const userFont = `${settings.font}, sans-serif`;
+                                    changeFontFamily(userFont);
+                                }
+
+                                if (settings.analogStyle === "traditional") {
+                                    handsOfTheClock();
+                                } else if (settings.analogStyle === "minimal") {
+                                    noHandsOfTheClock();
+                                    minimalClock();
+                                    chartId.data.datasets[0].cutout = "100%";
+                                } else if (settings.analogStyle === "modern") {
+                                    noHandsOfTheClock();
+                                    const now = new Date();
+                                    const mins = now.getMinutes();
+                                    const hour = now.getHours();
+                                    modernClock(mins, hour);
+                                    modernStyle();
+                                }
+
+                                if (settings.darkLightMode === "dark-mode") {
+                                } else if (settings.darkLightMode === "light-mode") {
+                                    document.body.classList.remove("dark-mode");
+                                    document.body.classList.add('light-mode');
+                                    const darkModeElements = document.querySelectorAll(".dark-mode");
+                                    darkModeElements.forEach((element) => {
+                                        element.classList.remove("dark-mode");
+                                        element.classList.add("light-mode");
+
+                                        const modeSwitcher = document.getElementById("mode-switcher");
+                                        modeSwitcher.querySelector(".mode-text").textContent = "Light Mode";
+                                        modeSwitcher.querySelector(".dark-icon").classList.add("hidden");
+                                        modeSwitcher.querySelector(".light-icon").classList.remove("hidden")
+                                    });
+                                }
+                            } else {
+                                //what the user will experience if they do not have any saved settings
+                                console.log("user has no saved settings");
+                                oneStepForm(legend, tags);
                                 handsOfTheClock();
-                            } else if (settings.analogStyle === "minimal") {
-                                noHandsOfTheClock();
-                                minimalClock();
-                                chartId.data.datasets[0].cutout = "100%";
-                            } else if (settings.analogStyle === "modern") {
-                                noHandsOfTheClock();
-                                const now = new Date();
-                                const mins = now.getMinutes();
-                                const hour = now.getHours();
-                                modernClock(mins, hour);
-                                modernStyle();
+                                traditionalClock();
                             }
 
-                            if (settings.darkLightMode === "dark-mode") {
-                            } else if (settings.darkLightMode === "light-mode") {
-                                document.body.classList.remove("dark-mode");
-                                document.body.classList.add('light-mode');
-                                const darkModeElements = document.querySelectorAll(".dark-mode");
-                                darkModeElements.forEach((element) => {
-                                    element.classList.remove("dark-mode");
-                                    element.classList.add("light-mode");
-
-                                    const modeSwitcher = document.getElementById("mode-switcher");
-                                    modeSwitcher.querySelector(".mode-text").textContent = "Light Mode";
-                                    modeSwitcher.querySelector(".dark-icon").classList.add("hidden");
-                                    modeSwitcher.querySelector(".light-icon").classList.remove("hidden")
-                                });
+                            if (legend !== null) {
+                                findRemaining(legend);
                             }
-                        } else {
-                            //what the user will experience if they do not have any saved settings
-                            console.log("user has no saved settings");
-                            oneStepForm(legend, tags);
-                            handsOfTheClock();
-                            traditionalClock();
-                        }
 
-                        if (legend !== null) {
-                            findRemaining(legend);
-                        }
+                            getRemoveArray()
+                                .then((receivedRemoveArray) => {
+                                    removeArray = receivedRemoveArray;
+                                    console.log("current before loadData inside top code:", current);
+                                    loadData(current)
+                                        .then(() => {
+                                            traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
+                                            createLog(detailsArray2, current);
+                                            createLegend(detailsArray2);
 
-                        getRemoveArray()
-                            .then((receivedRemoveArray) => {
-                                removeArray = receivedRemoveArray;
-                                console.log("current before loadData inside top code:", current);
-                                loadData(current)
-                                    .then(() => {
-                                        traditionalClock(dressedData.mainChartData.pieData.durations, dressedData.mainChartData.pieData.categoryColors, dressedData.mainChartData.pieData.angles);
-                                        createLog(detailsArray2, current);
-                                        createLegend(detailsArray2);
+                                            loadingScreen.style.display = "none";
+                                        })
+                                })
+                        })
+                })
 
-                                        loadingScreen.style.display = "none";
-                                    })
-                            })
-                    })
-            })
-
+        })
     })
+
+
 //related to dark and light mode
 function findRemaining(data) {
     for (const x of data) {
@@ -694,6 +705,8 @@ submitBtn.addEventListener("click", function (event) {
 })
 
 function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend) {
+    console.log("current:", current);
+
     userObject ??= blankObject;
 
     startTimeMin ??= 0;
@@ -875,10 +888,33 @@ function updateChartData(startTimeMin, endTimeMin, duration, userObject, legend)
     const userId = window.localStorage.getItem("minutiaeUid");
 
     if (userId !== "null") {
+        console.log("userId is not null");
+        console.log("detailsArray:", detailsArray);
+        console.log("current:", current);
         saveToDatabase(detailsArray, current);
         saveLegendToDatabase(legend);
         saveTagsToDatabase(tags);
     } 
+
+    //might need to do a getTutorialState here to ensure most updated version of tutorialState is present
+    //trigger for more tutorial
+
+    getTutorialState()
+        .then((tutorialState) => {
+            if (tutorialState.slice === false) {
+                tutorialState.slice = true;
+                saveTutorialState(tutorialState);
+                outputTutorialDialogue("TwentyFourHourClockAndPieChart");
+            }
+                    
+            if (tutorialState.slice === true && tutorialState.navigateToPreviousFutureDays === false && tutorialState.deleteAndModify === true) {
+
+                outputTutorialDialogue("navigateToPreviousFutureDays");
+        
+                document.getElementById("close-log").removeEventListener("click", functions["handleCloseLogClick"]);
+            }
+        })
+    
 
     angles = checkToCombineRemaining(durations, detailsArray, angles, startTimeArray);
 
@@ -1115,6 +1151,10 @@ function settingCurrent() {
     let dateParam = urlParams.get('date');
 
     if (dateParam) {
+        if (tutorialState.calendarUsed === false) {
+            outputTutorialDialogue("calendarUsed");
+        }
+
         var now = DateTime.fromISO(dateParam);
 
         //sets the date parameter to null so that the calendar gives a one-time-pass to a specified date
@@ -1154,15 +1194,15 @@ function settingCurrent() {
     //put an end to this function to start a new one
 }
 
-function settingYesterdayAndTomorrow(swipeEffect, current) {
+function settingYesterdayAndTomorrow(swipeEffect) { //current
     console.log("current in settingYesterdayAndTomorrow:", current);
 
     var yesterday;
     var tomorrow;
 
-    handleSwipeEffect(swipeEffect, current);
+    handleSwipeEffect(swipeEffect);//current
 
-    function handleSwipeEffect(swipeEffect, current) {
+    function handleSwipeEffect(swipeEffect) { //current
         const goBackOneDayBtn = document.getElementById('day-back');
         const goForwardOneDayBtn = document.getElementById('day-forward');
         const dateElement = document.getElementById('date');
@@ -1170,6 +1210,9 @@ function settingYesterdayAndTomorrow(swipeEffect, current) {
         var longDateElement = document.getElementById("long-date-day");
 
         if (swipeEffect) {
+            if (tutorialState.upload === true && tutorialState.concludeToday === false) {
+                outputTutorialDialogue("concludeToday");
+            }
             document.addEventListener('touchstart', handleTouchStart);
             document.addEventListener('touchend', handleTouchEnd);
         } else {
@@ -1193,7 +1236,6 @@ function settingYesterdayAndTomorrow(swipeEffect, current) {
                         updateLog(detailsArray2, current);
                         createLegend(detailsArray2);
                     })
-
             });
 
             goForwardOneDayBtn.addEventListener("click", function (event) {

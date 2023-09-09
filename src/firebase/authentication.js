@@ -4,7 +4,8 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, receiveLegendFromDatabase } from './dbHandler.js'
+import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, receiveLegendFromDatabase, getTutorialState } from './dbHandler.js'
+import { initializeFirstUserExperience, updateMenuElements, updateTutorial } from '../../src/tutorial.js'
 
 //Temp variable to hold the anonymous user data if needed.
 //var data = null;
@@ -131,12 +132,16 @@ const initApp = function () {
                 receiveLegendFromDatabase()
                   .then((legend) => {
                     if (legend === null && (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E" || currentPage === "/")) {
-                      initializeFirstUserExperience();
+                      //initializeFirstUserExperience();
+                      updateMenuElements("myLegend");
                     }
                   })
                 if (!userIdExists) {
                   saveNewUser(uid);
-                  initializeFirstUserExperience();
+                  getTutorialState()
+                    .then((tutorialState) => {
+                      updateTutorial(tutorialState);
+                    })
                 }
               })
           })
@@ -175,30 +180,4 @@ export function signOutUser() {
       // An error happened.
     });
   }
-}
-
-function initializeFirstUserExperience() {
-  document.getElementById("menu").style.borderColor = "gold";
-  document.getElementById("menu").classList.add("blinking");
-
-  document.getElementById("customize-url").style.border = "2px solid gold";
-  document.getElementById("customize-url").style.borderRadius = "10px";
-  document.getElementById("customize-url").classList.add("blinking");
-
-  document.getElementById("app-url").classList.add("deactivated-link");
-  document.getElementById("app-url").addEventListener("click", function (event) {
-    event.preventDefault();
-  })
-  document.getElementById("data-url").classList.add("deactivated-link");
-  document.getElementById("data-url").addEventListener("click", function (event) {
-    event.preventDefault();
-  })
-  document.getElementById("calendar-url").classList.add("deactivated-link");
-  document.getElementById("calendar-url").addEventListener("click", function (event) {
-    event.preventDefault();
-  })
-  document.getElementById("settings-url").classList.add("deactivated-link");
-  document.getElementById("settings-url").addEventListener("click", function (event) {
-    event.preventDefault();
-  })
 }

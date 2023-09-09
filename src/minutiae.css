@@ -48,6 +48,39 @@
     font-weight: bold;
 }
 
+ /* CSS for deactivated links */
+ .deactivated-link {
+    cursor: not-allowed;
+    color: #999999;
+    text-decoration: line-through;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/*blinking animation*/
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.blinking {
+    border: 2px solid gold;
+    animation: blink 1s infinite;
+}
+
+.blinking-no-border {
+    animation: blink 1s infinite;
+}
+
 /* CSS for dark/light mode moved out because it doesn't apply to all elements anymore and varies based on laptop or mobile */
 
 .dark-icon,
@@ -94,6 +127,123 @@
 ::-webkit-scrollbar-thumb {
     background-color: #888; /* Set the color of the scrollbar thumb */
     border-radius: 50px; /* Set the same border-radius as your element */
+}
+
+/* CSS for tutorial elements */
+#tutorial-blurred-overlay {
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.5);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 28;
+
+    display: none;
+}
+#mainheader-box {
+    font-family: var(--font-family);
+    padding: 15px 25px 20px;
+    margin: 20px auto;
+    color: black;
+    background: #1abc9c;
+
+    /* display: flex;
+    justify-content: center;
+    align-items: center;  */
+
+    display: none;
+    z-index: 28;
+}
+
+#dialogue-box {
+    font-family: var(--font-family);
+    padding: 15px 25px 20px;
+    margin: 20px auto;
+    color: black;
+    background: #1abc9c;
+
+    z-index: 28;
+
+    display: none; 
+
+    /* display: flex;
+    flex-direction: column; */
+}
+
+#dialogue-box:after {
+    transform: skewX(-15deg);
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 25px;
+    border-width: 30px 30px 0 0;
+    border-style: solid;
+    border-color: #1abc9c transparent;
+}
+
+#subheader-box {
+    margin-bottom: 1em;
+}
+
+#description-box {
+    width: 85%;
+}
+
+#icon-dialogue, #icon-dialogue2 {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* CSS for tutorial progress bar */
+.progress-bar-container {
+    font-family: var(--font-family);
+    z-index: 28;
+
+    display: none;
+}
+.progress-bar-container h2 {
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 16px;
+}
+.progress-bar {
+    background: #959595;
+    height: 10px;
+    border-radius: 5px;
+}
+.progress-bar div {
+    height: 10px;
+    border-radius: 5px;
+    width: 0%;
+    background: #1abc9c;
+}
+.progress-bar div span {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #222;
+    float: right;
+    margin-top: -15px;
+    margin-right: -20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.minutiae-tutorial span {
+    border: 1px solid #1abc9c;
 }
 
 /* CSS for buttons */
@@ -274,7 +424,7 @@ select option {
 /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
 320px: This is the width of many mobile devices in portrait mode. */
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .menu {
         width: 100%;
         height: 100%;
@@ -311,6 +461,75 @@ select option {
             transform: scaleX(1);
         }
     }
+
+    #mainheader-box {
+        position: fixed;
+        height: 6%;
+        top: 23%;
+        left: 7.5%;
+        font-size: 0.7em;
+
+    }
+
+    #dialogue-box {
+        width: 85%;
+        position: fixed;
+        top: 30%;
+        transform: translateX(-50%);
+        left: 50%;
+    }
+
+    #subheader-box {
+        font-size: 0.8em;
+    }
+
+    .progress-bar-container {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .progress-bar {
+        width: 300px;
+    }
+
+}
+
+@media (min-width: 769px) {
+    #mainheader-box {
+        position: fixed;
+        height: 10%;
+        left: 20%;
+        top: 30%;
+        margin-right: 2%;
+    }
+
+    #dialogue-box {
+        width: 60%;
+        position: fixed;
+        top: 45%; 
+        left: 50%;
+        transform: translateX(-50%);
+
+        margin-right: 2%;
+    }
+
+    #subheader-box {
+        font-size: 1.2em;
+    }
+    
+    .progress-bar-container {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .progress-bar {
+        width: 600px;
+    }
+
 }
 
 /*480px: This is the width of many mobile devices in landscape mode.*/

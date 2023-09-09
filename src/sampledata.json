@@ -1,0 +1,1438 @@
+[
+{
+"userid-QB5aUEGPKrO831iZamPlGG7gtb62": {
+    "dates": {
+      "2023-09-03": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#5F05B3",
+              "duration": 360,
+              "name": "Sleep",
+              "start": 0,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 60,
+              "name": "Meal",
+              "start": 360,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 60,
+              "name": "Miscellaneous",
+              "start": 420,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 240,
+              "name": "Work",
+              "start": 480,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 720,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 150,
+              "name": "Work",
+              "start": 750,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 900,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 90,
+              "name": "Miscellaneous",
+              "start": 930,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 120,
+              "name": "Work",
+              "start": 1020,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 60,
+              "name": "Meal",
+              "start": 1140,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 120,
+              "name": "Play",
+              "start": 1200,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 120,
+              "name": "Sleep",
+              "start": 1320,
+              "uniqueId": "00001122334455001"
+            }
+          ],
+          "timestamp": "2023-09-03T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-04": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#5F05B3",
+              "duration": 540,
+              "name": "Sleep",
+              "start": 0,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 30,
+              "name": "Miscellaneous",
+              "start": 540,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 15,
+              "name": "Meal",
+              "start": 570,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 135,
+              "name": "Work",
+              "start": 585,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 60,
+              "name": "Sleep",
+              "start": 720,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 240,
+              "name": "Work",
+              "start": 780,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 30,
+              "name": "Miscellaneous",
+              "start": 1020,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 1050,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 120,
+              "name": "Play",
+              "start": 1080,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 90,
+              "name": "Work",
+              "start": 1200,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 60,
+              "name": "Miscellaneous",
+              "start": 1290,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 60,
+              "name": "Play",
+              "start": 1350,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 30,
+              "name": "Work",
+              "start": 1410,
+              "uniqueId": "00001122334455003"
+            }
+          ],
+          "timestamp": "2023-09-04T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-05": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#5F05B3",
+              "duration": 480,
+              "name": "Sleep",
+              "start": 0,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 90,
+              "name": "Work",
+              "start": 480,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 570,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 30,
+              "name": "Miscellaneous",
+              "start": 600,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 270,
+              "name": "Work",
+              "start": 630,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 60,
+              "name": "Miscellaneous",
+              "start": 900,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 960,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 150,
+              "name": "Work",
+              "start": 990,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 1140,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 210,
+              "name": "Play",
+              "start": 1170,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 60,
+              "name": "Miscellaneous",
+              "start": 1380,
+              "uniqueId": "00001122334455007"
+            }
+          ],
+          "timestamp": "2023-09-05T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-06": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#5F05B3",
+              "duration": 360,
+              "name": "Sleep",
+              "start": 0,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 120,
+              "name": "Work",
+              "start": 360,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 480,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 90,
+              "name": "Work",
+              "start": 510,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 30,
+              "name": "Play",
+              "start": 600,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 60,
+              "name": "Work",
+              "start": 630,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 45,
+              "name": "Play",
+              "start": 690,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 75,
+              "name": "Work",
+              "start": 735,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 810,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 180,
+              "name": "Work",
+              "start": 840,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 180,
+              "name": "Play",
+              "start": 1020,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 1200,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 60,
+              "name": "Play",
+              "start": 1230,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 30,
+              "name": "Miscellaneous",
+              "start": 1290,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 120,
+              "name": "Sleep",
+              "start": 1320,
+              "uniqueId": "00001122334455001"
+            }
+          ],
+          "timestamp": "2023-09-06T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-07": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#5F05B3",
+              "duration": 480,
+              "name": "Sleep",
+              "start": 0,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 60,
+              "name": "Meal",
+              "start": 480,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 180,
+              "name": "Work",
+              "start": 540,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 720,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 90,
+              "name": "Play",
+              "start": 750,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 120,
+              "name": "Miscellaneous",
+              "start": 840,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 120,
+              "name": "Work",
+              "start": 960,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 90,
+              "name": "Miscellaneous",
+              "start": 1080,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 180,
+              "name": "Play",
+              "start": 1170,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 60,
+              "name": "Miscellaneous",
+              "start": 1350,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 30,
+              "name": "Sleep",
+              "start": 1410,
+              "uniqueId": "00001122334455001"
+            }
+          ],
+          "timestamp": "2023-09-07T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-08": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#FF9914",
+              "duration": 120,
+              "name": "Play",
+              "start": 0,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 300,
+              "name": "Sleep",
+              "start": 120,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 30,
+              "name": "Work",
+              "start": 420,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 450,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 90,
+              "name": "Work",
+              "start": 480,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 30,
+              "name": "Miscellaneous",
+              "start": 570,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 240,
+              "name": "Work",
+              "start": 600,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 90,
+              "name": "Sleep",
+              "start": 840,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 30,
+              "name": "Play",
+              "start": 930,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 960,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 120,
+              "name": "Work",
+              "start": 990,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 60,
+              "name": "Miscellaneous",
+              "start": 1110,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 30,
+              "name": "Sleep",
+              "start": 1170,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 120,
+              "name": "Play",
+              "start": 1200,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 60,
+              "name": "Meal",
+              "start": 1320,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 60,
+              "name": "Play",
+              "start": 1380,
+              "uniqueId": "00001122334455016"
+            }
+          ],
+          "timestamp": "2023-09-08T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-09": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#FF9914",
+              "duration": 30,
+              "name": "Play",
+              "start": 0,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#5F05B3",
+              "duration": 480,
+              "name": "Sleep",
+              "start": 30,
+              "uniqueId": "00001122334455001"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 510,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 180,
+              "name": "Miscellaneous",
+              "start": 540,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 90,
+              "name": "Meal",
+              "start": 720,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 180,
+              "name": "Work",
+              "start": 810,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 90,
+              "name": "Play",
+              "start": 990,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#09BC8A",
+              "duration": 60,
+              "name": "Work",
+              "start": 1080,
+              "uniqueId": "00001122334455003"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 60,
+              "name": "Miscellaneous",
+              "start": 1140,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#F21B3F",
+              "duration": 30,
+              "name": "Meal",
+              "start": 1200,
+              "uniqueId": "00001122334455011"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 90,
+              "name": "Miscellaneous",
+              "start": 1230,
+              "uniqueId": "00001122334455007"
+            },
+            {
+              "color": "#FF9914",
+              "duration": 90,
+              "name": "Play",
+              "start": 1320,
+              "uniqueId": "00001122334455016"
+            },
+            {
+              "color": "#3587A4",
+              "duration": 30,
+              "name": "Miscellaneous",
+              "start": 1410,
+              "uniqueId": "00001122334455007"
+            }
+          ],
+          "timestamp": "2023-09-09T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      }
+    },
+    "legend": [
+      {
+        "color": "#5F05B3",
+        "instances": 20,
+        "name": "Sleep",
+        "uniqueId": "00001122334455001"
+      },
+      {
+        "color": "#09BC8A",
+        "instances": 32,
+        "name": "Work",
+        "uniqueId": "00001122334455003"
+      },
+      {
+        "color": "#3587A4",
+        "instances": 23,
+        "name": "Miscellaneous",
+        "uniqueId": "00001122334455007"
+      },
+      {
+        "color": "#F21B3F",
+        "instances": 30,
+        "name": "Meal",
+        "uniqueId": "00001122334455011"
+      },
+      {
+        "color": "#FF9914",
+        "instances": 23,
+        "name": "Play",
+        "uniqueId": "00001122334455016"
+      },
+      {
+        "color": "white",
+        "instances": -7,
+        "name": "Remaining",
+        "uniqueId": "00001122334455019"
+      }
+    ],
+    "placeholder": false
+  }
+},
+{
+"userid-aPFM4tkygpTlarivjgm21OSrdc92": {
+    "dates": {
+      "2023-09-03": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#0000FF",
+              "duration": 420,
+              "name": "Sleep",
+              "start": 0,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Essential",
+              "start": 420,
+              "uniqueId": "00001122334455028"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 90,
+              "name": "Work",
+              "start": 450,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 120,
+              "name": "Chores",
+              "start": 540,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 180,
+              "name": "Work",
+              "start": 660,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Self Maintenance",
+              "start": 840,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Essential",
+              "start": 900,
+              "uniqueId": "00001122334455028"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 930,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Self Maintenance",
+              "start": 1050,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 60,
+              "name": "Work",
+              "start": 1110,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 150,
+              "name": "Unproductive",
+              "start": 1170,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Chores",
+              "start": 1320,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 90,
+              "name": "Sleep",
+              "start": 1350,
+              "uniqueId": "00001122334455029"
+            }
+          ],
+          "timestamp": "2023-09-03T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-04": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 0,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Chores",
+              "start": 120,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Self Maintenance",
+              "start": 180,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 270,
+              "name": "Sleep",
+              "start": 210,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Essential",
+              "start": 480,
+              "uniqueId": "00001122334455028"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 180,
+              "name": "Work",
+              "start": 540,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 120,
+              "name": "Essential",
+              "start": 720,
+              "uniqueId": "00001122334455028"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 840,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 240,
+              "name": "Work",
+              "start": 900,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 90,
+              "name": "Essential",
+              "start": 1140,
+              "uniqueId": "00001122334455028"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 1230,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Self Maintenance",
+              "start": 1350,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 1380,
+              "uniqueId": "00001122334455020"
+            }
+          ],
+          "timestamp": "2023-09-04T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-05": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#FF0000",
+              "duration": 90,
+              "name": "Unproductive",
+              "start": 0,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Self Maintenance",
+              "start": 90,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 420,
+              "name": "Sleep",
+              "start": 120,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Chores",
+              "start": 540,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 180,
+              "name": "Work",
+              "start": 570,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 750,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 120,
+              "name": "Work",
+              "start": 810,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 30,
+              "name": "Unproductive",
+              "start": 930,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 180,
+              "name": "Work",
+              "start": 960,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Chores",
+              "start": 1140,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 1200,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 30,
+              "name": "Work",
+              "start": 1320,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 1350,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Self Maintenance",
+              "start": 1410,
+              "uniqueId": "00001122334455031"
+            }
+          ],
+          "timestamp": "2023-09-05T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-06": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#0000FF",
+              "duration": 420,
+              "name": "Sleep",
+              "start": 0,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 60,
+              "name": "Productive",
+              "start": 420,
+              "uniqueId": "00001122334455024"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Sleep",
+              "start": 480,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 120,
+              "name": "Work",
+              "start": 540,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 30,
+              "name": "Unproductive",
+              "start": 660,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 150,
+              "name": "Work",
+              "start": 690,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 90,
+              "name": "Self Maintenance",
+              "start": 840,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 150,
+              "name": "Chores",
+              "start": 930,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 180,
+              "name": "Unproductive",
+              "start": 1080,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Self Maintenance",
+              "start": 1260,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 1320,
+              "uniqueId": "00001122334455020"
+            }
+          ],
+          "timestamp": "2023-09-06T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-07": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#FF0000",
+              "duration": 150,
+              "name": "Unproductive",
+              "start": 0,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 30,
+              "name": "Work",
+              "start": 150,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 480,
+              "name": "Sleep",
+              "start": 180,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 240,
+              "name": "Work",
+              "start": 660,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Essential",
+              "start": 900,
+              "uniqueId": "00001122334455028"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 930,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 60,
+              "name": "Work",
+              "start": 990,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 30,
+              "name": "Unproductive",
+              "start": 1050,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 60,
+              "name": "Work",
+              "start": 1080,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Essential",
+              "start": 1140,
+              "uniqueId": "00001122334455028"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 1200,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 120,
+              "name": "Work",
+              "start": 1260,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Self Maintenance",
+              "start": 1380,
+              "uniqueId": "00001122334455031"
+            }
+          ],
+          "timestamp": "2023-09-07T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-08": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#00FF00",
+              "duration": 60,
+              "name": "Productive",
+              "start": 0,
+              "uniqueId": "00001122334455024"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 480,
+              "name": "Sleep",
+              "start": 60,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 30,
+              "name": "Self Maintenance",
+              "start": 540,
+              "uniqueId": "00001122334455031"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 210,
+              "name": "Work",
+              "start": 570,
+              "uniqueId": "00001122334455025"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 780,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 180,
+              "name": "Chores",
+              "start": 900,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 1080,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 180,
+              "name": "Productive",
+              "start": 1200,
+              "uniqueId": "00001122334455024"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 1380,
+              "uniqueId": "00001122334455020"
+            }
+          ],
+          "timestamp": "2023-09-08T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "2023-09-09": {
+        "data": {
+          "detailsArray": [
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 0,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 420,
+              "name": "Sleep",
+              "start": 120,
+              "uniqueId": "00001122334455029"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 540,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#0000FF",
+              "duration": 60,
+              "name": "Chores",
+              "start": 600,
+              "uniqueId": "00001122334455030"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 360,
+              "name": "Unproductive",
+              "start": 660,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 60,
+              "name": "Productive",
+              "start": 1020,
+              "uniqueId": "00001122334455024"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 120,
+              "name": "Unproductive",
+              "start": 1080,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 90,
+              "name": "Productive",
+              "start": 1200,
+              "uniqueId": "00001122334455024"
+            },
+            {
+              "color": "#FF0000",
+              "duration": 60,
+              "name": "Unproductive",
+              "start": 1290,
+              "uniqueId": "00001122334455020"
+            },
+            {
+              "color": "#00FF00",
+              "duration": 90,
+              "name": "Work",
+              "start": 1350,
+              "uniqueId": "00001122334455025"
+            }
+          ],
+          "timestamp": "2023-09-09T00:00:00.000-07:00",
+          "timezone": "America/Los_Angeles"
+        }
+      }
+    },
+    "legend": [
+      {
+        "color": "#FF0000",
+        "instances": 26,
+        "name": "Unproductive",
+        "uniqueId": "00001122334455020"
+      },
+      {
+        "children": [
+          {
+            "color": "#00FF00",
+            "instances": 18,
+            "name": "Work",
+            "uniqueId": "00001122334455025"
+          }
+        ],
+        "color": "#00FF00",
+        "instances": 5,
+        "name": "Productive",
+        "uniqueId": "00001122334455024"
+      },
+      {
+        "children": [
+          {
+            "color": "#0000FF",
+            "instances": 9,
+            "name": "Sleep",
+            "uniqueId": "00001122334455029"
+          },
+          {
+            "color": "#0000FF",
+            "instances": 8,
+            "name": "Chores",
+            "uniqueId": "00001122334455030"
+          },
+          {
+            "color": "#0000FF",
+            "instances": 10,
+            "name": "Self Maintenance",
+            "uniqueId": "00001122334455031"
+          }
+        ],
+        "color": "#0000FF",
+        "instances": 7,
+        "name": "Essential",
+        "uniqueId": "00001122334455028"
+      },
+      {
+        "color": "white",
+        "instances": -7,
+        "name": "Remaining",
+        "uniqueId": "00001122334455032"
+      }
+    ],
+    "placeholder": false
+  }
+}
+]

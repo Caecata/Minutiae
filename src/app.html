@@ -653,10 +653,10 @@
         <!-- NAV BAR -->
         <ul id="navigationbar" class="dark-mode nav-link-colors"> 
             <li><a href="index.html">Home</a></li>
-            <li><a href="data.html">Analytics</a></li>
-            <li><a href="calendar.html">Calendar</a></li>
-            <li><a href="customize.html">My Legend</a></li>
-            <li><a href="settings.html">Settings</a></li>
+            <li><a href="data.html" id="data-url">Analytics</a></li>
+            <li><a href="calendar.html" id="calendar-url">Calendar</a></li>
+            <li><a href="customize.html" id="customize-url">My Legend</a></li>
+            <li><a href="settings.html" id="settings-url">Settings</a></li>
 
             <li><a href="#" id="mode-switcher" class="button-link">
                     <span class="dark-icon"><i class="fa-solid fa-toggle-on"></i></span>
@@ -946,6 +946,30 @@
 
     <!-- LOG BUTTON -->
     <button id="view-log" class="button dark-mode">Log</button> <!-- put "class="dark-mode" back -->
+
+    <!-- TUTORIAL DIALOGUE -->
+    <div id="tutorial-blurred-overlay"></div>
+    <div id="mainheader-box">Exploring Insights with Minutiae Analytics</div>
+    <div id="dialogue-box">
+        <div id="subheader-box">⏮️⏭️ Navigate to Previous/Future Days</div>
+        <div id="description-box">Click on the template option (A or B) that resonates with you the most.</div>
+        <!-- for endAction -->
+        <div id="icon-dialogue">
+            <i class="fa-solid fa-angle-right" style="color: #433138;"></i>
+        </div>
+        <!-- for looping through dialogueArray -->
+        <div id="icon-dialogue2">
+            <i class="fa-solid fa-angle-right" style="color: #433138;"></i>
+        </div>
+    </div>
+
+    <!-- TUTORIAL PROGRESS BAR -->
+    <div class="progress-bar-container">
+        <h2>Minutiae Tutorial</h2>
+        <div class="progress-bar">
+            <div class="minutiae-tutorial"><span>0%</span></div>
+        </div>
+    </div> 
 
     <!-- CHARTS SCRIPT -->
     <script type="module" src="app.js"></script>

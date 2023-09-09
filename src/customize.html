@@ -51,7 +51,7 @@
             bottom: 0%;
             right: 0%;
 
-            display: none;
+            /* display: none; */
             z-index: 40;
 
             cursor: pointer;
@@ -61,52 +61,32 @@
         #choice-two-button {
             font-family: var(--font-family);
             font-size: 3em;
-            display: none;
-            z-index: 40;
+            /* display: none; */
 
             cursor: pointer;
-        }
-
-        #choice-one-button {
-            position: absolute;
-            right: 15%;
-            top: 0%;
-        }
-
-        #choice-two-button {
-            position: absolute;
-            right: 0%;
-            top: 0%;
         }
 
         #choose {
             font-family: var(--font-family);
             font-size: 2em;
-            display: none;
-
-            position: absolute;
-            right: 35%;
-            top: 0%;
+            /* display: none; */
         }
 
         #or {
             font-family: var(--font-family);
             font-size: 2em;
-            display: none;
-
-            position: absolute;
-            right: 7%;
-            top: 0%;
+            /* display: none; */
         }
 
         #then {
             font-family: var(--font-family);
             font-size: 2em;
-            display: none;
+            /* display: none; */
+        }
 
-            position: absolute;
-            right: 14%;
-            bottom: 0%;
+        #initializationUI {
+            z-index: 27;
+            display: none;
         }
 
         /* MEDIA QUERIES*/
@@ -114,15 +94,116 @@
         /* Styles for screens with width 480px or less (commonly used for mobile devices in portrait mode)
                 320px: This is the width of many mobile devices in portrait mode. */
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             #title {
                 display: none;
             }
+
+            #choice-one-button {
+                position: absolute;
+                right: 35%;
+                top: 0%;
+                z-index: 40;
+
+            }
+
+            #choice-two-button {
+                position: absolute;
+                right: 0%;
+                top: 0%;
+                z-index: 40;
+
+            }
+
+            #choose, #or, #then {
+                color: white;
+                z-index: 40;
+
+            }
+
+            #choose {
+                position: absolute;
+                left: 5%;
+                top: 0%;
+
+            }
+            
+            #or {
+                position: absolute;
+                right: 20%;
+                top: 0%;
+
+            }
+
+            #then {
+                position: absolute;
+                right: 35%;
+                bottom: 0%;
+            }
+
+            /* takes the size of the button overlay*/
+            #initializationUI {
+                width: 88%;
+                height: 24%;
+            
+                position: absolute;
+                top: 73%;
+                left: 6%;
+            }
         }
 
-        /* @media (min-width: 769px) {
-    
-        } */
+        @media (min-width: 769px) {
+            /* takes the size of the button overlay*/
+            #initializationUI {
+                position: absolute;
+                width: 78%;
+                height: 20%;
+                top: 15%;
+                left: 11%;
+            }
+
+            #choice-one-button {
+                position: absolute;
+                right: 15%;
+                top: 0%;
+                z-index: 40;
+
+            }
+
+            #choice-two-button {
+                position: absolute;
+                right: 0%;
+                top: 0%;
+                z-index: 40;
+
+            }
+
+            #choose, #or, #then {
+                color: black;
+                z-index: 40;
+
+            }
+
+            #choose {
+                position: absolute;
+                right: 25%;
+                top: 0%;
+
+            }
+            
+            #or {
+                position: absolute;
+                right: 7%;
+                top: 0%;
+
+            }
+
+            #then {
+                position: absolute;
+                right: 14%;
+                bottom: 0%;
+            }
+        } 
 
         /*480px: This is the width of many mobile devices in landscape mode.*/
         @media (min-width: 480px) and (max-width: 768px) {}
@@ -148,6 +229,15 @@
         <label id="tags-label-desktop">Tags:</label>
     </div>
     <div id="button-overlay"></div>
+
+    <div id="initializationUI">
+        <h3 id="choose">Choose</h3>
+        <h3 id="or">or</h3>
+        <h3 id="then">then</h3>
+        <button id="choice-one-button">A</button>
+        <button id="choice-two-button">B</button>
+        <button id="submit-initialization">Submit</button>
+    </div>
 
     <!-- loading screen -->
     <div id="loading-screen">
@@ -201,12 +291,12 @@
 
     <div id="folder-container">
         <div id="remake-dropdown-container"></div>
-        <h3 id="choose">Choose</h3>
+        <!-- <h3 id="choose">Choose</h3>
         <h3 id="or">or</h3>
         <h3 id="then">then</h3>
         <button id="choice-one-button">A</button>
         <button id="choice-two-button">B</button>
-        <button id="submit-initialization">Submit</button>
+        <button id="submit-initialization">Submit</button> -->
     </div>
 
     <form id="categoryForm">
@@ -347,6 +437,30 @@
     <div id="tags-section">
         <div id="tag-container"></div>
     </div>
+
+    <!-- TUTORIAL DIALOGUE -->
+    <div id="tutorial-blurred-overlay"></div>
+    <div id="mainheader-box">Exploring Insights with Minutiae Analytics</div>
+    <div id="dialogue-box">
+        <div id="subheader-box">⏮️⏭️ Navigate to Previous/Future Days</div>
+        <div id="description-box">Click on the template option (A or B) that resonates with you the most.</div>
+        <!-- for endAction -->
+        <div id="icon-dialogue">
+            <i class="fa-solid fa-angle-right" style="color: #433138;"></i>
+        </div>
+        <!-- for looping through dialogueArray -->
+        <div id="icon-dialogue2">
+            <i class="fa-solid fa-angle-right" style="color: #433138;"></i>
+        </div>
+    </div>
+
+    <!-- TUTORIAL PROGRESS BAR -->
+    <div class="progress-bar-container">
+        <h2>Minutiae Tutorial</h2>
+        <div class="progress-bar">
+            <div class="minutiae-tutorial"><span>0%</span></div>
+        </div>
+    </div> 
 
     <script src='customize.js' type="module"></script>
 

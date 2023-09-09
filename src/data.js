@@ -1,10 +1,11 @@
 import { initializeDarkLightMode } from './darklightmodedata.js'
 import { checkDeviceWidth, isMobile } from './responsiveness.js'
-import { receiveLegendFromDatabase, saveLegendToDatabase, retrieveToday, receiveSettingsFromDatabase, getRemoveArray, saveToDatabase, receiveTagsFromDatabase, saveTagsToDatabase } from './firebase/dbHandler.js'
+import { receiveLegendFromDatabase, saveLegendToDatabase, retrieveToday, receiveSettingsFromDatabase, getRemoveArray, saveToDatabase, receiveTagsFromDatabase, saveTagsToDatabase, getTutorialState, saveTutorialState } from './firebase/dbHandler.js'
 import Chart from 'chart.js/auto'
 //import { seeDetailsLog } from './log.js'
 import { DateTime } from 'luxon';
 import { signOutUser } from './firebase/authentication.js'
+import { updateTutorial, outputTutorialDialogue, functions } from './tutorial.js'
 
 //enables signing out on this page
 let signInBtn = document.getElementById("sign-in");
@@ -20,6 +21,7 @@ var blankObject = {
 }
 let tags = [];
 let settings = {};
+let tutorialState = {};
 
 //if slices are overwritten, it is overwritten with properties from remaining (this derives the color)
 function findRemaining(data) {
@@ -38,51 +40,59 @@ function findRemaining(data) {
     }
 }
 
-receiveSettingsFromDatabase()
-    .then((receivedSettings) => {
-        settings = receivedSettings;
-        if (settings !== null) {
-            if (settings.font !== "default") {
-                const userFont = `${settings.font}, sans-serif`;
-                changeFontFamily(userFont);
-            }
+getTutorialState()
+    .then((receivedTutorialState) => {
+        tutorialState = receivedTutorialState;
+        if (tutorialState.finalMessage === false) {
+            updateTutorial(tutorialState);
         }
-        //setDateInputFont();
-        receiveLegendFromDatabase()
-            .then((receivedLegend) => {
-                legend = receivedLegend;
-
+        receiveSettingsFromDatabase()
+            .then((receivedSettings) => {
+                settings = receivedSettings;
                 if (settings !== null) {
-                    if (settings.darkLightMode === "dark-mode") {
-                    } else if (settings.darkLightMode === "light-mode") {
-                        document.body.classList.remove("dark-mode");
-                        document.body.classList.add('light-mode');
-                        const darkModeElements = document.querySelectorAll(".dark-mode");
-                        darkModeElements.forEach((element) => {
-                            element.classList.remove("dark-mode");
-                            element.classList.add("light-mode");
-    
-                            const modeSwitcher = document.getElementById("mode-switcher");
-                            modeSwitcher.querySelector(".mode-text").textContent = "Light Mode";
-                            modeSwitcher.querySelector(".dark-icon").classList.add("hidden");
-                            modeSwitcher.querySelector(".light-icon").classList.remove("hidden")
-                        });
+                    if (settings.font !== "default") {
+                        const userFont = `${settings.font}, sans-serif`;
+                        changeFontFamily(userFont);
                     }
                 }
-
-                findRemaining(legend);
-                formInitialization(legend);
-                receiveTagsFromDatabase()
-                    .then((receivedTags) => {
-                        tags = receivedTags;
-                        getRemoveArray()
-                            .then((receivedRemoveArray) => {
-                                removeArray = receivedRemoveArray;
-                                loadingScreen.style.display = "none";
+                //setDateInputFont();
+                receiveLegendFromDatabase()
+                    .then((receivedLegend) => {
+                        legend = receivedLegend;
+        
+                        if (settings !== null) {
+                            if (settings.darkLightMode === "dark-mode") {
+                            } else if (settings.darkLightMode === "light-mode") {
+                                document.body.classList.remove("dark-mode");
+                                document.body.classList.add('light-mode');
+                                const darkModeElements = document.querySelectorAll(".dark-mode");
+                                darkModeElements.forEach((element) => {
+                                    element.classList.remove("dark-mode");
+                                    element.classList.add("light-mode");
+            
+                                    const modeSwitcher = document.getElementById("mode-switcher");
+                                    modeSwitcher.querySelector(".mode-text").textContent = "Light Mode";
+                                    modeSwitcher.querySelector(".dark-icon").classList.add("hidden");
+                                    modeSwitcher.querySelector(".light-icon").classList.remove("hidden")
+                                });
+                            }
+                        }
+        
+                        findRemaining(legend);
+                        formInitialization(legend);
+                        receiveTagsFromDatabase()
+                            .then((receivedTags) => {
+                                tags = receivedTags;
+                                getRemoveArray()
+                                    .then((receivedRemoveArray) => {
+                                        removeArray = receivedRemoveArray;
+                                        loadingScreen.style.display = "none";
+                                    })
                             })
                     })
             })
     })
+
 
 //change font based on settings
 function changeFontFamily(fontFamily) {
@@ -614,6 +624,17 @@ document.getElementById("submit").addEventListener("click", function () {
                 hideExcept(currentStep);
                 showButtons(currentStep);
                 seeDetailsLog(mainObj.dateArray, timeUnitSelection);
+
+                //for the tutorial
+                if (tutorialState.dailyBreakdown === false) {
+                    outputTutorialDialogue("dailyBreakdown");
+                }
+                if (tutorialState.weekMonthAndYear === false && tutorialState.dailyBreakdown === true && tutorialState.activityFrequency === true && tutorialState.timeAllocation === true && tutorialState.categoryShare === true) {
+                    outputTutorialDialogue("weekMonthAndYear");
+                }
+                if (tutorialState.weekMonthAndYear === true && tutorialState.dailyBreakdown === true && tutorialState.activityFrequency === true && tutorialState.timeAllocation === true && tutorialState.categoryShare === true && tutorialState.examineTheData === true) {
+                    functions["checkToDirectUserToReset"]();
+                }
             })
 
         //}
@@ -895,10 +916,21 @@ const nextChartBtn = document.getElementById("next-chart");
 const backChartBtn = document.getElementById("chart-back");
 const resetButton = document.getElementById('resetButton');
 
-nextChartBtn.addEventListener("click", function () {
+nextChartBtn.addEventListener("click", function () {  
     currentStep++;
     showButtons(currentStep);
     hideExcept(currentStep);
+
+    getTutorialState()
+        .then((tutorialState) => {
+            if (tutorialState.activityFrequency === false && currentStep === 2) {
+                outputTutorialDialogue("activityFrequency");
+            } else if (tutorialState.timeAllocation === false && currentStep === 3) {
+                outputTutorialDialogue("timeAllocation");
+            } else if (tutorialState.categoryShare === false && currentStep === 4) {
+                outputTutorialDialogue("categoryShare");
+            }
+        })
 })
 
 backChartBtn.addEventListener("click", function () {
