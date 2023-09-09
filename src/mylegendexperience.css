@@ -52,7 +52,7 @@
     z-index: 30;
 }
 
-#tags-label {
+#label-tags {
     font-family: var(--font-family);
     display: flex;
     justify-content: center;

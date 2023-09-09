@@ -1,7 +1,7 @@
 import { receiveSettingsFromDatabase } from './firebase/dbHandler.js'
 import { uiConfig } from './firebase/authentication.js'
 import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, getTutorialState, saveTutorialState } from './firebase/dbHandler.js'
-import { updateTutorial, tutorialDialogue } from './tutorial.js'
+import { updateTutorial, tutorialDialogue, deactivateElement } from './tutorial.js'
 
 //loading screen
 const loadingScreen = document.getElementById('loading-screen');
@@ -51,6 +51,12 @@ if (userId !== "null") {
         }
     })
 }
+deactivateElement("customize-url");
+deactivateElement("app-url");
+deactivateElement("calendar-url");
+deactivateElement("data-url");
+deactivateElement("settings-url");
+
 loadingScreen.style.display = "none";
 
 
