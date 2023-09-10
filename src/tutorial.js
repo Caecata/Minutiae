@@ -21,47 +21,63 @@ export const functions = {
   reactivateTodayUrl: function(parameter) {
     console.log("reactivateTodayUrl()");
     const appUrlElement = document.getElementById("app-url");
-    appUrlElement.classList.remove("deactivated-link");
-    appUrlElement.addEventListener("click", function(event) {
-      event.preventDefault();
-      window.location.href = "app.html";
-    })
+
+    if (appUrlElement) {
+      appUrlElement.classList.remove("deactivated-link");
+      appUrlElement.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.location.href = "app.html";
+      })
+    }
   },
   reactivateCalendarUrl: function(parameter) {
     console.log("reactivateCalendarUrl()");
-    const appUrlElement = document.getElementById("calendar-url");
-    appUrlElement.classList.remove("deactivated-link");
-    appUrlElement.addEventListener("click", function(event) {
-      event.preventDefault();
-      window.location.href = "calendar.html";
-    })
+    const calendarUrlElement = document.getElementById("calendar-url");
+
+    if (calendarUrlElement) {
+      calendarUrlElement.classList.remove("deactivated-link");
+      calendarUrlElement.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.location.href = "calendar.html";
+      })
+    }
   },
   reactivateAnalyticsUrl: function(parameter) {
     console.log("reactivateAnalyticsUrl()");
-    const appUrlElement = document.getElementById("data-url");
-    appUrlElement.classList.remove("deactivated-link");
-    appUrlElement.addEventListener("click", function(event) {
-      event.preventDefault();
-      window.location.href = "data.html";
-    })
+    const analyticsUrlElement = document.getElementById("data-url");
+
+    if (analyticsUrlElement) {
+      analyticsUrlElement.classList.remove("deactivated-link");
+      analyticsUrlElement.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.location.href = "data.html";
+      })
+    } 
   },
   reactivateSettingsUrl: function(parameter) {
     console.log("reactivateSettingsUrl()");
-    const appUrlElement = document.getElementById("settings-url");
-    appUrlElement.classList.remove("deactivated-link");
-    appUrlElement.addEventListener("click", function(event) {
+    const settingsUrlElement = document.getElementById("settings-url");
+
+    if (settingsUrlElement) {
+      settingsUrlElement.classList.remove("deactivated-link");
+      settingsUrlElement.addEventListener("click", function(event) {
       event.preventDefault();
       window.location.href = "settings.html";
     })
+    }
   },
   reactivateMyLegendUrl: function(parameter) {
     console.log("reactivateMyLegendUrl()");
     const myLegendUrlElement = document.getElementById("customize-url");
-    myLegendUrlElement.classList.remove("deactivated-link");
-    myLegendUrlElement.addEventListener("click", function(event) {
-      event.preventDefault();
-      window.location.href = "customize.html";
-    })
+
+    if (myLegendUrlElement) {
+      myLegendUrlElement.classList.remove("deactivated-link");
+      myLegendUrlElement.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.location.href = "customize.html";
+      })
+    }
+  
   },
   advanceProgressBarTo25: function(parameter) {
     console.log("advanceProgressBarTo25()");
@@ -355,7 +371,7 @@ export let tutorialDialogue = [
     [
       "Congratulations! You've completed the first step of your journey."
     ],
-    endAction: ["clickToday", {function: "updateMenuElements", parameter: "today"}, {function: "reactivateTodayUrl"},]
+    endAction: ["clickToday", {function: "updateMenuElements", parameter: "today"}, {function: "reactivateTodayUrl"}]
   },
   {
     name: "clickToday",
@@ -2521,6 +2537,9 @@ export function updateTutorialAnalytics(tutorialState) {
 
     function handleSeeDetailsClick() {
       outputTutorialDialogue("examineTheData");
+
+      document.getElementById("seeDetails").classList.remove("blinking");
+      document.getElementById("seeDetails").style.borderColor = "#1b1b1b";
 
       document.getElementById("seeDetails").removeEventListener("click", handleSeeDetailsClick);
     }
