@@ -1,11 +1,10 @@
 import { app } from './firebase.js'
 import { getAuth, signOut, signInAnonymously } from "firebase/auth";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, receiveLegendFromDatabase, getTutorialState, saveTutorialState } from './dbHandler.js'
-import { initializeFirstUserExperience, updateMenuElements, updateTutorial } from '../../src/tutorial.js'
+import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, getTutorialState, saveTutorialState } from './dbHandler.js'
+import { updateTutorial } from '../../src/tutorial.js'
 
 //Temp variable to hold the anonymous user data if needed.
 //var data = null;
@@ -59,9 +58,6 @@ var uiConfig = {
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    //firebase.auth.PhoneAuthProvider.PROVIDER_ID
-    //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    //firebase.auth.GithubAuthProvider.PROVIDER_ID,
   ],
   // Terms of service url.
   tosUrl: '<your-tos-url>',
@@ -176,13 +172,6 @@ const initApp = function () {
                   saveTutorialState(tutorialState);
                 }
 
-                receiveLegendFromDatabase()
-                  .then((legend) => {
-                    if (legend === null && (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E" || currentPage === "/")) {
-                      //initializeFirstUserExperience();
-                      updateMenuElements("myLegend");
-                    }
-                  }) 
                 if (!userIdExists) {
                   saveNewUser(uid);
                   getTutorialState()
@@ -196,14 +185,9 @@ const initApp = function () {
     } else {
       console.log("no user");
       // User is signed out.
-      //document.getElementById('hi').style.display = "none";
-      //document.getElementById('display-name').style.display = "none";
       document.getElementById('firebaseui-auth-container').style.display = "block";
-
-      //document.getElementById('sign-in-status').textContent = 'Signed out';
       document.getElementById('sign-in').textContent = 'Sign in';
       document.getElementById('sign-in').style.display = "none";
-      //document.getElementById('account-details').textContent = 'null';
     }
   }, function (error) {
     console.log(error);

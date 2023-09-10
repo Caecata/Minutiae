@@ -3,109 +3,6 @@ import { getTutorialState, saveTutorialState, saveLegendToDatabase, receiveLegen
 //import { connected } from "process";
 import { DateTime } from 'luxon';
 
-
-//DEFUNCT - imported to authentication.js to guide user to set up their legend
-export function initializeFirstUserExperience() {
-    //old function used to update the menu to guide them to MyLegend
-    //moved to updateMenuElements()
-    console.log("outdated function: initializeFirstUserExperience() called from tutorial.js");
-  }
-
-//Will include: make your choice event listeners, update visualization/folder system for choice selection, and show relevant UI
-export function initializeChoice() {
-
-    getTutorialState()
-      .then((tutorialState) => {
-        document.getElementById("initializationUI").style.display = "block";
-        document.getElementById("blurred-overlay-legend").style.display = "block";
-    
-        let initializationOption = "A";
-
-        updateVisualization(data, "#tree-container");
-        initializeFolders(data);
-      
-        document.getElementById("choice-one-button").addEventListener("click", function() {
-          console.log("choice one button");
-        
-          removeVisualization("#tree-container");
-          removeFolders();
-        
-          updateVisualization(data, "#tree-container");
-          initializeFolders(data);
-        
-          initializationOption = "A";
-        
-        })
-        
-        document.getElementById("choice-two-button").addEventListener("click", function() {
-          console.log("choice one button");
-        
-          removeVisualization("#tree-container");
-          removeFolders();
-        
-          updateVisualization(data2, "#tree-container");
-          initializeFolders(data2);
-          
-          initializationOption = "B";
-        
-        })
-        
-        document.getElementById("submit-initialization").addEventListener("click", function() {
-    
-          console.log("submit:", initializationOption);
-
-          saveTutorialStateChoice();
-    
-          if (initializationOption === "A") {
-            saveLegendToDatabase(data);
-    
-            //saveTutorialStateChoice();
-            /* tutorialState.choice = true;
-            saveTutorialState(tutorialState) */
-
-            document.getElementById("initializationUI").style.display = "none";
-            document.getElementById("blurred-overlay-legend").style.display = "none";
-        
-            removeVisualization("#tree-container");
-            removeFolders();
-        
-            updateVisualization(data, "#tree-container");
-            initializeFolders(data);
-    
-          } else if (initializationOption === "B") {
-            saveLegendToDatabase(data2);
-    
-            //saveTutorialStateChoice();
-            /* tutorialState.choice = true;
-            saveTutorialState(tutorialState); */
-    
-            document.getElementById("initializationUI").style.display = "none";
-            document.getElementById("blurred-overlay-legend").style.display = "none";
-        
-            removeVisualization("#tree-container");
-            removeFolders();
-        
-            updateVisualization(data2, "#tree-container");
-            initializeFolders(data2);
-          }
-        })
-      })
-  }
-
-//DEFUNCT
-export function endInitialization() {
-    
-    //initializationUI includes all of the elements that need to become visible
-    document.getElementById("initializationUI").style.display = "none";
-    document.getElementById("blurred-overlay-legend").style.display = "none";
-  
-    document.getElementById("app-url").classList.remove("deactivated-link");
-    document.getElementById("data-url").classList.remove("deactivated-link");
-    document.getElementById("calendar-url").classList.remove("deactivated-link");
-    document.getElementById("settings-url").classList.remove("deactivated-link");
-  }
-
-
 export const functions = {
   checkToTriggerYJYR: function(parameter) {
     getTutorialState()
@@ -155,6 +52,15 @@ export const functions = {
     appUrlElement.addEventListener("click", function(event) {
       event.preventDefault();
       window.location.href = "settings.html";
+    })
+  },
+  reactivateMyLegendUrl: function(parameter) {
+    console.log("reactivateMyLegendUrl()");
+    const myLegendUrlElement = document.getElementById("customize-url");
+    myLegendUrlElement.classList.remove("deactivated-link");
+    myLegendUrlElement.addEventListener("click", function(event) {
+      event.preventDefault();
+      window.location.href = "customize.html";
     })
   },
   advanceProgressBarTo25: function(parameter) {
@@ -267,50 +173,50 @@ export const functions = {
     //reload the page at the end of this function
     //and/or close the dialogue
 
-    receiveLegendFromDatabase()
-      .then((legend) => {
+    getTutorialState()
+      .then((tutorialState) => {
+        receiveLegendFromDatabase()
+          .then((legend) => {
 
-        let detailsArray = [];
+            let detailsArray = [];
 
-        const now = DateTime.now();
-        let sevenDaysAgo = now.minus({ days: 7 });
+            const now = DateTime.now();
+            let sevenDaysAgo = now.minus({ days: 7 });
 
-        let dayArray = [];
+            let dayArray = [];
 
-        for (let i = 0; i < 7; i++) {
-          dayArray.push(sevenDaysAgo);
-          sevenDaysAgo = sevenDaysAgo.plus({ days: 1 });
-        }
+            for (let i = 0; i < 7; i++) {
+              dayArray.push(sevenDaysAgo);
+              sevenDaysAgo = sevenDaysAgo.plus({ days: 1 });
+            }
 
-        console.log("dayArray:", dayArray);
+            console.log("dayArray:", dayArray);
 
-        const remainingItem = legend.find(item => item.name === "Remaining");
-        //the user saved data as their legend
-        if (remainingItem.uniqueId === "00001122334455019") {
-          console.log("using detailsArraySquared");
-          detailsArray = detailsArraySquared;
-        } 
-        //the user saved data2 as their legend
-        if (remainingItem.uniqueId === "00001122334455032") {
-          console.log("using detailsArraySquared2");
-          detailsArray = detailsArraySquared2;
-        }
+            const remainingItem = legend.find(item => item.name === "Remaining");
+            //the user saved data as their legend
+            if (remainingItem.uniqueId === "00001122334455019") {
+              console.log("using detailsArraySquared");
+              detailsArray = detailsArraySquared;
+            } 
+            //the user saved data2 as their legend
+            if (remainingItem.uniqueId === "00001122334455032") {
+              console.log("using detailsArraySquared2");
+              detailsArray = detailsArraySquared2;
+            }
 
-        console.log("detailsArray:", detailsArray);
+            console.log("detailsArray:", detailsArray);
 
-        for (let j = 0; j < 7; j++) {
-          saveToDatabase(detailsArray[j], dayArray[j]);
-        }
-
-        getTutorialState()
-          .then((tutorialState) => {
+            for (let j = 0; j < 7; j++) {
+              saveToDatabase(detailsArray[j], dayArray[j]);
+            }
+            
             tutorialState.upload = true;
             saveTutorialState(tutorialState);
-          })
-
-        //reload the page 
-        location.reload();
+    
+            //reload the page 
+            location.reload();
       })
+    })
   },
   checkToTriggerWDM: function(parameter) {
     getTutorialState()
@@ -339,35 +245,15 @@ export const functions = {
 
           document.getElementById("resetButton").disabled = false;
 
+          tutorialState.reset = true;
+          saveTutorialState(tutorialState);
+
           document.getElementById("resetButton").addEventListener("click", function() {
-            getTutorialState()
-              .then((tutorialState) => {
-                tutorialState.reset = true;
-                saveTutorialState(tutorialState);
-                location.reload();
-              })
+            location.reload();
           })
         }
       })
   },
-}
-
-export function saveTutorialStateChoice() {
-  getTutorialState()
-    .then((tutorialState) => {
-      tutorialState.choice = true;
-      saveTutorialState(tutorialState);
-    })
-}
-
-export function updateCraftingYourCustomReportDialogue(tutorialDialogue) {
-  console.log("updateCraftingYourCustomReportDialogue()");
-
-  const now = DateTime.now();
-  const sevenDaysAgo = now.minus({ days: 7 });
-  const formattedSevenDaysAgo = sevenDaysAgo.toFormat('M/d/yy');
-
-  tutorialDialogue.find(item => item.name === "craftingYourCustomReport").dialogueArray[1] = "Define your time scope with a choice of 'Week,' 'Month,' or 'Year.' For the purpose of this exercise, please choose 'Week'. Lastly, pick a starting date for your report. Please choose " + formattedSevenDaysAgo + ".";
 }
 
 export let tutorialDialogue = [
@@ -763,8 +649,8 @@ export let tutorialDialogue = [
   }
 ]
 
-//just for reference since it is initialized in getTutorialState if user does not have one saved
-//choice and slice and reset are not bools for tutorialDialogue; they are bools to check if user has triggered more dialogue through actions like submitting choice of legend, inputting a slice, resetting the page, etc.
+//choice and slice and reset are not bools for tutorialDialogue
+//they are bools to check if user has triggered more dialogue through actions like submitting choice of legend, inputting a slice, resetting the page, etc.
 //upload is a bool describing whether or not the account has the sample data saved into it
 export const tutorialStateInitialization =
 {
@@ -2130,6 +2016,96 @@ export const detailsArraySquared2 = [
   ]
 ]
 
+export function initializeChoice() {
+
+  getTutorialState()
+    .then((tutorialState) => {
+      document.getElementById("initializationUI").style.display = "block";
+      document.getElementById("blurred-overlay-legend").style.display = "block";
+  
+      let initializationOption = "A";
+
+      updateVisualization(data, "#tree-container");
+      initializeFolders(data);
+    
+      document.getElementById("choice-one-button").addEventListener("click", function() {
+        console.log("choice one button");
+      
+        removeVisualization("#tree-container");
+        removeFolders();
+      
+        updateVisualization(data, "#tree-container");
+        initializeFolders(data);
+      
+        initializationOption = "A";
+      
+      })
+      
+      document.getElementById("choice-two-button").addEventListener("click", function() {
+        console.log("choice one button");
+      
+        removeVisualization("#tree-container");
+        removeFolders();
+      
+        updateVisualization(data2, "#tree-container");
+        initializeFolders(data2);
+        
+        initializationOption = "B";
+      
+      })
+      
+      document.getElementById("submit-initialization").addEventListener("click", function() {
+  
+        console.log("submit:", initializationOption);
+
+        saveTutorialStateChoice();
+  
+        if (initializationOption === "A") {
+          saveLegendToDatabase(data);
+
+          document.getElementById("initializationUI").style.display = "none";
+          document.getElementById("blurred-overlay-legend").style.display = "none";
+      
+          removeVisualization("#tree-container");
+          removeFolders();
+      
+          updateVisualization(data, "#tree-container");
+          initializeFolders(data);
+  
+        } else if (initializationOption === "B") {
+          saveLegendToDatabase(data2);
+  
+          document.getElementById("initializationUI").style.display = "none";
+          document.getElementById("blurred-overlay-legend").style.display = "none";
+      
+          removeVisualization("#tree-container");
+          removeFolders();
+      
+          updateVisualization(data2, "#tree-container");
+          initializeFolders(data2);
+        }
+      })
+    })
+}
+
+export function saveTutorialStateChoice() {
+  getTutorialState()
+    .then((tutorialState) => {
+      tutorialState.choice = true;
+      saveTutorialState(tutorialState);
+    })
+}
+
+export function updateCraftingYourCustomReportDialogue(tutorialDialogue) {
+  console.log("updateCraftingYourCustomReportDialogue()");
+
+  const now = DateTime.now();
+  const sevenDaysAgo = now.minus({ days: 7 });
+  const formattedSevenDaysAgo = sevenDaysAgo.toFormat('M/d/yy');
+
+  tutorialDialogue.find(item => item.name === "craftingYourCustomReport").dialogueArray[1] = "Define your time scope with a choice of 'Week,' 'Month,' or 'Year.' For the purpose of this exercise, please choose 'Week'. Lastly, pick a starting date for your report. Please choose " + formattedSevenDaysAgo + ".";
+}
+
 export function deactivateElement(elementId) {
   //this will be called on the URL elements on the menu 
   //might not work for existing buttons because we have to handle their existing event listeners
@@ -2187,11 +2163,16 @@ export function applyBlinking(elementId) {
 }
 
 export function updateMenuElements(nextStep) {
+  console.log("updateMenuElements()");
   //nextStep is a string: "myLegend", "today", "calendar", "analytics"
 
     if (nextStep === "myLegend") {
       //apply blinking to myLegend
       //deactivate all the links that are locked
+
+      //because all links are deactivated before anyone logs in, you need to reactivate them before deactivating the appropriate ones for the tutorial
+      functions["reactivateMyLegendUrl"]();
+
       document.getElementById("customize-url").style.border = "2px solid gold";
       document.getElementById("customize-url").style.borderRadius = "10px";
       document.getElementById("customize-url").classList.add("blinking");
@@ -2203,6 +2184,10 @@ export function updateMenuElements(nextStep) {
     } else if (nextStep === "today") {
       //apply blinking to today
       //deactivate all the links that are locked
+
+      functions["reactivateMyLegendUrl"]();
+      functions["reactivateTodayUrl"]();
+
       document.getElementById("app-url").style.border = "2px solid gold";
       document.getElementById("app-url").style.borderRadius = "10px";
       document.getElementById("app-url").classList.add("blinking");
@@ -2213,6 +2198,11 @@ export function updateMenuElements(nextStep) {
     } else if (nextStep === "calendar") {
       //apply blinking to calendar
       //deactivate all the links that are locked
+
+      functions["reactivateMyLegendUrl"]();
+      functions["reactivateTodayUrl"]();
+      functions["reactivateCalendarUrl"]();
+
       document.getElementById("calendar-url").style.border = "2px solid gold";
       document.getElementById("calendar-url").style.borderRadius = "10px";
       document.getElementById("calendar-url").classList.add("blinking");
@@ -2222,6 +2212,12 @@ export function updateMenuElements(nextStep) {
     } else if (nextStep === "analytics") {
       //apply blinking to analytics
       //deactivate all the links that are locked
+
+      functions["reactivateMyLegendUrl"]();
+      functions["reactivateTodayUrl"]();
+      functions["reactivateCalendarUrl"]();
+      functions["reactivateAnalyticsUrl"]();
+
       document.getElementById("data-url").style.border = "2px solid gold";
       document.getElementById("data-url").style.borderRadius = "10px";
       document.getElementById("data-url").classList.add("blinking");
@@ -2266,6 +2262,7 @@ export function updateTutorial(tutorialState) {
 }
 
 export function updateTutorialHome(tutorialState) { 
+  console.log("updateTutorialHome()");
   let nextStep = "";
 
   if (tutorialState.firstStepCompleted === false) {
@@ -2286,6 +2283,8 @@ export function updateTutorialHome(tutorialState) {
   } else if (tutorialState.finalMessage === false) {
     outputTutorialDialogue("finalMessage");
   }
+
+  console.log("nextStep:", nextStep);
 
   updateMenuElements(nextStep);
 }
@@ -2692,20 +2691,4 @@ export function outputTutorialDialogue(tutorialDialogueName) {
         })
       }
     })
-}
-
-export function writingLogic() {
-
-  /*
-  before this function is called, you would need to get tutorialState from the database
-  then you would need to know the value of tutorialState in order to set up the html elements
-  checkpoints: 
-  makeYourChoice, yourJourneyYourRules, twentyFourHourClockAndPieChart, deleteAndModify, concludeToday, calendarUsed
-  makeYourChoice - if user logs out before making a choice, they have to repeat from the beginning; if user logs out after making a choice but before step 1 animation is done, they don't have to repeat the beginning and tutorial elements are updated accordingly till step 1 is done
-  yourJourneyYourRules - if twentyFourHourClockAndPieChart is true, the user has inputted a slice and can move on. if twentyFourHourClockAndPieChart is false but yourJourneyYourRules is true, the user will repeat the tutorial for welcome to the main part of the app
-  twentyFourHourClockAndPieChart - if the user has inputted a slice but has not viewed deleteAndModify elements in the log (so deleteAndModify is false), the user repeats the logButton tutorial but not necessarily the legendBeneathTheClock tutorial. if legendBeneathTheClock is true, no need to repeat. 
-  concludeToday - if concludeToday is false, the user has not used the arrow buttons to view previous or future days yet. so if that is the case, the user should repeat navigateToPreviousFutureDays assuming deleteAndModify is true. if the user has used the button(s) but has not used the calendar function (calendarUsed is false), send the user to the calendar page and repeat that section until user demonstrates usage.
-  if the user logs out while in the middle of the analytics page, the user has to always be navigated to the analytics page and go through craftingYourCustomReport in order to generate the report for the tutorial. however, all other tutorial parts of this page does not need to be repeated. the user explores all highlighted portions until the tutorial concludes.
-  */
-
 }
