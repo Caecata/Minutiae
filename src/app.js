@@ -1074,6 +1074,10 @@ function handleSwipe() {
                 document.getElementById('canvas-traditional').classList.remove('slide-in-left');
             }, 500); // Adjust the time to match the animation duration
 
+
+            if (tutorialState.upload === true && tutorialState.concludeToday === false) {
+                outputTutorialDialogue("concludeToday");
+            }
         });
     } else if (difference < -swipeThreshold) {
         // Swiped left (go forward one day)
@@ -1119,6 +1123,10 @@ function handleSwipe() {
                 document.getElementById('canvas-minimal').classList.remove('slide-in-right');
                 document.getElementById('canvas-traditional').classList.remove('slide-in-right');
             }, 500); // Adjust the time to match the animation duration
+
+            if (tutorialState.upload === true && tutorialState.concludeToday === false) {
+                outputTutorialDialogue("concludeToday");
+            }
         });
     }
 }
@@ -1210,9 +1218,9 @@ function settingYesterdayAndTomorrow(swipeEffect) { //current
         var longDateElement = document.getElementById("long-date-day");
 
         if (swipeEffect) {
-            if (tutorialState.upload === true && tutorialState.concludeToday === false) {
+            /* if (tutorialState.upload === true && tutorialState.concludeToday === false) {
                 outputTutorialDialogue("concludeToday");
-            }
+            } */
             document.addEventListener('touchstart', handleTouchStart);
             document.addEventListener('touchend', handleTouchEnd);
         } else {
