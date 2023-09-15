@@ -2247,6 +2247,7 @@ export function updateMenuElements(nextStep) {
 }
 
 export function updateTutorial(tutorialState) {
+  console.log("updateTutorial()");
   if (tutorialState.firstStepCompleted === true && tutorialState.secondStepCompleted === false) {
     functions["advanceProgressBarTo25"]();
   }
@@ -2260,7 +2261,8 @@ export function updateTutorial(tutorialState) {
   }
 
   const currentPage = window.location.pathname;
-  if (currentPage === "/index.html") {
+  console.log("currentPage:", currentPage);
+  if (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E" || currentPage === "/") {
     updateTutorialHome(tutorialState);
   } 
   if (currentPage === "/customize.html") {

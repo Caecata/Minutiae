@@ -3,7 +3,7 @@ import { getAuth, signOut, signInAnonymously } from "firebase/auth";
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, getTutorialState, saveTutorialState } from './dbHandler.js'
+import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, getTutorialState, saveTutorialState, receiveSettingsFromDatabase } from './dbHandler.js'
 import { updateTutorial } from '../../src/tutorial.js'
 
 console.log("authentication.js");
@@ -183,10 +183,10 @@ const initApp = function () {
 
                   runHomePage();
 
-                  getTutorialState()
+                  /* getTutorialState()
                     .then((tutorialState) => {
                       updateTutorial(tutorialState);
-                    })
+                    }) already inside runHomePage */
                 }
               })
           })
