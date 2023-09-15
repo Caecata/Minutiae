@@ -6,6 +6,8 @@ import 'firebaseui/dist/firebaseui.css'
 import { checkUserIdExists, saveNewUser, ensureUsersReferenceExists, getTutorialState, saveTutorialState } from './dbHandler.js'
 import { updateTutorial } from '../../src/tutorial.js'
 
+console.log("authentication.js");
+
 //Temp variable to hold the anonymous user data if needed.
 //var data = null;
 //Hold a reference to the anonymous current user.
@@ -115,6 +117,10 @@ const initApp = function () {
         localStorage.setItem('minutiaeUid', uid);
         localStorage.setItem('minutiaeAccessToken', accessToken);
         //this will set up the 'users' reference if first user is being created
+
+        console.log("I want to runHomePage here");
+        runHomePage();
+
         ensureUsersReferenceExists(uid)
           .then(() => {
             console.log("userId:", uid);
@@ -174,6 +180,9 @@ const initApp = function () {
 
                 if (!userIdExists) {
                   saveNewUser(uid);
+
+                  runHomePage();
+
                   getTutorialState()
                     .then((tutorialState) => {
                       updateTutorial(tutorialState);
@@ -185,9 +194,15 @@ const initApp = function () {
     } else {
       console.log("no user");
       // User is signed out.
+
+      localStorage.setItem('minutiaeUid', null);
+      localStorage.setItem('minutiaeAccessToken', null);
+      runHomePage();
+
       document.getElementById('firebaseui-auth-container').style.display = "block";
       document.getElementById('sign-in').textContent = 'Sign in';
       document.getElementById('sign-in').style.display = "none";
+      
     }
   }, function (error) {
     console.log(error);
@@ -206,9 +221,99 @@ export function signOutUser() {
     signOut(getAuth(app)).then(() => {
       window.location.href = 'index.html';
       localStorage.setItem('minutiaeUid', null);
-      localStorage.setItem('minutiaeAccessToken', null)
+      localStorage.setItem('minutiaeAccessToken', null);
+      runHomePage();
     }).catch((error) => {
       // An error happened.
     });
+  }
+}
+
+//this function should occur after authentication.js because a user without minutiaeUid and accessToken in their local storage (after logging in, will not have their home page reflect the tutorial since this is only called once and not when the authentication state changes)
+export function runHomePage() {
+  console.log("runHomePage()");
+
+  const loadingScreen = document.getElementById('loading-screen');
+  loadingScreen.style.display = "none";   
+
+  let settings = {};
+
+  const key = "minutiaeUid";
+  const userId = window.localStorage.getItem(key);
+  console.log("userId:", userId);
+
+  
+  if (userId !== "null" && userId !== null) {
+      getTutorialState()
+      .then((tutorialState) => {
+      console.log("tutorialState:", tutorialState);
+      if (tutorialState.finalMessage === false) {
+          updateTutorial(tutorialState);
+          loadingScreen.style.display = "none";
+      } else {
+          receiveSettingsFromDatabase()
+              .then((receivedSettings) => {
+                  settings = receivedSettings;
+                  console.log("settings:", settings);
+
+                  if (settings !== null) {
+                      if (settings.font !== "default") {
+                          const userFont = `${settings.font}, sans-serif`;
+                          changeFontFamily(userFont);
+                      } 
+                      if (settings.darkLightMode === "dark-mode") {
+                      } else if (settings.darkLightMode === "light-mode") {
+                          document.body.classList.remove("dark-mode");
+                          document.body.classList.add('light-mode');
+                          const darkModeElements = document.querySelectorAll(".dark-mode");
+                          darkModeElements.forEach((element) => {
+                              element.classList.remove("dark-mode");
+                              element.classList.add("light-mode");
+
+                              const modeSwitcher = document.getElementById("mode-switcher");
+                              modeSwitcher.querySelector(".mode-text").textContent = "Light Mode";
+                              modeSwitcher.querySelector(".dark-icon").classList.add("hidden");
+                              modeSwitcher.querySelector(".light-icon").classList.remove("hidden")
+                          });
+                      }
+                  }
+                  loadingScreen.style.display = "none";
+              })
+          }
+      })
+  } else {
+       disableHomePageLinks();
+  }
+
+
+  function disableHomePageLinks() {
+      console.log("disabling urls on home page")
+      let customizeUrl = document.getElementById("customize-url");
+      let appUrl = document.getElementById("app-url");
+      let calendarUrl = document.getElementById("calendar-url");
+      let dataUrl = document.getElementById("data-url");
+      let settingsUrl = document.getElementById("settings-url");
+  
+      customizeUrl.classList.add("deactivated-link");
+      const customizeClickListener = customizeUrl.onclick;
+      customizeUrl.removeEventListener("click", customizeClickListener);
+  
+      appUrl.classList.add("deactivated-link");
+      const appClickListener = appUrl.onclick;
+      appUrl.removeEventListener("click", appClickListener);
+  
+      calendarUrl.classList.add("deactivated-link");
+      const calendarClickListener = calendarUrl.onclick;
+      calendarUrl.removeEventListener("click", calendarClickListener);
+  
+      dataUrl.classList.add("deactivated-link");
+      const dataClickListener = dataUrl.onclick;
+      dataUrl.removeEventListener("click", dataClickListener);
+  
+      settingsUrl.classList.add("deactivated-link");
+      const settingsClickListener = settingsUrl.onclick;
+      settingsUrl.removeEventListener("click", settingsClickListener);
+  
+      loadingScreen.style.display = "none";   
   }
 }

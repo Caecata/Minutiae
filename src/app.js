@@ -1075,9 +1075,12 @@ function handleSwipe() {
             }, 500); // Adjust the time to match the animation duration
 
 
-            if (tutorialState.upload === true && tutorialState.concludeToday === false) {
-                outputTutorialDialogue("concludeToday");
-            }
+            getTutorialState()
+                .then((tutorialState) => {
+                    if (tutorialState.upload === true && tutorialState.concludeToday === false) {
+                        outputTutorialDialogue("concludeToday");
+                    }
+                })
         });
     } else if (difference < -swipeThreshold) {
         // Swiped left (go forward one day)
@@ -1124,9 +1127,13 @@ function handleSwipe() {
                 document.getElementById('canvas-traditional').classList.remove('slide-in-right');
             }, 500); // Adjust the time to match the animation duration
 
-            if (tutorialState.upload === true && tutorialState.concludeToday === false) {
-                outputTutorialDialogue("concludeToday");
-            }
+
+            getTutorialState()
+                .then((tutorialState) => {
+                    if (tutorialState.upload === true && tutorialState.concludeToday === false) {
+                        outputTutorialDialogue("concludeToday");
+                    }
+                })
         });
     }
 }
