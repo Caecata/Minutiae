@@ -2262,6 +2262,7 @@ export function updateTutorial(tutorialState) {
 
   const currentPage = window.location.pathname;
   console.log("currentPage:", currentPage);
+  
   if (currentPage === "/index.html" || currentPage === "/%3Curl-to-redirect-to-on-success%3E" || currentPage === "/") {
     updateTutorialHome(tutorialState);
   } 

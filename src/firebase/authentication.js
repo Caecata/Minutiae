@@ -247,7 +247,13 @@ export function runHomePage() {
       getTutorialState()
       .then((tutorialState) => {
       console.log("tutorialState:", tutorialState);
+
+      //checking why it doesn't work the first time
+      const currentPage = window.location.pathname;
+      console.log("currentPage:", currentPage);
+
       if (tutorialState.finalMessage === false) {
+        console.log("tutorialState.finalMessage === false");
           updateTutorial(tutorialState);
           loadingScreen.style.display = "none";
       } else {
